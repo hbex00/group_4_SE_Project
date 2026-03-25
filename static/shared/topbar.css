@@ -17,6 +17,7 @@ h1{
     flex-direction: row;
     justify-content: space-between;
     align-content: center;
+    min-height: 50px;
     height: var(--topbar_height);
     border-bottom: 2px solid black;
     background-color: #f0e7d6;
