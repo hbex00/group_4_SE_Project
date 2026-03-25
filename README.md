@@ -6,7 +6,7 @@
 |Axel Håkansson|Just-Another-Programer|axel.hakansson8@gmail.com|
 |William Klasson|Irodoot|Irodoot@gmail.com|
 |Samuel Johansson|Itchingtree|josa24ym@student.ju.se|
-|name5|member5|email5|
+|Noah Haraldsson|NoahHaraldsson1337|hano24if@student.ju.se|
 |name6|member6|email6|
 
 
@@ -16,3 +16,4 @@
 ### I, Axel Håkansson, declare that I am the sole author of the content I add to this repository.
 ### I, William Klasson, declare that I am the sole author of the content I add to this repository.
 ### I, Samuel Johansson, declare that I am the sole author of the content I add to this repository.
+### I, Noah Haraldsson, declare that I am the sole author of the content I add to this repository.
