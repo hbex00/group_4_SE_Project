@@ -1,4 +1,0 @@
-flask
-python-dotenv
-Flask-SQLAlchemy
-flask-login
