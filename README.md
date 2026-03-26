@@ -10,11 +10,12 @@
 |Bjarne Svensson|BjarneOS|svbj23mw@student.ju.se|
 
 
-## We are developing a recipe webpage, with probably a python backend and a database
+### We are developing a recipe webpage, with probably a python backend and a database
 
-### I, Hugo Bexell, declare that I am the sole author of the content I add to this repository.
-### I, Axel Håkansson, declare that I am the sole author of the content I add to this repository.
-### I, William Klasson, declare that I am the sole author of the content I add to this repository.
-### I, Samuel Johansson, declare that I am the sole author of the content I add to this repository.
-### I, Noah Haraldsson, declare that I am the sole author of the content I add to this repository.
-### I, Bjarne Svensson, declare that I am the sole author of the content I add to this repository.
+## Declaration of Authorship
+I, Hugo Bexell, declare that I am the sole author of the content I add to this repository.
+I, Axel Håkansson, declare that I am the sole author of the content I add to this repository.
+I, William Klasson, declare that I am the sole author of the content I add to this repository.
+I, Samuel Johansson, declare that I am the sole author of the content I add to this repository.
+I, Noah Haraldsson, declare that I am the sole author of the content I add to this repository.
+I, Bjarne Svensson, declare that I am the sole author of the content I add to this repository.
