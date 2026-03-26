@@ -2,3 +2,4 @@
 *.db
 #ignore local venv
 .venv/
+venv/
