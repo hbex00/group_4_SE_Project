@@ -10,7 +10,7 @@
 |Bjarne Svensson|BjarneOS|svbj23mw@student.ju.se|
 
 ## Project Details
-### Project Vision (_MVP_)
+### Project Vision
 
 We aim with this project to develope a recipe-sharing website.\
 It aim to include features like user accounts,\
@@ -23,10 +23,16 @@ The project will be featuring a databased utilizing __flask__, __SQL-alchemy__, 
 The backend will be comprised of __python__.\
 The frontend will be a mixture of __HTML__ and __CSS__. User interaction through __javascript__.
 
-### Project planning
+## Project planning
 
-We add reservations to implement a plan regarding branches on github given the circumstances ahead.
+### Minimal Viable Product (MVP)
 
+The functionality to upload a recipe to a database.\
+The functionality to fetch a recipe from a database for viewing.
+
+### Roadmap
+
+The implementation of branches on github.
 
 
 ## Declaration of Authorship
