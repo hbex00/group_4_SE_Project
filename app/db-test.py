@@ -4,9 +4,22 @@ from sqlalchemy.orm import DeclarativeBase
 
 app = Flask(__name__, template_folder="../templates", static_folder="../static")
 
-@app.route('/')
+@app.route('/',methods = ['POST','GET'])
 def home():
-    return render_template('homepage.html')
+    if request.method == 'POST':
+        recipe_name = request.form['title']
+        new_recipe = Recipe(recipe_titel = recipe_name)
+
+        try:
+            db.session.add(new_recipe)
+            db.session.commit()
+            return redirect('/')
+        except:
+            return 'there was an error'
+
+    else:
+        recipe = Recipe.query.all()
+        return render_template('addrecipe.html', recipies = recipe)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -16,7 +29,7 @@ db = SQLAlchemy(app)
 
 
 class Recipe(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    recipe_titel = db.Column(db.String(200), primary_key=True)
 
 
 if __name__ == '__main__':
