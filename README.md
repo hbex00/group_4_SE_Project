@@ -3,7 +3,7 @@
 |Group Members|Git Handles|Emails|
 |-------------|-----------|-----|
 |Hugo Bexell|hbex00|behu23hw@student.ju.se|
-|Axel Håkansson|Just-Another-Programer|axel.hakansson8@gmail.com|
+|Axel Håkansson|Just-Another-Programer|haax23or@student.ju.se|
 |William Klasson|Irodoot|klwi24jt@student.ju.se|
 |Samuel Johansson|Itchingtree|josa24ym@student.ju.se|
 |Noah Haraldsson|NoahHaraldsson1337|hano24if@student.ju.se|
