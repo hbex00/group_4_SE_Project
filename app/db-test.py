@@ -4,6 +4,10 @@ from sqlalchemy.orm import DeclarativeBase
 
 app = Flask(__name__)
 
+@app.route('/')
+def home():
+    return render_template('homepage.html')
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
