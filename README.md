@@ -34,6 +34,13 @@ The functionality to fetch a recipe from a database for viewing.
 
 The implementation of branches on github.
 
+### Agreed on a workflow
+
+Our plan is to have a working main branch and for us to have separate branches for test builds and trying new features.
+
+We plan to use pull requests for the main branch in the future, once we have learned it. Also, all commits should have meaningful and informative comments. 
+
+
 
 ## Declaration of Authorship
 I, Hugo Bexell, declare that I am the sole author of the content I add to this repository.\
