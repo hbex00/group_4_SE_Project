@@ -5,9 +5,30 @@ from sqlalchemy.orm import DeclarativeBase
 # creates sqlAlchemy instance
 db = SQLAlchemy()
 
+# Table for recipe, Has a foreign key to one user
 class Recipe(db.Model):
-        recipe_titel = db.Column(db.String(200), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_title = db.Column(db.String(100))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
+    ingredients = db.relationship('Ingredient', back_populates='recipe')
+
+# Table for User
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100))
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+
+# Table for Inredient, Each ingredient has a foreign key to a recipe
+class Ingredient(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'))
+    name = db.Column(db.String(100))
+    amount = db.Column(db.Integer)
+    unit = db.Column(db.String(10))
+
+    recipe = db.relationship('Recipe', back_populates='ingredients')
 
 def create_app():
     app = Flask(__name__, template_folder="../templates", static_folder="../static")
@@ -21,7 +42,7 @@ def create_app():
     def home():
         if request.method == 'POST':
             recipe_name = request.form['title']
-            new_recipe = Recipe(recipe_titel = recipe_name)
+            new_recipe = Recipe(recipe_title = recipe_name)
 
             try:
                 db.session.add(new_recipe)
