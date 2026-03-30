@@ -3,3 +3,4 @@
 #ignore local venv
 .venv/
 venv/
+__pycache__
