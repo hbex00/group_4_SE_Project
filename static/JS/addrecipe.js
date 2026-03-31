@@ -15,7 +15,14 @@ add_step_btn.addEventListener("click", () => {
         j++;
     }
 });
+const list = document.getElementById("recipeList");
 
+recipes.forEach(recipe => {
+  const li = document.createElement("li");
+  li.textContent = recipe.title;
+  list.appendChild(li);
+});
+const recipes = JSON.parse(localStorage.getItem("recipes")) || [];
 const add_ingredient_btn = document.getElementById("ingredient_btn");
 
 const ingredient_div_location = document.querySelector(".ingredient");
