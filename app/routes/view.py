@@ -6,7 +6,7 @@ view_bp = Blueprint("view", __name__)
 
 @view_bp.route('/viewrecipe', methods=['POST', 'GET'])
 def view():
-    id = request.form.get('recipe_id')
+    id = int(request.args.get('recipe_id'))
     recipe = Recipe.query.get(id)
     if not recipe:
         return str(id)
