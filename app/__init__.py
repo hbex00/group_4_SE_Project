@@ -12,6 +12,11 @@ def create_app():
     from .routes.home import home_bp
     app.register_blueprint(home_bp)
 
+
+    from .routes.create import create_bp
+    app.register_blueprint(create_bp)
+
+
     # Create database
     with app.app_context():
         db.create_all()

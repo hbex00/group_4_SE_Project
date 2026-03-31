@@ -1,11 +1,9 @@
-const logo = document.querySelector(".logo");
+
+/* logo is a div*/
+const logo = document.getElementById("logo");
+
+const form = document.querySelector("form");
 
 logo.addEventListener("click", () => {
-    window.location.href = "../homepage/homepage.html";
+    form.submit();
 });
-
-/*const user_icon = document.getElementById("user_icon");
-
-user_icon.addEventListener("click", () => {
-    window.location.href = "../loginpage/loginpage.html";
-});*/
