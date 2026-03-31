@@ -2,10 +2,10 @@ from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 
-# creates sqlAlchemy instance
+# creates a SQLAlchemy instance 'db'
 db = SQLAlchemy()
 
-# Table for recipe, Has a foreign key to one user
+# Table for recipe, with a foreign key to a specified user
 class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     recipe_title = db.Column(db.String(100))
@@ -20,7 +20,7 @@ class User(db.Model):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(100))
 
-# Table for Inredient, Each ingredient has a foreign key to a recipe
+# Class for Ingredient, Creates a table for each ingredient with a foreign key to a recipe
 class Ingredient(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'))
@@ -29,6 +29,7 @@ class Ingredient(db.Model):
     unit = db.Column(db.String(10))
 
     recipe = db.relationship('Recipe', back_populates='ingredients')
+
 
 def create_app():
     app = Flask(__name__, template_folder="../templates", static_folder="../static")
