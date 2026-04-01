@@ -12,6 +12,8 @@
     <div class="view_holder">
         <h1>{{recipe.recipe_title}}</h1>
         <p>{{recipe.description}}</p>
+
+        <h3>Ingredients</h3>
         {%if recipe.ingredients|length > 0%}
             {%for ingredient in recipe.ingredients%}
                 <p>{{ingredient.name}} {{ingredient.amount}} {{ingredient.unit}}</p><br>
@@ -19,6 +21,7 @@
         {%else%}
             <p>No ingredients, you are eating air?</p>
         {%endif%}
+        <h3>Instructions</h3>
         {%if recipe.steps|length > 0%}
             {%for step in recipe.steps%}
                 <p>{{step.name}}</p><br>
