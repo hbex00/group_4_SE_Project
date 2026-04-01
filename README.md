@@ -34,29 +34,11 @@ The functionality to fetch a recipe from a database for viewing.
 
 A stable product where multiple users can interact with the server and with other user's recipes.
 
-
-
 ### Roadmap
 
-Main branch is the stable release.\
-Development branch where we introduce features and fixes.\
-Feature branches that we merge into the development branch.
-
-| Version | Implementation Details | status |
-|---------|------------------------|--------|
-| v0.1 | Minimal Viable Product | * [x] |
-| v0.2 | Adds account details | * [ ] |
-| v0.3 | ..to be added.. | * [ ] |
-
-|Version v0.2| Adds account details |
-|----|--------|
- * [ ] loginpage
- * [ ] log in
- * [ ] log out
- * [ ] user verification
- * [ ] user database
- * [ ] keep login status when changing pages
-
+The main branch is our development branch where we introduce features and fixes.\
+Specific stable versions/releases will be tagged on this main branch.\
+We will use feature/issue branches that we merge into the development branch to address issues.
 
 ### Agreed on a workflow
 
