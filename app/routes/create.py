@@ -1,7 +1,6 @@
 from flask import Flask, render_template, request, redirect, Blueprint
 from database.db import db
-from app.services.models import Recipe
-from app.services.models import Ingredient
+from app.services.models import *
 
 
 create_bp = Blueprint("create", __name__)
@@ -17,6 +16,8 @@ def create():
         recipe_amounts = request.form.getlist('amount[]')
         recipe_units = request.form.getlist('name[]')
 
+        recipe_steps = request.form.getlist('step[]')
+
         new_recipe = Recipe(recipe_title = recipe_name, description=recipe_description)
         
         try:
@@ -31,6 +32,15 @@ def create():
                                                 recipe_id=new_recipe.id)
                     
                     db.session.add(new_ingredient)
+
+            # Creates a new step for each step sent from frontend and adds it to the database
+            for recipe_step in recipe_steps:
+                if recipe_step.strip() != "":
+                    new_step = Step(name=recipe_step,
+                                    recipe_id=new_recipe.id)
+
+                    db.session.add(new_step)
+
             db.session.commit()
 
             return redirect('/')

@@ -21,7 +21,7 @@
         {%endif%}
         {%if recipe.steps|length > 0%}
             {%for step in recipe.steps%}
-                <p>{{step}}</p><br>
+                <p>{{step.name}}</p><br>
             {%endfor%}
         {%else%}
             <p>Already fisnished :|</p>
