@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, Blueprint
 from database.db import db
 from app.services.models import Recipe
+from app.services.models import Ingredient
 
 
 create_bp = Blueprint("create", __name__)
@@ -12,12 +13,26 @@ def create():
         recipe_name = request.form['title']
         recipe_description = request.form['description']
 
-        new_recipe = Recipe(recipe_title = recipe_name, description=recipe_description)
+        recipe_ingredients = request.form.getlist('ingredients[]')
+        recipe_amounts = request.form.getlist('amount[]')
+        recipe_units = request.form.getlist('name[]')
 
+        new_recipe = Recipe(recipe_title = recipe_name, description=recipe_description)
         
         try:
             db.session.add(new_recipe)
             db.session.commit()
+            # to be able to add ingredents we split up the list that we get from front end 
+            for recipe_ingredients, recipe_amounts, recipe_units in zip(recipe_ingredients, recipe_amounts, recipe_units):
+                if recipe_ingredients.strip() != "":
+                    new_ingredient = Ingredient(name = recipe_ingredients, 
+                                                amount = recipe_amounts, 
+                                                unit = recipe_units, 
+                                                recipe_id=new_recipe.id)
+                    
+                    db.session.add(new_ingredient)
+            db.session.commit()
+
             return redirect('/')
         except:
             return 'there was an error'
