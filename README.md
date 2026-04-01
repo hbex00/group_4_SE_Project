@@ -30,9 +30,33 @@ The frontend will be a mixture of __HTML__ and __CSS__. User interaction through
 The functionality to upload a recipe to a database.\
 The functionality to fetch a recipe from a database for viewing.
 
+### Version 1.0
+
+A stable product where multiple users can interact with the server and with other user's recipes.
+
+
+
 ### Roadmap
 
-The implementation of branches on github.
+Main branch is the stable release.\
+Development branch where we introduce features and fixes.\
+Feature branches that we merge into the development branch.
+
+| Version | Implementation Details | status |
+|---------|------------------------|--------|
+| v0.1 | Minimal Viable Product | * [x] |
+| v0.2 | Adds account details | * [ ] |
+| v0.3 | ..to be added.. | * [ ] |
+
+|Version v0.2| Adds account details |
+|----|--------|
+ * [ ] loginpage
+ * [ ] log in
+ * [ ] log out
+ * [ ] user verification
+ * [ ] user database
+ * [ ] keep login status when changing pages
+
 
 ### Agreed on a workflow
 
