@@ -50,6 +50,12 @@ we have a kanbanbord here [kanban board][]
 
 [Kanban board]: https://github.com/users/hbex00/projects/2
 
+### Assets
+
+ICONPACKS:
+SVG file for user icon  
+https://www.iconpacks.net/free-icon/user-3295.html
+
 ### Running instructions
 
 1. Make a virtual environment inside project folder
