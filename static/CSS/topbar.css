@@ -65,14 +65,16 @@ li:hover{
     color:var(--base-green);
 }
 
+#user{
+    display: flex;
+}
+
 .user_icon{
-    padding: var(--topbar_logo_padding);
+    display: flex;
+    padding: calc(var(--topbar_logo_padding) / 2);
     cursor: pointer;
 }
 
 #user_icon{
-    width: 100%;
-    height: 100%;
     color: var(--base-green);
-    object-fit: contain;
 }
