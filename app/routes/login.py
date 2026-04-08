@@ -26,7 +26,7 @@ def login():
             if user and user.check_password(password):
                 session['username'] = username
                 #should also return session
-                return render_template('hompage.html')
+                return render_template('hompage.html', session['username'])
             else:
                 return 'wrong username or password'
                 return render_template('loginpage.html')
