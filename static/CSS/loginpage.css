@@ -26,6 +26,7 @@
     align-items: center;
     border: 2px solid black;
     background-color: moccasin;
+    padding: 10px;
     border-radius: 6px;
 }
 
