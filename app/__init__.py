@@ -19,6 +19,9 @@ def create_app():
     from .routes.view import view_bp
     app.register_blueprint(view_bp)
 
+    from .routes.register import register_bp
+    app.register_blueprint(register_bp)
+
 
     # Create database
     with app.app_context():
