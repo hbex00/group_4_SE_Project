@@ -60,12 +60,13 @@ https://www.iconpacks.net/free-icon/user-3295.html
 
 1. Make a virtual environment inside project folder
 
-        $ py -m venv .venv
+        (windows): $ py -m venv .venv
+        (linux):   $ python3 -m venv .venv
 
 2. Activate the virtual environment
 
         (windows): $ .venv\Scripts\activate
-        (linux): $ source .venv/bin/activate
+        (linux):   $ source .venv/bin/activate
 
 3. Install Flask-SQLAlchemy and all independencies with pip inside the venv
 
@@ -73,7 +74,8 @@ https://www.iconpacks.net/free-icon/user-3295.html
 
 4. Start the program
 
-        $ py run.py
+        (windows): $ py run.py
+        (linux):   $ python3 run.py
 
 5. Connect to the loopback-address
 
