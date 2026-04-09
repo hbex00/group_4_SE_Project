@@ -24,8 +24,13 @@ def create():
 
         recipe_steps = request.form.getlist('step[]')
 
-        new_recipe = Recipe(recipe_title = recipe_name, description=recipe_description)
-        
+        username = session.get('username')
+        recipe_creator = User.query.filter_by(name=username).first()
+
+        new_recipe = Recipe(recipe_title = recipe_name, 
+                            description = recipe_description, 
+                            user_id = recipe_creator.id)
+
         try:
             db.session.add(new_recipe)
             db.session.commit()
