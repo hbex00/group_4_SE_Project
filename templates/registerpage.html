@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<!-- Header stuff -->
+
+    <title>Register Account</title>
+    <link rel="stylesheet" href="../static/CSS/registerpage.css">
+
+{% endblock %}
+
+{% block main_body %}
+<!-- Mmmm, curves :33 -->
+        <div class="register-page">
+            <div class="border">
+                <form actions="/register" method="post">
+                    <div class="register">
+                        <h2>Register new account</h2>
+                        <h3>Username:</h3>
+                        <input type="text" name="username" placeholder="Username" size="12">
+                        <h3>Password:</h3>
+                        <input type="password" name="password1" placeholder="Password" size="12">
+                        <h3>Confirm Password:</h3>
+                        <input type="password" name="password2" placeholder="Password" size="12">
+                        <input type="submit" value="Register User">
+                    </div>
+                </form>
+                <form action="/login" method="post">
+                    <h2>Already have an account?</h2>
+                    <input type="submit" value="Login">
+                </form>
+            </div>
+        </div>
+        
+        <script src="../static/JS/registerpage.js"></script>
+{% endblock %}

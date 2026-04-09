@@ -1,0 +1,32 @@
+from flask import Flask, render_template, request, redirect, Blueprint
+from database.db import db
+from app.services.models import *
+from werkzeug.security import generate_password_hash
+
+register_bp = Blueprint("register", __name__)
+
+@register_bp.route('/register',methods = ['POST','GET'])
+def register():
+    if request.method == 'POST':
+        username = request.form['username']
+        password1 = request.form['password1']
+        password2 = request.form['password2']
+        if username.strip() == "":
+            return 'you must write a username' # Temporary, needs change. Future enhancement.
+        else:
+            if password1 == password2:
+                hashed_password = hash_password(password1)
+                new_user = User(name=username,password=hashed_password)
+                try:
+                    db.session.add(new_user)                    
+                    db.session.commit()
+                    return redirect('/') # Temporary, needs change. Future enhancement.
+                except:
+                    return 'there was an error' # Temporary, needs change. Future enhancement.
+            else:
+                return 'passwords does not match.' # Temporary, needs change. Future enhancement.
+    else:
+        return render_template('registerpage.html')
+
+def hash_password(password):
+    return generate_password_hash(password)
