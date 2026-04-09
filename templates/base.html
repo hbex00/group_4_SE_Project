@@ -42,6 +42,7 @@ Current features are:
             </div>
 
             <div class="user_icon">
+                
                 {% if session.get('username') is not none %}
                 <p>{{session.get('username')}}</p>
                 {%endif%}
@@ -54,6 +55,19 @@ Current features are:
                             </g>
                         </svg>
                 </form>
+                {% if session.get('username') is not none %}
+                <div class="dropdown_content">
+                    <ul>
+                        <li>Profile</li>
+                        <li>My Recipes</li>
+                        <li id="logout_button">
+                            <form action="/logout" id="logout" method="POST">
+                                Logout
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+                {%endif%}
             </div>
         </header>
         <script src="../static/JS/topbar.js"></script>
