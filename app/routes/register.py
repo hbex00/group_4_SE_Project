@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, Blueprint
 from database.db import db
 from app.services.models import *
+from werkzeug.security import generate_password_hash
 
 register_bp = Blueprint("register", __name__)
 
@@ -13,7 +14,7 @@ def register():
 
         if password1 == password2:    
             new_user : User
-            new_user(name=username,password=password1)
+            new_user(name=username,password=hash_password(password1))
             try:
                 db.session.add(new_user)                    
                 db.session.commit()
@@ -22,3 +23,6 @@ def register():
                 return 'there was an error'
     else:
         return render_template('registerpage.html')
+
+def hash_password(password):
+    return generate_password_hash(password)
