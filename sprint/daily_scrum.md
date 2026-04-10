@@ -41,3 +41,26 @@ not present for today's daily meeting.
 - Done: Implemented the logout button and begun working on a dropdown menu
 - Will do: Complete and merge the final features.
 - Blocker: Nothing is currently blocking.
+
+## daily_scrum 2026-04-10 xx:xx
+
+### (*) Samuel Johanson
+- Done: nothing the sprint items is done
+- Blocker: nothing
+### (*) Noah Haraldsson
+- Done: continuing on the dropdown menu and fixed visual bugs
+- Blocker:nothing
+### (*) Hugo Bexell
+- Done: nothing the sprint items is done
+- Blocker: nothing
+### (*) William Klasson
+- Done: nothing the sprint items is done
+- Blocker: nothing
+### (*) Bjarne Svensson
+- Done: nothing the sprint items is done
+- Blocker: nothing
+### (*) Axel Håkanson
+- Done: nothing the sprint items is done
+- Blocker: nothing
+### everyone
+- will do: we will colectivly put up new issues for next sprint and have a new sprint planning meating " "
