@@ -42,7 +42,7 @@ not present for today's daily meeting.
 - Will do: Complete and merge the final features.
 - Blocker: Nothing is currently blocking.
 
-## daily_scrum 2026-04-10 xx:xx
+## daily_scrum 2026-04-10 12:00
 
 ### (*) Samuel Johanson
 - Done: nothing the sprint items is done
