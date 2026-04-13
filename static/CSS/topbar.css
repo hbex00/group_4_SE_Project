@@ -1,69 +1,55 @@
 :root{
-    --topbar_height: 6vh;
-    --topbar_logo_padding: 10px;
+    --topbar_bottom_padding: 10px;
     --base-green: #2E7D32;
     --deep-green: #1B6D24;
+    --bg-light: #fdf5e6;
+    --bg-std: #fff5e1;
 }
 
 body{
     margin: 0;
-    background-color: #fff5e1;
+    background-color: var(--bg-light);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 h1{
     margin: 0;
     color: var(--deep-green);
-    cursor: pointer;
 }
 
 header{
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    min-height: 50px;
-    height: var(--topbar_height);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: var(--topbar_bottom_padding) 10px;
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    background-color: #fdf5e6;
-    position: relative;
+    background-color: var(--bg-std);
 }
 
 .logo{
-    display: flex;
-    padding: var(--topbar_logo_padding);
-    align-items: center;
+    justify-self: start;
+    cursor: pointer;
 }
 
 .title{
-    width: 25%;
-    height: 100%;
-    max-width: 300px;
-    display: flex;
-    align-items: center;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    justify-self: center;
+    display: none;
 }
 
 ul{
     display: flex;
     padding: 0;
-}
-
-.title ul{
-    flex-direction: row;
-    width: 100%;
-    justify-content: space-between;
+    margin: 0;
+    list-style: none;
 }
 
 li{
-    list-style-type: none;
     font-weight: 600;
     cursor: pointer;
 }
 
 .title li{
-    padding: 5px 10px 5px 10px;
+    padding: 5px 10px;
     border-radius: 20px; 
 }
 
@@ -71,76 +57,86 @@ li{
     color:var(--base-green);
 }
 
-#user{
-    display: flex;
-    cursor: pointer;
-}
-
 .user_icon{
+    justify-self: end;
     display: flex;
-    padding: calc(var(--topbar_logo_padding) / 2);
-    width: 13vw;
-    min-width: 130px;
-    position: relative;
-    justify-content: flex-end;
-}
-
-.user_icon p{
-    display: flex;
-    font-size: 2em;
-    font-weight: 800;
+    justify-content: end;
     align-items: center;
-    text-align: center;
-    margin: 0;
-    margin-right: 15px;
+    width: 100%;
+    height: 100%;
 }
 
-.user_icon:hover .dropdown_content{
-    display: block;
+.user_icon_wrapper{
+    position: relative;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 15px;
+    height: 100%;
+}
+
+.user_icon_wrapper p{
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin: 0;
 }
 
 #user_icon{
     color: var(--base-green);
+    cursor: pointer;
+}
+
+#user{
+    justify-self: end;
+    height: 100%;
+    aspect-ratio: 1/1;
 }
 
 .dropdown_content{
     position: absolute;
     display: none;
-    background-color: #fdf5e6;
-    margin-top: clamp(43px, (calc(var(--topbar_height) - 1px)), 190px);
-    right: 0;
+    top: 100%;
+    right: -10px;
     left: auto;
-    width: 13vw;
-    min-width: 130px;
-    height: auto;
-    z-index: 1;
-    border-bottom-left-radius: 20px;
+    margin-top: var(--topbar_bottom_padding);
+    min-width: 150px;
+    border-bottom-left-radius: 10px;
     border-left: 2px solid rgba(0, 0, 0, 0.1);
     border-bottom: 2px solid rgba(0, 0, 0, 0.1);
-    cursor: default;
+    background-color: var(--bg-std);
+    z-index: 1;
+}
+
+.dropdown_content::before{
+    content: "";
+    position: absolute;
+    top: calc(var(--topbar_bottom_padding) * -1);
+    left: 0;
+    right: 0;
+    height: var(--topbar_bottom_padding);
+    background-color: transparent;
+}
+
+
+.user_icon_wrapper:hover .dropdown_content{
+    display: block;
 }
 
 .dropdown_content ul{
     flex-direction: column;
-    margin: 0;
-    height: 100%;
-    min-height: 100%;
+    padding: 10px;
+    gap: 5px;
 }
 
 .dropdown_content li{
-    display: flex;
-    align-items: center;
-    float: left;
-    margin: 10px;
     padding: 10px;
     background-color: #f4e7d1;
     height: auto;
     font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
     border-radius: 10px;
 }
 
 .dropdown_content li:hover{
     background-color: #66ff5841;
 }
+
