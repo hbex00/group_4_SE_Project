@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, Blueprint, session
 from database.db import db
 from app.services.models import *
+from app.utils.modify_db import *
 
 
 create_bp = Blueprint("create", __name__)
@@ -32,45 +33,22 @@ def create():
             #function that creats a new recipe
             new_recipe = create_recepie(recipe_name, recipe_description, recipe_creator.id)
 
-            #Zips three lists that are ingredients, amounts, and units
-            ingredients = zip(recipe_ingredients, recipe_amounts, recipe_units)
-
-            #Calls ingredient_add with the tuple from zip
-            ingredient_add(ingredients, new_recipe.id)
-
-            steps_add(recipe_steps, new_recipe.id )
-
-            db.session.commit()
-
-            return redirect('/')
         except:
-            return 'there was an error'
+            return 'there was an error adding the recipe'
+        
+        #Zips three lists that are ingredients, amounts, and units
+        ingredients = zip(recipe_ingredients, recipe_amounts, recipe_units)
 
+        #Calls ingredient_add with the tuple from zip
+        ingredient_add(ingredients, new_recipe.id)
+
+        steps_add(recipe_steps, new_recipe.id )
+
+        return redirect('/')
     else:
         return render_template('addrecipe.html')
       
 
-
-def ingredient_add(ingredients, recipe_id):
-    # Ingredients is a tuple that contains lists with 3 elements (ingredient name, amount, and unit)
-    for ingredients, amounts, units in ingredients:
-            if ingredients.strip() != "":
-                new_ingredient = Ingredient(name = ingredients, 
-                                            amount = amounts, 
-                                            unit = units, 
-                                            recipe_id=recipe_id)
-                
-                db.session.add(new_ingredient)
-
-
-def steps_add(steps , recipe_id):
-     # Creates a new step for each step sent from frontend and adds it to the database
-     for recipe_step in steps:
-                if recipe_step.strip() != "":
-                    new_step = Step(name=recipe_step,
-                                    recipe_id=recipe_id)
-
-                    db.session.add(new_step)
 
 
 def create_recepie(name, description, user_id):
