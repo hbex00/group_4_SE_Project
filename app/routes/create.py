@@ -27,15 +27,10 @@ def create():
         username = session.get('username')
         recipe_creator = User.query.filter_by(name=username).first()
 
-        new_recipe = Recipe(recipe_title = recipe_name, 
-                            description = recipe_description, 
-                            user_id = recipe_creator.id)
-
-
+        
         try:
-            db.session.add(new_recipe)
-            db.session.commit()
-
+            #function that creats a new recipe
+            new_recipe = create_recepie(recipe_name, recipe_description, recipe_creator.id)
 
             #Zips three lists that are ingredients, amounts, and units
             ingredients = zip(recipe_ingredients, recipe_amounts, recipe_units)
@@ -73,3 +68,16 @@ def ingredient_add(ingredients, recipe_id):
                                             recipe_id=recipe_id)
                 
                 db.session.add(new_ingredient)
+
+
+
+def create_recepie(name, description, user_id):
+        recipe = Recipe(
+        recipe_title=name,
+        description=description,
+        user_id=user_id)
+
+        db.session.add(recipe)
+        db.session.commit()
+
+        return recipe
