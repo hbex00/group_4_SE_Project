@@ -31,18 +31,18 @@ def create():
                             description = recipe_description, 
                             user_id = recipe_creator.id)
 
+
         try:
             db.session.add(new_recipe)
             db.session.commit()
-            # to be able to add ingredents we split up the list that we get from front end 
-            for recipe_ingredients, recipe_amounts, recipe_units in zip(recipe_ingredients, recipe_amounts, recipe_units):
-                if recipe_ingredients.strip() != "":
-                    new_ingredient = Ingredient(name = recipe_ingredients, 
-                                                amount = recipe_amounts, 
-                                                unit = recipe_units, 
-                                                recipe_id=new_recipe.id)
-                    
-                    db.session.add(new_ingredient)
+
+
+            #Zips three lists that are ingredients, amounts, and units
+            ingredients = zip(recipe_ingredients, recipe_amounts, recipe_units)
+
+            #Calls ingredient_add with the tuple from zip
+            ingredient_add(ingredients, new_recipe.id)
+
 
             # Creates a new step for each step sent from frontend and adds it to the database
             for recipe_step in recipe_steps:
@@ -61,3 +61,15 @@ def create():
     else:
         return render_template('addrecipe.html')
       
+
+
+def ingredient_add(ingredients, recipe_id):
+    # Ingredients is a tuple that contains lists with 3 elements (ingredient name, amount, and unit)
+    for ingredients, amounts, units in ingredients:
+            if ingredients.strip() != "":
+                new_ingredient = Ingredient(name = ingredients, 
+                                            amount = amounts, 
+                                            unit = units, 
+                                            recipe_id=recipe_id)
+                
+                db.session.add(new_ingredient)
