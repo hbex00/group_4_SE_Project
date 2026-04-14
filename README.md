@@ -1,5 +1,7 @@
 # group_4_SE_project
 
+[![build](https://github.com/hbex00/group-4-SE-project/actions/workflows/build.yml/badge.svg)](https://github.com/hbex00/group-4-SE-project/actions/workflows/build.yml)
+
 |Group Members|Git Handles|Emails|
 |-------------|-----------|-----|
 |Hugo Bexell|hbex00|behu23hw@student.ju.se|
