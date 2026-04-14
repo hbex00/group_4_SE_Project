@@ -16,7 +16,7 @@ jobs:
     - uses: actions/setup-python@v3
       with:
         python-version: "3.14"
-    - run: pip install pytest coverage flask-sqalchemy
+    - run: pip install pytest coverage Flask-SQLAlchemy
     - run: python --version
     - run: PYTHONPATH=src 
     - run: python3 run.py
