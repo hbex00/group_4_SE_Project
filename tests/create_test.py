@@ -16,18 +16,17 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertEqual(result.user_id, 3)
         
     def test_ingredient_create(self):
-        result = ingredient_create("Kött", 10, "st", 1)
+        result = ingredient_create("Kött", "3/4", "st", 1)
 
         self.assertEqual(result.name, "Kött")
-        self.assertEqual(result.amount, 10)
+        self.assertEqual(result.amount, 0.75)
         self.assertEqual(result.unit, "st")
 
-    def test_ingredient_create_2(self):
-        result = ingredient_create("Äpple", 123, "kg", 2)
 
-        self.assertEqual(result.name, "Äpple")
-        self.assertEqual(result.amount, 123)
-        self.assertEqual(result.unit, "kg")
+    def test_ingredient_create_2(self):
+        result = ingredient_create("Äpple", "abc", "kg", 2)
+
+        self.assertIsNone(result)
 
 
 if __name__ == '__main__':
