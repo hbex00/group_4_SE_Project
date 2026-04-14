@@ -38,14 +38,7 @@ def create():
             #Calls ingredient_add with the tuple from zip
             ingredient_add(ingredients, new_recipe.id)
 
-
-            # Creates a new step for each step sent from frontend and adds it to the database
-            for recipe_step in recipe_steps:
-                if recipe_step.strip() != "":
-                    new_step = Step(name=recipe_step,
-                                    recipe_id=new_recipe.id)
-
-                    db.session.add(new_step)
+            steps_add(recipe_steps, new_recipe.id )
 
             db.session.commit()
 
@@ -69,6 +62,15 @@ def ingredient_add(ingredients, recipe_id):
                 
                 db.session.add(new_ingredient)
 
+
+def steps_add(steps , recipe_id):
+     # Creates a new step for each step sent from frontend and adds it to the database
+     for recipe_step in steps:
+                if recipe_step.strip() != "":
+                    new_step = Step(name=recipe_step,
+                                    recipe_id=recipe_id)
+
+                    db.session.add(new_step)
 
 
 def create_recepie(name, description, user_id):
