@@ -2,20 +2,24 @@ from flask import Flask, session
 from database.db import db
 from app.services.models import *
 
-def ingredient_add(ingredients, recipe_id):
+def ingredients_add(ingredients, recipe_id):
     try:          
         # Ingredients is a tuple that contains lists with 3 elements (ingredient name, amount, and unit)
         for name, amount, unit in ingredients:
             if name.strip() != "":
-                new_ingredient = Ingredient(name = name, 
-                                            amount = amount, 
-                                            unit = unit, 
-                                            recipe_id=recipe_id)
-                db.session.add(new_ingredient)
+                db.session.add(ingredient_create(name, amount, unit, recipe_id))
 
         db.session.commit()
     except:
         return 'there was an error adding a ingredient'
+    
+
+def ingredient_create(name, amount, unit, recipe_id):
+    new_ingredient = Ingredient(name = name, 
+                                amount = amount, 
+                                unit = unit, 
+                                recipe_id=recipe_id)
+    return new_ingredient
 
 
 def steps_add(steps , recipe_id):

@@ -40,8 +40,8 @@ def create():
         #Zips three lists that are ingredients, amounts, and units
         ingredients = zip(recipe_ingredients, recipe_amounts, recipe_units)
 
-        #Calls ingredient_add with the tuple from zip
-        ingredient_add(ingredients, new_recipe.id)
+        #Calls ingredients_add with the tuple from zip
+        ingredients_add(ingredients, new_recipe.id)
 
         steps_add(recipe_steps, new_recipe.id )
 
