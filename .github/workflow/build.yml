@@ -1,0 +1,24 @@
+# GitHub actions workflow for a simple Python project
+
+# some docs:
+# https://github.com/actions/starter-workflows/
+# https://github.com/actions/starter-workflows/blob/main/ci/python-app.yml
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
+
+name: build
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v3
+      with:
+        python-version: "3.14"
+    - run: pip install pytest coverage flask-sqalchemy
+    - run: python --version
+    - run: PYTHONPATH=src 
+    - run: python3 run.py
+
+    
