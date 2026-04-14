@@ -1,5 +1,6 @@
 import unittest
 from app.routes.create import create_recepie
+from app.utils.modify_db import *
 
 class Testcreat_recepie(unittest.TestCase):
 
@@ -14,5 +15,19 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertEqual(result.description,"goda Hamburgare")
         self.assertEqual(result.user_id, 3)
         
+    def test_ingredient_create(self):
+        result = ingredient_create("Kött", "3/4", "st", 1)
+
+        self.assertEqual(result.name, "Kött")
+        self.assertEqual(result.amount, 0.75)
+        self.assertEqual(result.unit, "st")
+
+
+    def test_ingredient_create_2(self):
+        result = ingredient_create("Äpple", "abc", "kg", 2)
+
+        self.assertIsNone(result)
+
+
 if __name__ == '__main__':
     unittest.main()

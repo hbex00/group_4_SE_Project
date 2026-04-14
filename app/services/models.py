@@ -1,4 +1,6 @@
 from database.db import db
+from werkzeug.security import generate_password_hash
+from werkzeug.security import check_password_hash
 #Put all tables in this file.
 
 # Table for recipe, Has a foreign key to one user
@@ -21,6 +23,11 @@ class User(db.Model):
     password = db.Column(db.String(256))
 
     recipies = db.relationship('Recipe', back_populates='user')
+
+    def set_hashed_password(self, password : str):
+        self.password = generate_password_hash(password)
+    def check_hashed_password(self, hashed_password : str):
+        return check_password_hash(self.password,hashed_password)
 
 
 # Table for Inredient, Each ingredient has a foreign key to a recipe
