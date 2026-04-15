@@ -61,11 +61,13 @@ def create_recepie(name, description, portions, user_id):
             user_id=user_id)
 
         return recipe
+
 def check_portions(number):
-     if number <= 0:
+     num = int(number)
+     if num <= 0:
         return 1
-     elif number > 16:
+     elif num > 16:
         return 16
      else:
-        return number
+        return num
      
