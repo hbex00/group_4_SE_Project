@@ -11,7 +11,7 @@ def modify():
     recipe = Recipe.query.get(id)
     # when geting input from user we change all the inputs for a recipe in the databas  
     if request.method == 'POST' :
-        recipe.recipe_title = request.form.get('title') 
+        recipe.recipe_name = request.form.get('title') 
         recipe.description = request.form.get('description')
         recipe.portions = request.form.get('portions')
     # we delete all the lists of ingredents and steps 
