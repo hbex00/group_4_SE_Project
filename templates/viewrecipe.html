@@ -31,5 +31,15 @@
         {%endif%}
 
         <h1>Made by: {{recipe.user.name}}</h1>
+
+        <h3>Comments</h3>
+        {% if recipe.steps | length > 0 %}
+            {% for comment in recipe.comments %}
+                <p>{{ comment.content }}</p>
+                <p>Comment made by: {{ comment.user.name }}</p>
+            {% endfor %}
+        {% else %}
+            <p>No comments on this recipe</p>
+        {% endif %}
     </div>
 {% endblock %}
