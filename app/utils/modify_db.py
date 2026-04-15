@@ -86,13 +86,13 @@ def review_add(recipe_id, score, user_id):
 
 def review_create(recipe_id, score, user_id):
     try:
-        sc = round(eval(score))
+        rating = round(eval(score))
     except:
         return None
     
-    if sc >= 0 and sc <= 5:
+    if rating >= 0 and rating <= 5:
         new_review = Review(recipe_id=recipe_id,
-                            score=sc,
+                            rating=rating,
                             user_id=user_id)
         
         return new_review

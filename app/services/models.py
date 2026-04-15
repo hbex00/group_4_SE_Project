@@ -68,7 +68,7 @@ class Review(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    reivew = db.Column(db.Integer)
+    rating = db.Column(db.Integer)
 
     recipe = db.relationship('Recipe', back_populates='reviews')
     user = db.relationship('User', back_populates='reviews')
