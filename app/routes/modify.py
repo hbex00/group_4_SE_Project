@@ -7,10 +7,11 @@ modify_bp = Blueprint("modify", __name__)
 
 @modify_bp.route('/modify', methods=['POST', 'GET'])
 def modify():
-    id = request.args.get('recipe_id', type = int)
-    recipe = Recipe.query.get(id)
+    
     # when geting input from user we change all the inputs for a recipe in the databas  
     if request.method == 'POST' :
+        id = request.form.get('recipe_id', type = int)
+        recipe = Recipe.query.get(id)
         recipe.recipe_name = request.form.get('title') 
         recipe.description = request.form.get('description')
         recipe.portions = request.form.get('portions')
@@ -32,5 +33,8 @@ def modify():
         steps_add(steps, id)
 
         return redirect('/viewrecipe')
+    
+    id = request.args.get('recipe_id', type = int)
+    recipe = Recipe.query.get(id)
         
     return render_template('modify.html', recipe=recipe)

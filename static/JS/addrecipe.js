@@ -57,7 +57,7 @@ add_ingredient_btn.addEventListener("click", () => {
         const new_unit_input_box = document.createElement("input");
         new_unit_input_box.placeholder = "unit";
         new_unit_input_box.size = 10;
-        new_unit_input_box.name = "name[]";
+        new_unit_input_box.name = "unit[]";
         new_div.appendChild(new_unit_input_box);
 
 
