@@ -44,3 +44,30 @@ def steps_add(steps , recipe_id):
         db.session.commit()
     except:
         return 'there was an error adding a step'
+
+
+def comment_add(recipe_id, content, user_id):
+    try:
+        created = comment_create(recipe_id, content, user_id)
+
+        if created is not None:
+            recipe_exist = Recipe.query.filter_by(id=recipe_id).first()
+            user_exist = User.query.filter_by(id=user_id).first()
+
+            if recipe_exist is not None and user_exist is not None:
+                db.session.add(created)
+                db.session.commit()
+
+    except:
+        return 'there was an error adding a comment'
+    
+
+def comment_create(recipe_id, content, user_id):
+    if content.strip != "" and recipe_id > 0 and user_id > 0:
+        comment = Comment(recipe_id = recipe_id,
+                          content = content,
+                          user_id = user_id)
+        
+        return comment
+    else:
+        return None

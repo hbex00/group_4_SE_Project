@@ -57,5 +57,5 @@ class Comment(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     content = db.Column(db.String(250))
 
-    recipe = db.relationship('recipe', back_populates='comments')
-    user = db.relationship('Comment', back_populates='comments')
+    recipe = db.relationship('Recipe', back_populates='comments')
+    user = db.relationship('User', back_populates='comments')

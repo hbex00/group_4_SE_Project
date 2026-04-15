@@ -34,6 +34,8 @@ def create_app():
     from .routes.login import login_bp
     app.register_blueprint(login_bp)
 
+    from .routes.comment import comment_bp
+    app.register_blueprint(comment_bp)
 
 
     # Create database
