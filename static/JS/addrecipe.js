@@ -50,3 +50,21 @@ add_ingredient_btn.addEventListener("click", () => {
         i++;
     }
 });
+
+
+const min  = document.getElementById("minus");
+const plus = document.getElementById("plus");
+const portion = document.getElementById("portions");
+
+min.addEventListener("click", () => {
+    let value = portion.valueAsNumber;
+    if (value > portion.min) {
+        portion.value = value - 1;
+    }
+});
+plus.addEventListener("click", () => {
+    let value = portion.valueAsNumber;
+    if (value < portion.max) {
+        portion.value = value + 1;
+    }
+});
