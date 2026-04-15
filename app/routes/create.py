@@ -22,7 +22,7 @@ def create():
 
         recipe_ingredients = request.form.getlist('ingredients[]')
         recipe_amounts = request.form.getlist('amount[]')
-        recipe_units = request.form.getlist('name[]')
+        recipe_units = request.form.getlist('unit[]')
 
         recipe_steps = request.form.getlist('step[]')
 
