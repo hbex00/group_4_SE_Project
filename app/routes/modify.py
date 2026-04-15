@@ -7,16 +7,16 @@ modify_bp = Blueprint("modify", __name__)
 
 @modify_bp.route('/modify', methods=['POST', 'GET'])
 def modify():
-    recipe_id = request.args.get('recipe_id', type = int)
-    recipe = Recipe.query.get(recipe_id)
+    id = request.args.get('recipe_id', type = int)
+    recipe = Recipe.query.get(id)
     # when geting input from user we change all the inputs for a recipe in the databas  
     if request.method == 'POST' :
         recipe.recipe_title = request.form.get('title') 
         recipe.description = request.form.get('description')
         recipe.portions = request.form.get('portions')
     # we delete all the lists of ingredents and steps 
-        Ingredient.query.filter_by(recipe_id = recipe_id).delete()
-        Step.query.filter_by(recipe_id = recipe_id).delete()
+        Ingredient.query.filter_by(recipe_id = id).delete()
+        Step.query.filter_by(recipe_id = id).delete()
         db.session.commit()
 
         ingredients = zip(
