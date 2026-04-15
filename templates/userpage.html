@@ -1,4 +1,4 @@
-{% extends 'flashes.html' %}
+{% extends 'flashes.html' %} <!-- Note: The flashes.html further extends into the main base.html!-->
 
 {% block head %}
 <!-- Header stuff -->
@@ -9,20 +9,24 @@
 {% endblock %}
 
 {% block main_body %}
-<!-- Mmmm, curves :33 -->
         <div class="userpage">
             <div class="border">
+                <!-- Check if username cookie is present to see if the user is logged in. -->
                 {% if session.get('username') is not none %}
                 <form actions="/user" method="get">
                     <div class="userpage">
                         <h2>Your profile page</h2>
-                        
+                        <!-- For common curtesy: -->
+                         
+                        <!-- First name and Last name-->
                         {% if session.get('name') is not none and session.get('surname') is not none %}
                             <h3>Welcome back, {{session.get('name')}} {{session.get('surname')}}!</h3>
                         
+                        <!-- First name -->
                         {% elif session.get('name') is not none %}
                             <h3>Welcome back, {{session.get('name')}}!</h3>
                         
+                        <!-- No name -> email -->
                         {% else %}
                             <h3>Welcome back, {{session.get('username')}}!</h3>
                         
@@ -33,6 +37,7 @@
                     <input type="submit" value="Edit Profile Details">
                 </form>
                 {% else %}
+                <!-- username cookie is NOT present. Prompt user login or registration -->
                 <form action="/login" method="get">
                     <h2>You must be logged in to view your account!</h2>
                     <input type="submit" value="Login">
