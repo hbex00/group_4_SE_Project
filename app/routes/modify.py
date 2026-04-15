@@ -28,8 +28,8 @@ def modify():
         steps = request.form.getlist("step[]")
 
     # then uses the functions to add them back in 
-        ingredients_add(ingredients, recipe_id)
-        steps_add(steps, recipe_id)
+        ingredients_add(ingredients, id)
+        steps_add(steps, id)
 
         return redirect('/viewrecipe')
         
