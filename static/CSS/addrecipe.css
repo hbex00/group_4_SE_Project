@@ -36,3 +36,18 @@
     border: solid black 2px;
     border-radius: 20px;
 }
+
+.ingredient_div {
+    display: flex;
+    flex-direction: row;
+}
+
+.ingredient_div p {
+    margin: 0;
+    border: solid black 1px;
+}
+
+.new_step {
+    display: flex;
+    flex-direction: row;
+}
