@@ -1,0 +1,14 @@
+.modify_holder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.title_change {
+    display: flex;
+    flex-direction: row;
+
+    margin-top: 20px;
+}
