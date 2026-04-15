@@ -41,6 +41,7 @@
 
         {% if recipe.user.name == session.get('username') %}
         <form action="/delete" method="POST">
+            <input type="hidden" name="delete" id="delete" value="{{recipe.id}}">
             <input type="submit" value="DELETE RECIPE">
         </form>
         {% endif %}
