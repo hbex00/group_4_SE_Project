@@ -17,15 +17,18 @@ def login():
     
     else:
         try:
-            username = request.form['username']
+            email = request.form['email']
             password = request.form['password']
 
-            user = User.query.filter_by(name=username).first()
+            user = User.query.filter_by(email=email).first()
+            print("look here -> " + str(user))
             if user:
                 if user.check_hashed_password(password):
-                    session['username'] = username
+                    session['username'] = email
                     #should also return session
                     return redirect('/')
+                else:
+                    return "password hash error"
             else:
                 return 'wrong username or password'
                 return render_template('loginpage.html')

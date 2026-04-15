@@ -21,10 +21,10 @@ def register():
     else:
         return render_template('registerpage.html')
     
-def register_user_database(first_name, last_name, mail, password1, password2):
+def register_user_database(name, last_name, mail, password1, password2):
     new_user : User
     try:
-        new_user = register_user(first_name, last_name, mail, password1, password2)
+        new_user = register_user(name, last_name, mail, password1, password2)
         try:
             db.session.add(new_user)                    
             db.session.commit()
@@ -35,8 +35,8 @@ def register_user_database(first_name, last_name, mail, password1, password2):
     
 
 
-def register_user(first_name, last_name, mail, password1, password2):
-    if first_name.strip() == "":
+def register_user(name, last_name, mail, password1, password2):
+    if name.strip() == "":
         raise RuntimeError('Empty Name')
     if password1.strip() == "":
         raise RuntimeError('Empty Password')
@@ -44,7 +44,7 @@ def register_user(first_name, last_name, mail, password1, password2):
         raise RuntimeError('Incorrect email format')
     else:
         if password1 == password2:
-            new_user = User(first_name=first_name, last_name=last_name, email=mail)
+            new_user = User(name=name, last_name=last_name, email=mail)
             new_user.set_hashed_password(password1)
             return new_user
         else:
