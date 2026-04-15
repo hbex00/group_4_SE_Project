@@ -13,6 +13,7 @@ class Recipe(db.Model):
     ingredients = db.relationship('Ingredient', back_populates='recipe')
     steps = db.relationship('Step', back_populates='recipe')
     user = db.relationship('User', back_populates='recipies')
+    comments = db.relationship('Comment', back_populates='recipe')
 
 
 # Table for User
@@ -23,6 +24,7 @@ class User(db.Model):
     password = db.Column(db.String(256))
 
     recipies = db.relationship('Recipe', back_populates='user')
+    comments = db.relationship('Comment', back_populates='user')
 
     def set_hashed_password(self, password : str):
         self.password = generate_password_hash(password)
@@ -47,3 +49,13 @@ class Step(db.Model):
     name = db.Column(db.String(150))
 
     recipe = db.relationship('Recipe', back_populates='steps')
+
+
+class Comment(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    content = db.Column(db.String(250))
+
+    recipe = db.relationship('recipe', back_populates='comments')
+    user = db.relationship('Comment', back_populates='comments')
