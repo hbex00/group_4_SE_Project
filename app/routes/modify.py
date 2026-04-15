@@ -25,7 +25,7 @@ def modify():
             request.form.getlist('unit[]')
             )
 
-        steps = request.form.getlist("steps")
+        steps = request.form.getlist("step[]")
 
     # then uses the functions to add them back in 
         ingredients_add(ingredients, recipe_id)
