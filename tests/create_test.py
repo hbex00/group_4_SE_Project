@@ -28,14 +28,16 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertIsNone(result)
 
     def test_register_user(self):
-        result = register_user('user','f_name','l_name','pass','pass')
+        result = register_user('f_name','l_name','email@test.se','pass','pass')
         self.assertIsInstance(result, User) # correct, should pass
         with self.assertRaises(RuntimeError): # missing username argument exception    
             result = register_user('','','','','')
         with self.assertRaises(RuntimeError): # missing password argument
-            result = register_user('user','f_name','l_name','','')
+            result = register_user('f_name','l_name','email@test.se','','')
         with self.assertRaises(RuntimeError): # password miss match error
-            result = register_user('user','f_name','l_name','pass','ssap')
+            result = register_user('f_name','l_name','email@test.se','pass','ssap')
+        with self.assertRaises(RuntimeError): # incorrect email formatting
+            result = register_user('f_name','l_name','emailtestse','pass','pass')
 
 
 
