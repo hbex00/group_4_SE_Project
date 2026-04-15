@@ -64,7 +64,10 @@ Current features are:
                                     <form action=/user id="profile" method="GET">
                                         Profile
                                     </form>
-                                <li>My Recipes</li>
+                                <li id="recipe_button">
+                                    <form action=/user/recipes id="recipe" method="GET">
+                                        My Recipes
+                                    </form>
                                 <li id="logout_button">
                                     <form action="/logout" id="logout" method="GET">
                                         Logout
@@ -79,6 +82,7 @@ Current features are:
         <script src="../static/JS/topbar.js"></script>
         <main>
             {% block main_body %} {% endblock%}
+            {% block flashmessage %} {% endblock%}
         </main>
         <footer>
             {% block bottom%} {% endblock%}

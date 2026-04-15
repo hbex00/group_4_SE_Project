@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'flashes.html' %}
 
 {% block head %}
 <!-- Header stuff -->
@@ -13,10 +13,24 @@
         <div class="userpage">
             <div class="border">
                 {% if session.get('username') is not none %}
-                <form actions="/user" method="post">
+                <form actions="/user" method="get">
                     <div class="userpage">
-                        <h2>{{session.get('username')}}'s Profile page</h2>
+                        <h2>Your profile page</h2>
+                        
+                        {% if session.get('name') is not none and session.get('surname') is not none %}
+                            <h3>Welcome back, {{session.get('name')}} {{session.get('surname')}}!</h3>
+                        
+                        {% elif session.get('name') is not none %}
+                            <h3>Welcome back, {{session.get('name')}}!</h3>
+                        
+                        {% else %}
+                            <h3>Welcome back, {{session.get('username')}}!</h3>
+                        
+                        {% endif %}
                     </div>
+                </form>    
+                <form action="/user/edit" method="get">
+                    <input type="submit" value="Edit Profile Details">
                 </form>
                 {% else %}
                 <form action="/login" method="get">

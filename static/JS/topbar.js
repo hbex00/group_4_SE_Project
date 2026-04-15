@@ -27,6 +27,15 @@ profile_button.addEventListener("click", () => {
 });
 
 
+const recipe_button = document.getElementById("recipe_button");
+
+const recipe_form = document.getElementById("recipe");
+
+recipe_button.addEventListener("click", () => {
+    recipe_form.submit();
+});
+
+
 const logout_button = document.getElementById("logout_button");
 
 const logout_form = document.getElementById("logout");
