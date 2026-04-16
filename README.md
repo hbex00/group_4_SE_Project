@@ -58,6 +58,9 @@ ICONPACKS:
 SVG file for user icon  
 https://www.iconpacks.net/free-icon/user-3295.html
 
+SVG file for magnifying glass
+https://icons8.com/icon/7695/search
+
 ### Running instructions
 
 1. Make a virtual environment inside project folder

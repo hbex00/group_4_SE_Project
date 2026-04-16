@@ -1,0 +1,146 @@
+.top_elements{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+    gap: 20px;
+    
+}
+
+.top_elements::before{
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: -1;
+    opacity: 0.6;
+    background-image: url(../Bilder/Website_Greens_Graphic.jpg);
+    background-size: auto;
+    background-position: center;
+    mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
+}
+
+#searchbar_body{
+    width: 40vw;
+    min-width: 540px;
+    min-height: 80px;
+    display: flex;
+    justify-content: flex-start;
+    gap: 10px;
+    align-items: center;
+    background-color: #f4e7cb;
+    border-radius: 50px;
+    padding: 0px 10px;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3)
+}
+
+#magnifying_glass_big{
+    width: 5%;
+    aspect-ratio: 1/1;
+    fill: #1B6D24;
+}
+
+#searchbar{
+    width: 80%;
+    height: 80%;
+    border-radius: 50px;
+    border: none;
+    font-size: 2rem;
+    font-weight: 400;
+    background-color: transparent;
+}
+
+#searchbar:focus{
+    outline: none;
+}
+
+#searchbar::-webkit-search-cancel-button{
+    width: 20px;
+    height: 20px;
+}
+
+#searchbar_submit{
+    width: 15%;
+    min-width: 110px;
+    height: 70%;
+    border-radius: 50px;
+    border: 1px solid transparent;
+    background-color: #1B6D24;
+    color: white;
+    font-size: 1.5rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#searchbar_submit:hover{
+    border: 1px solid white;
+    background-color: #23862e;
+}
+
+#share_recipe{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 180px;
+    min-height: 55px;
+    gap: 15px;
+}
+
+#share_recipe_button{
+    background-color: #1B6D24;
+    color: white;
+    font-size: 1.7rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    border-radius: 50px;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#share_recipe_button:hover{
+    border: 1px solid white;
+    background-color: #23862e;
+}
+
+.recipes{
+    padding: 60px 5vw;
+}
+
+.recipe_grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.recipe_card{
+    background-color: #f4e7cb;
+    padding: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+
+.recipe_card h4{
+    color: #1B6D24;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}
+
+.recipe_card h5{
+    color: #1B6D24;
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.5;
+}
