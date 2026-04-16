@@ -42,6 +42,16 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertEqual(check_portions(1),1)
         self.assertEqual(check_portions(123456789),16)
         self.assertEqual(check_portions(0),1)
+        
+    def test_create_step(self):
+        result = create_step("step 1 boil potato", 1)
+        self.assertEqual(result.name, "step 1 boil potato")
+        self.assertEqual(result.recipe_id, 1)
+    
+    def test_create_wrong_step(self):
+        result = create_step("step 2 eat potato", 2)
+        self.assertIsNot(result.name, "step 1 eat potato")
+        self.assertEqual(result.recipe_id, 2)
 
 
 

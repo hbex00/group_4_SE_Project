@@ -10,25 +10,31 @@
 
 {% block main_body %}
     <div class="main_page">
-        <form action="/create" method="GET">
-            <p>add recipe</p>
-            <input type="submit" size="10">
-        </form>
+        <div class="top_elements">
+            <form action="/viewrecipe" id="searchbar_body" method="GET">
+                <!--Credit: https://icons8.com/icon/7695/search-->
+                <svg xmlns="http://www.w3.org/2000/svg" id="magnifying_glass_big" x="0px" y="0px" viewBox="0 0 50 50"><path d="M 21 3 C 11.601563 3 4 10.601563 4 20 C 4 29.398438 11.601563 37 21 37 C 24.355469 37 27.460938 36.015625 30.09375 34.34375 L 42.375 46.625 L 46.625 42.375 L 34.5 30.28125 C 36.679688 27.421875 38 23.878906 38 20 C 38 10.601563 30.398438 3 21 3 Z M 21 7 C 28.199219 7 34 12.800781 34 20 C 34 27.199219 28.199219 33 21 33 C 13.800781 33 8 27.199219 8 20 C 8 12.800781 13.800781 7 21 7 Z"></path></svg>
+                <input type="search" id="searchbar" name="recipe_id" placeholder="Search for recipe index..." autocomplete="off">
+                <input type="submit" id="searchbar_submit" value="Search">
+            </form>
 
-        <form action="/viewrecipe" method="GET">
-            <p>go to recipe id</p>
-            <input type="text" size 10 name="recipe_id">
-            <input type="submit" size="10">
-        </form>
+            <form action="/create" id="share_recipe" method="GET">
+                <input type="submit" id="share_recipe_button" value="Share Recipe">
+            </form>
+        </div>
 
-        <div style="text-align: center;">
+        <div class="recipes">
             {% if recipies|length > 0 %}
-                {% for recipe in recipies %}
-                    <h4>{{recipe.id}}.  {{recipe.recipe_title}}</h4>
-                    <h5> {{recipe.description}}</h5>
-                {% endfor %}
+                <div class="recipe_grid">
+                    {% for recipe in recipies %}
+                        <div class="recipe_card">
+                            <h4>{{recipe.id}}.  {{recipe.recipe_title}}</h4>
+                            <h5> {{recipe.description}}</h5>
+                        </div>
+                    {% endfor %}
+                </div>
             {% else %}
-                <p>No recipes found.</p>
+                <p style="text-align: center; margin-top: 40px;">No recipes found.</p>
             {% endif %}
         </div>
     </div>

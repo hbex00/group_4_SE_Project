@@ -58,6 +58,9 @@ ICONPACKS:
 SVG file for user icon  
 https://www.iconpacks.net/free-icon/user-3295.html
 
+SVG file for magnifying glass
+https://icons8.com/icon/7695/search
+
 ### Running instructions
 
 1. Make a virtual environment inside project folder
@@ -83,6 +86,32 @@ https://www.iconpacks.net/free-icon/user-3295.html
 
         http://127.0.0.1:5000
 
+### Run test file
+1. Run the following comand
+
+        (windows): $ py -m unittest tests.create_test
+        (linux):   $ python -m unittest tests.create_test
+
+### Run code coverage
+1. to run the code coverage you need pytest and coverage
+
+        pip install pytest coverage
+
+2. Run the following comands
+
+        $ coverage run -m pytest
+        $ coverage html
+
+3. To se the coverage report open the generated html file located here htmlcov\index.html
+
+### Run a linter
+1. installing the linter flake8
+
+        pip install flake8
+
+2. Run the following comands
+
+         $ python -m flake8
 
 ## Declaration of Authorship
 I, Hugo Bexell, declare that I am the sole author of the content I add to this repository.\

@@ -37,10 +37,14 @@ def steps_add(steps , recipe_id):
         # Creates a new step for each step sent from frontend and adds it to the database
         for recipe_step in steps:
             if recipe_step.strip() != "":
-                new_step = Step(name=recipe_step,
-                                recipe_id=recipe_id) 
-                db.session.add(new_step)
+                db.session.add(create_step(recipe_step, recipe_id))
         
         db.session.commit()
     except:
         return 'there was an error adding a step'
+
+
+def create_step(recipe_step, recipe_id):
+    new_step = Step(name=recipe_step,
+                    recipe_id=recipe_id) 
+    return new_step
