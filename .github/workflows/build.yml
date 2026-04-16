@@ -19,6 +19,8 @@ jobs:
     - run: pip install pytest coverage Flask-SQLAlchemy
     - run: python --version
     - run: PYTHONPATH=src 
+    - run: python -m unittest tests.create_test
+    
 
 
     
