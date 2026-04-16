@@ -11,7 +11,7 @@ create_bp = Blueprint("create", __name__)
 def create():
 
     # Takes the user to login-page if they are not logged in.
-    if session.get('username') is None:
+    if session.get('id') is None:
         return redirect('/login')
 
 
@@ -25,8 +25,8 @@ def create():
 
         recipe_steps = request.form.getlist('step[]')
 
-        username = session.get('username')
-        recipe_creator = User.query.filter_by(name=username).first()
+        id = session.get('id')
+        recipe_creator = User.query.filter_by(id=id).first()
 
         
         try:

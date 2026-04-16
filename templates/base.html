@@ -54,8 +54,8 @@ Current features are:
                 {% endif %}
                 
                 <div class="user_icon_wrapper">
-                    {% if session.get('username') is not none %}
-                        <p>{{session.get('username')}}</p>
+                    {% if session.get('first_name') is not none %}
+                        <p>{{session.get('first_name')}}</p>
                     {%endif%}
                     <form action="/login" id="user">
                             <!--Credit: https://www.iconpacks.net/free-icon/user-3295.html-->
@@ -66,7 +66,7 @@ Current features are:
                                 </g>
                             </svg>
                     </form>
-                    {% if session.get('username') is not none %}
+                    {% if session.get('id') is not none %}
                         <div class="dropdown_content">
                             <ul>
                                 <li>Profile</li>

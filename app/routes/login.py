@@ -8,7 +8,7 @@ login_bp = Blueprint("login", __name__)
 
 @login_bp.route('/login', methods=['POST', 'GET'])
 def login():
-    if 'username' in session:
+    if 'id' in session:
         return redirect('/')
     
     if request.method == 'GET':
@@ -17,17 +17,21 @@ def login():
     
     else:
         try:
-            username = request.form['username']
+            email = request.form['email']
             password = request.form['password']
 
-            user = User.query.filter_by(name=username).first()
+            user = User.query.filter_by(email=email).first()
+            print("look here -> " + str(user))
             if user:
                 if user.check_hashed_password(password):
-                    session['username'] = username
+                    session['id'] = user.id
+                    session['first_name'] = user.name
                     #should also return session
                     return redirect('/')
+                else:
+                    return "password hash error"
             else:
-                return 'wrong username or password'
+                return 'wrong email or password'
                 return render_template('loginpage.html')
 
         except:
