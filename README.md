@@ -83,7 +83,11 @@ https://www.iconpacks.net/free-icon/user-3295.html
 
         http://127.0.0.1:5000
 
+### Run test file
+1. Run the following comand
 
+        (windows): $ py -m unittest tests.create_test
+        (linux):   $ python -m unittest tests.create_test
 ## Declaration of Authorship
 I, Hugo Bexell, declare that I am the sole author of the content I add to this repository.\
 I, Axel Håkansson, declare that I am the sole author of the content I add to this repository.\
