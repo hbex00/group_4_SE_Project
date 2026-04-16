@@ -45,6 +45,9 @@ def steps_add(steps , recipe_id):
 
 
 def create_step(recipe_step, recipe_id):
-    new_step = Step(name=recipe_step,
-                    recipe_id=recipe_id) 
+    if recipe_step.strip() != "" and recipe_id > 0:
+        new_step = Step(name=recipe_step,
+                        recipe_id=recipe_id) 
+    else:
+        return None
     return new_step

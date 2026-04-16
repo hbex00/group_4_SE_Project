@@ -28,14 +28,16 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertIsNone(result)
 
     def test_register_user(self):
-        result = register_user('user','pass','pass')
-        self.assertIsInstance(result, User)
-        with self.assertRaises(RuntimeError):    
-            result = register_user('','','')
-        with self.assertRaises(RuntimeError):
-            result = register_user('user','','')
-        with self.assertRaises(RuntimeError):
-            result = register_user('user','pass','ssap')
+        result = register_user('f_name','l_name','email@test.se','pass','pass')
+        self.assertIsInstance(result, User) # correct, should pass
+        with self.assertRaises(RuntimeError): # missing username argument exception    
+            result = register_user('','','','','')
+        with self.assertRaises(RuntimeError): # missing password argument
+            result = register_user('f_name','l_name','email@test.se','','')
+        with self.assertRaises(RuntimeError): # password miss match error
+            result = register_user('f_name','l_name','email@test.se','pass','ssap')
+        with self.assertRaises(RuntimeError): # incorrect email formatting
+            result = register_user('f_name','l_name','emailtestse','pass','pass')
 
     def test_check_portions(self):
         self.assertEqual(check_portions(5),5)
@@ -52,6 +54,14 @@ class Testcreat_recepie(unittest.TestCase):
         result = create_step("step 2 eat potato", 2)
         self.assertIsNot(result.name, "step 1 eat potato")
         self.assertEqual(result.recipe_id, 2)
+
+    def test_create_empty_step(self):
+        result = create_step("", 1)
+        self.assertIsNone(result)
+
+    def test_create_negative_index(self):
+        result = create_step("test", -1)
+        self.assertIsNone(result)
 
 
 
