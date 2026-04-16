@@ -8,7 +8,7 @@ review_bp = Blueprint("review", __name__)
 @review_bp.route('/review', methods=['POST', 'GET'])
 def review():
     
-    if session.get('username') is None:
+    if session.get('id') is None:
         return redirect('/login')
 
     if request.method == 'POST':
@@ -23,8 +23,8 @@ def review():
         
         review = request.form['review']
 
-        username = session.get('username')
-        user = User.query.filter_by(name=username).first()
+        id = session.get('id')
+        user = User.query.filter_by(id=id).first()
 
         review_add(recipe_id, review, user.id)
 

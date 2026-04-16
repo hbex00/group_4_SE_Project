@@ -8,7 +8,7 @@ comment_bp = Blueprint("comment", __name__)
 @comment_bp.route('/comment', methods=['POST', 'GET'])
 def comment():
     
-    if session.get('username') is None:
+    if session.get('id') is None:
         return redirect('/login')
 
     if request.method == 'POST':
@@ -23,8 +23,8 @@ def comment():
         
         content = request.form['comment']
 
-        username = session.get('username')
-        user = User.query.filter_by(name=username).first()
+        id = session.get('id')
+        user = User.query.filter_by(id=id).first()
 
         comment_add(recipe_id, content, user.id)
         return redirect('/')
