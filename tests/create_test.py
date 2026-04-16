@@ -37,6 +37,16 @@ class Testcreat_recepie(unittest.TestCase):
         with self.assertRaises(RuntimeError):
             result = register_user('user','pass','ssap')
 
+    def test_create_step(self):
+        result = create_step("step 1 boil potato", 1)
+        self.assertEqual(result.name, "step 1 boil potato")
+        self.assertEqual(result.recipe_id, 1)
+    
+    def test_create_wrong_step(self):
+        result = create_step("step 2 eat potato", 2)
+        self.assertIsNot(result.name, "step 1 eat potato")
+        self.assertEqual(result.recipe_id, 2)
+
 
 
 if __name__ == '__main__':
