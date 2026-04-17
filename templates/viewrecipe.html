@@ -11,7 +11,11 @@
 
     <div class="view_holder">
         <h1>{{recipe.recipe_title}}</h1>
+      
         <h5>Rating: {{ recipe.review_rating() }}/5 ({{ recipe.reviews|length}} reviews)</h5>
+      
+        <p>Portions: {{recipe.portions}}</p>
+      
         <p>{{recipe.description}}</p>
 
         <h3>Ingredients</h3>
@@ -51,6 +55,12 @@
             {% endfor %}
         {% else %}
             <p>No reviews on this recipe</p>
+      
+        {% if recipe.user.id == session.get('id') %}
+        <form action="/modify" method="GET">
+            <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+            <input type="submit" value="Modify recipe">
+        </form>
         {% endif %}
     </div>
 {% endblock %}

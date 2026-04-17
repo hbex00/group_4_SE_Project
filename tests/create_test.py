@@ -1,18 +1,18 @@
 import unittest
-from app.routes.create import create_recepie
+from app.routes.create import *
 from app.routes.register import register_user
 from app.utils.modify_db import *
 
 class Testcreat_recepie(unittest.TestCase):
 
     def test_create_one_recepie(self):
-        result = create_recepie("Köttbullar","goda kötbullar", 2)
+        result = create_recepie("Köttbullar","goda kötbullar", 1, 2)
         self.assertEqual(result.recipe_title,"Köttbullar")
         self.assertEqual(result.description,"goda kötbullar")
         self.assertEqual(result.user_id, 2)
 
     def test_create_two_recepies(self):
-        result = create_recepie("Hamburgare","goda Hamburgare", 3)
+        result = create_recepie("Hamburgare","goda Hamburgare", 1, 3)
         self.assertEqual(result.recipe_title,"Hamburgare")
         self.assertEqual(result.description,"goda Hamburgare")
         self.assertEqual(result.user_id, 3)
@@ -39,6 +39,12 @@ class Testcreat_recepie(unittest.TestCase):
         with self.assertRaises(RuntimeError): # incorrect email formatting
             result = register_user('f_name','l_name','emailtestse','pass','pass')
 
+    def test_check_portions(self):
+        self.assertEqual(check_portions(5),5)
+        self.assertEqual(check_portions(1),1)
+        self.assertEqual(check_portions(123456789),16)
+        self.assertEqual(check_portions(0),1)
+        
     def test_create_step(self):
         result = create_step("step 1 boil potato", 1)
         self.assertEqual(result.name, "step 1 boil potato")

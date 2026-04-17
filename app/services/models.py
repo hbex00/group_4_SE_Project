@@ -8,6 +8,7 @@ class Recipe(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     recipe_title = db.Column(db.String(50))
     description = db.Column(db.String(150))
+    portions = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     ingredients = db.relationship('Ingredient', back_populates='recipe')

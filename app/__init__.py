@@ -39,6 +39,12 @@ def create_app():
 
     from .routes.review import review_bp
     app.register_blueprint(review_bp)
+    
+    from .routes.modify import modify_bp
+    app.register_blueprint(modify_bp)
+
+    from .routes.delete import delete_bp
+    app.register_blueprint(delete_bp)
 
 
     # Create database

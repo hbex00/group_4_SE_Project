@@ -18,10 +18,11 @@ def create():
     if request.method == 'POST':
         recipe_name = request.form['title']
         recipe_description = request.form['description']
+        recipe_portions = request.form['portions']
 
         recipe_ingredients = request.form.getlist('ingredients[]')
         recipe_amounts = request.form.getlist('amount[]')
-        recipe_units = request.form.getlist('name[]')
+        recipe_units = request.form.getlist('unit[]')
 
         recipe_steps = request.form.getlist('step[]')
 
@@ -31,7 +32,7 @@ def create():
         
         try:
             #function that creats a new recipe
-            new_recipe = create_recepie(recipe_name, recipe_description, recipe_creator.id)
+            new_recipe = create_recepie(recipe_name, recipe_description, recipe_portions, recipe_creator.id)
             db.session.add(new_recipe)
             db.session.commit()
         except:
@@ -52,10 +53,21 @@ def create():
 
 
 
-def create_recepie(name, description, user_id):
+def create_recepie(name, description, portions, user_id):
         recipe = Recipe(
             recipe_title=name,
             description=description,
+            portions=check_portions(portions),
             user_id=user_id)
 
         return recipe
+
+def check_portions(number):
+     num = int(number)
+     if num <= 0:
+        return 1
+     elif num > 16:
+        return 16
+     else:
+        return num
+     

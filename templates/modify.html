@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+    <title>Modify recipe # {{recipe.id}}</title>
+    <link rel="stylesheet" href="../static/CSS/modify.css">
+
+{% endblock %}
+
+{% block main_body %}
+
+    <div class="modify_holder">
+        <form action="/modify" method="POST">
+            <div class="title_change">
+                <h1>Title:</h1>
+                <input type="text" name="title" id="title" value="{{recipe.recipe_title}}" size="20"></h1>
+            </div>
+
+            <div class="portion_control" style="-webkit-user-select: none; user-select: none;">
+                <h3>Portions: </h3>
+                <p id="minus">&minus;</p>
+                    <input type="number" name="portions" placeholder="Portions" id="portions" min="1" max="16" value="{{recipe.portions}}">
+                <p id="plus">&plus;</p>
+            </div>
+
+            <div class="description">
+                <h3>Description: </h3>
+                <input type="text" value="{{recipe.description}}" size="50" name="description">
+            </div>
+
+            <h3>Ingredients</h3>
+            <div id="ingredient_location">
+                {%if recipe.ingredients|length > 0%}
+                    {%for ingredient in recipe.ingredients%}
+                        <div class="ingredient_div" id="ingredient_div">
+                            <input type="text" value="{{ingredient.name}}" size="50" placeholder="Ingredient" name="ingredients[]">
+                            <input type="text" value="{{ingredient.amount}}" size="5" placeholder="Amount" name="amount[]">
+                            <input type="text" value="{{ingredient.unit}}" size="10" placeholder="Unit" name="unit[]">
+                            <p class="minus_ingredient">&minus;</p>
+                        </div>
+                    {%endfor%}
+                {%endif%}
+            </div>
+            <p id="add_ingr_btn">Add ingredient</p>
+
+            <h3>Instructions</h3>
+            <div id="step_location">
+                {%if recipe.steps|length > 0%}
+                    {%for step in recipe.steps%}
+                        <div class="steps">
+                            <input type="text" name="step[]" value="{{step.name}}">
+                            <p class="minus_step">&minus;</p>
+                        </div>
+                    {%endfor%}
+                {%endif%}
+            </div>
+            <p id="add_step_btn">Add step</p>
+            <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+            <input type="submit" value="Submit">
+        </form>
+
+        {% if recipe.user.id == session.get('id') %}
+        <form action="/delete" method="POST">
+            <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+            <input type="submit" value="DELETE RECIPE">
+        </form>
+        {% endif %}
+
+        <script src="../static/JS/modify.js"></script>
+    </div>
+{% endblock %}
