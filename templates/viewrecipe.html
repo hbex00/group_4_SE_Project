@@ -55,6 +55,7 @@
             {% endfor %}
         {% else %}
             <p>No reviews on this recipe</p>
+        {% endif %}
       
         {% if recipe.user.id == session.get('id') %}
         <form action="/modify" method="GET">
