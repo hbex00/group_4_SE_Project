@@ -42,6 +42,10 @@ class User(db.Model):
     comments = db.relationship('Comment', back_populates='user')
     reviews = db.relationship('Review', back_populates='user')
 
+    def check_email_format(self, email : str):
+        if email.__contains__('@') and email.__contains__('.'):
+            return True
+        return False
     def set_hashed_password(self, password : str):
         self.password = generate_password_hash(password)
     def check_hashed_password(self, hashed_password : str):

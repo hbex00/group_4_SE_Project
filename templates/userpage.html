@@ -13,51 +13,66 @@
             <div class="border">
                 <!-- Check if username cookie is present to see if the user is logged in. -->
                 {% if session.get('id') %}
-                <form actions="/user" method="get">
-                    <div class="userpage">
-                        {% if not show_recipes %}
-                            <div class="align_center">
-                                <h1>Your profile page</h1>
-                                <!-- For common curtesy: -->
-                                
-                                <!-- First name and Last name-->
-                                {% if session.get('first_name') is not none and session.get('last_name') is not none %}
-                                <h2>Welcome back, {{session.get('first_name')}} {{session.get('last_name')}}!</h2>
-                                
-                                <!-- First name -->
-                                {% elif session.get('first_name') is not none %}
-                                <h2>Welcome back, {{session.get('first_name')}}!</h2>
-                                
-                                <!-- No name -> (Should be impossible) -->
-                                {% else %}
-                                <h2>Welcome back, User?</h2>
+                    {% if not (user and edit) %}
+                        <form actions="/user" method="get">
+                            <div class="userpage">
+                                {% if not show_recipes and not edit %}
+                                    <div class="align_center">
+                                        <h1>Your profile page</h1>
+                                        <!-- For common curtesy: -->
+                                        
+                                        <!-- First name and Last name-->
+                                        {% if session.get('first_name') is not none and session.get('last_name') is not none %}
+                                        <h2>Welcome back, {{session.get('first_name')}} {{session.get('last_name')}}!</h2>
+                                        
+                                        <!-- First name -->
+                                        {% elif session.get('first_name') is not none %}
+                                        <h2>Welcome back, {{session.get('first_name')}}!</h2>
+                                        
+                                        <!-- No name -> (Should be impossible) -->
+                                        {% else %}
+                                        <h2>Welcome back, User?</h2>
+                                        {% endif %}
+                                    </div>
+                                {% elif ((show_recipes) and (user) and (user.recipies)) %}
+                                <div class="recipe_grid">
+                                    {% for recipe in user.recipies %}
+                                    <div class="recipe_card" id="recipe" data-id="{{ recipe.id }}">
+                                        <form hidden="True" id="recipe_form" name="recipe_id" method="GET">{{ recipe.id }}</form>
+                                        <h4>{{recipe.recipe_title}}</h4>
+                                        <h5>{{recipe.description}}</h5>
+                                    </div>
+                                    {% endfor %}
+                                </div>
                                 {% endif %}
                             </div>
-                        {% endif %}
-
-                        {% if ((show_recipes) and (user) and (user.recipies)) %}
-                        <div class="recipe_grid">
-                            {% for recipe in user.recipies %}
-                            <div class="recipe_card" id="recipe" data-id="{{ recipe.id }}">
-                                <form hidden="True" id="recipe_form" name="recipe_id" method="GET">{{ recipe.id }}</form>
-                                <h4>{{recipe.recipe_title}}</h4>
-                                <h5> {{recipe.description}}</h5>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        {% endif %}
-                    </div>
-                </form>    
-                <form action="/user/edit" method="get">
-                    <input type="submit" value="Edit Profile Details">
-                </form>
+                        </form>    
+                        <form action="/user/edit" method="GET">
+                            <input type="submit" value="Edit Profile Details">
+                        </form>
+                    {% else %}
+                        <h1>Edit profile details</h1>
+                        <form action="/user/edit" method="POST">
+                            <h3>First name: {{user.name}}</h3>
+                            <input type="text" name="first_name" placeholder="Change First name" size="16">
+                            <h3>Last name: {{user.last_name}}</h3>
+                            <input type="text" name="last_name" placeholder="Change Last name" size="16">
+                            <h3>Current Email-address: {{user.email}}</h3>
+                            <input type="text" name="email_address" placeholder="New email address" size="24">
+                            <h3>New Password:</h3>
+                            <input type="password" name="password1" placeholder="New Password" size="24">
+                            <h3>Confirm New Password:</h3>
+                            <input type="password" name="password2" placeholder="Confirm New Password" size="24">
+                            <input type="submit" value="Edit Profile Details">
+                        </form>
+                    {% endif %}
                 {% else %}
                 <!-- username cookie is NOT present. Prompt user login or registration -->
-                <form action="/login" method="get">
+                <form action="/login" method="GET">
                     <h2>You must be logged in to view your account!</h2>
                     <input type="submit" value="Login">
                 </form>
-                <form action="/register" method="get">
+                <form action="/register" method="GET">
                     <h2>Don't have an account?</h2>
                     <input type="submit" value="Register">
                 </form>
