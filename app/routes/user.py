@@ -31,6 +31,9 @@ def user_edit():
         return update_user(request.form.to_dict(),page,flashes,path)
     else:
         user = check_user(page,flashes)
+        if not type(user) == User:
+            return user
+        
         return render_template(page,user=user,edit=True)
 
 
@@ -40,6 +43,9 @@ def user_recipes():
         return redirect('/') # Nothing Post-able added yet! To the homepage with thee!
     else:
         user = check_user(page,flashes)
+        if not type(user) == User:
+            return user
+        
         if not user.recipies:
             flash("It appears that you have no recipes yet.",category='info')
             return render_template(page)
