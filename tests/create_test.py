@@ -18,9 +18,9 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertEqual(result.user_id, 3)
         
     def test_ingredient_create(self):
-        result = ingredient_create("Kött", "3/4", "st", 1)
+        result = ingredient_create("Kött", "3", "st", 1)
         self.assertEqual(result.name, "Kött")
-        self.assertEqual(result.amount, 0.75)
+        self.assertEqual(result.amount, 3)
         self.assertEqual(result.unit, "st")
 
     def test_ingredient_create_2(self):

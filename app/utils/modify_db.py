@@ -18,7 +18,7 @@ def ingredients_add(ingredients, recipe_id):
 
 def ingredient_create(name, amount, unit, recipe_id):
     try:
-        amo = float(eval(amount))
+        amo = float(amount)
     except:
         return None
 
@@ -95,7 +95,7 @@ def review_add(recipe_id, score, user_id):
 
 def review_create(recipe_id, score, user_id):
     try:
-        rating = round(eval(score))
+        rating = round(float(score))
     except:
         return None
     
