@@ -19,8 +19,6 @@
                                 {% if not show_recipes and not edit %}
                                     <div class="align_center">
                                         <h1>Your profile page</h1>
-                                        <!-- For common curtesy: -->
-                                        
                                         <!-- First name and Last name-->
                                         {% if session.get('first_name') is not none and session.get('last_name') is not none %}
                                         <h2>Welcome back, {{session.get('first_name')}} {{session.get('last_name')}}!</h2>
@@ -45,10 +43,15 @@
                                 </div>
                                 {% endif %}
                             </div>
-                        </form>    
+                        </form>
+                        {% if not show_recipes %}
+                        <!-- Looks a little clunky down here,
+                        but when put into the section with profile user it kinda
+                        messes with the form already present (action="/user"). -->
                         <form action="/user/edit" method="GET">
                             <input type="submit" value="Edit Profile Details">
                         </form>
+                        {% endif %}
                     {% else %}
                         <h1>Edit profile details</h1>
                         <form action="/user/edit" method="POST">
