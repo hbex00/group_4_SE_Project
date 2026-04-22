@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block flash %}
+    <link rel="stylesheet" href="../static/CSS/flashes.css">
+{% endblock %}
+
+{% block flashmessage %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="message_grid">
+                <ul class="message_card">
+                    <!--<ul class=flashes>-->
+                    {% for message in messages %}
+                    <p>{{ message }}</p>
+                    {% endfor %}
+                    <!--</ul>-->
+                </ul>
+            </div>
+        {% endif %}
+    {% endwith %}
+{% endblock %}

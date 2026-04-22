@@ -1,0 +1,86 @@
+{% extends 'flashes.html' %} <!-- Note: The flashes.html further extends into the main base.html!-->
+
+{% block head %}
+<!-- Header stuff -->
+
+    <title>Your Profile</title>
+    <link rel="stylesheet" href="../static/CSS/userpage.css">
+
+{% endblock %}
+
+{% block main_body %}
+        <div class="userpage">
+            <div class="border">
+                <!-- Check if username cookie is present to see if the user is logged in. -->
+                {% if session.get('id') %}
+                    {% if not (user and edit) %}
+                        <form actions="/user" method="get">
+                            <div class="userpage">
+                                {% if not show_recipes and not edit %}
+                                    <div class="align_center">
+                                        <h1>Your profile page</h1>
+                                        <!-- First name and Last name-->
+                                        {% if session.get('first_name') is not none and session.get('last_name') is not none %}
+                                        <h2>Welcome back, {{session.get('first_name')}} {{session.get('last_name')}}!</h2>
+                                        
+                                        <!-- First name -->
+                                        {% elif session.get('first_name') is not none %}
+                                        <h2>Welcome back, {{session.get('first_name')}}!</h2>
+                                        
+                                        <!-- No name -> (Should be impossible) -->
+                                        {% else %}
+                                        <h2>Welcome back, User?</h2>
+                                        {% endif %}
+                                    </div>
+                                {% elif ((show_recipes) and (user) and (user.recipies)) %}
+                                <div class="recipe_grid">
+                                    {% for recipe in user.recipies %}
+                                    <div class="recipe_card" id="recipe" data-id="{{ recipe.id }}">
+                                        <h4>{{recipe.recipe_title}}</h4>
+                                        <h5>{{recipe.description}}</h5>
+                                    </div>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </form>
+                        {% if not show_recipes %}
+                        <!-- Looks a little clunky down here,
+                        but when put into the section with profile user it kinda
+                        messes with the form already present (action="/user"). -->
+                        <form action="/user/edit" method="GET">
+                            <input type="submit" value="Edit Profile Details">
+                        </form>
+                        {% endif %}
+                    {% else %}
+                        <h1>Edit profile details</h1>
+                        <form action="/user/edit" method="POST">
+                            <h3>First name: {{user.name}}</h3>
+                            <input type="text" name="first_name" placeholder="Change First name" size="16" maxlength="40">
+                            <h3>Last name: {{user.last_name}}</h3>
+                            <input type="text" name="last_name" placeholder="Change Last name" size="16" maxlength="40">
+                            <h3>Current Email-address: {{user.email}}</h3>
+                            <input type="text" name="email_address" placeholder="New email address" size="24" maxlength="60">
+                            <h3>New Password:</h3>
+                            <input type="password" name="password1" placeholder="New Password" size="24" maxlength="80">
+                            <h3>Confirm New Password:</h3>
+                            <input type="password" name="password2" placeholder="Confirm New Password" size="24" maxlength="80">
+                            <input type="submit" value="Edit Profile Details">
+                        </form>
+                    {% endif %}
+                {% else %}
+                <!-- username cookie is NOT present. Prompt user login or registration -->
+                <form action="/login" method="GET">
+                    <h2>You must be logged in to view your account!</h2>
+                    <input type="submit" value="Login">
+                </form>
+                <form action="/register" method="GET">
+                    <h2>Don't have an account?</h2>
+                    <input type="submit" value="Register">
+                </form>
+                {% endif %}
+            </div>
+        </div>
+        
+        <script src="../static/JS/userpage.js"></script>
+{% endblock %}

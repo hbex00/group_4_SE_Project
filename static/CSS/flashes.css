@@ -1,0 +1,22 @@
+.message_grid{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.message_card {
+    color:rgb(173, 154, 124);
+    padding: 25px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    text-align: left;
+}
+
+.message_card p{
+    color: #0a1f0c;
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.3rem;
+}

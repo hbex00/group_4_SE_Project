@@ -44,6 +44,17 @@ def register_user(name, last_name, mail, password1, password2):
         raise RuntimeError('Incorrect email format')
     else:
         if password1 == password2:
+            if name:
+                name = name.lower()
+                name = name[:1].upper() + name[1:]
+            
+            if last_name:
+                last_name = last_name.lower()
+                last_name = last_name[:1].upper() + last_name[1:]
+
+            if mail:
+                mail = mail.lower()
+
             new_user = User(name=name, last_name=last_name, email=mail)
             new_user.set_hashed_password(password1)
             return new_user

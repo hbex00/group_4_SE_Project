@@ -17,7 +17,6 @@ def create_app(URI):
     from .routes.home import home_bp
     app.register_blueprint(home_bp)
 
-
     from .routes.create import create_bp
     app.register_blueprint(create_bp)
 
@@ -27,12 +26,14 @@ def create_app(URI):
     from .routes.register import register_bp
     app.register_blueprint(register_bp)
 
-
     from .routes.logout import logout_bp
     app.register_blueprint(logout_bp)
 
     from .routes.login import login_bp
     app.register_blueprint(login_bp)
+    
+    from .routes.user import userpage_bp
+    app.register_blueprint(userpage_bp)
 
     from .routes.comment import comment_bp
     app.register_blueprint(comment_bp)

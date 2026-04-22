@@ -22,6 +22,7 @@ Current features are:
     <link rel="stylesheet" href="../static/CSS/topbar.css">
     <link rel="stylesheet" href="../static/CSS/footer.css">
     {% block head %} {% endblock %}
+    {% block flash %} {% endblock %}
 </head>
     <body>
         <header>
@@ -69,8 +70,14 @@ Current features are:
                     {% if session.get('id') is not none %}
                         <div class="dropdown_content">
                             <ul>
-                                <li>Profile</li>
-                                <li>My Recipes</li>
+                                <li id="profile_button">
+                                    <form action=/user id="profile" method="GET">
+                                        Profile
+                                    </form>
+                                <li id="recipe_button">
+                                    <form action=/user/recipes id="recipe" method="GET">
+                                        My Recipes
+                                    </form>
                                 <li id="logout_button">
                                     <form action="/logout" id="logout" method="GET">
                                         Logout
@@ -85,6 +92,7 @@ Current features are:
         <script src="../static/JS/topbar.js"></script>
         <main>
             {% block main_body %} {% endblock%}
+            {% block flashmessage %} {% endblock%}
         </main>
         <footer>
             {% block bottom%} {% endblock%}
