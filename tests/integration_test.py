@@ -47,3 +47,46 @@ def test_register_user(client):
     with client:
         user = User.query.filter_by(email=email).first()
         assert user.email == email
+
+def test_reviews_full(client):
+    with client.session_transaction() as session:
+        session['id'] = 1
+    
+    test_user = User(name = 'Adam',
+                    last_name = 'Eriksson',
+                    email = 'abc@abc.com',
+                    password = 'Adam123')
+    
+    db.session.add(test_user)
+    db.session.commit()
+    
+    test_recipe = Recipe(recipe_title = 'My Good Title',
+                        description = 'Book with a good Title',
+                        portions = 2,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit
+    
+    review_response_1 = client.post("/review", data = {  "recipe_id": "1",
+                                                "review": "5"}, follow_redirects=True)
+    
+    assert review_response_1.status_code == 200
+    assert review_response_1.request.path == '/'
+    
+    review_response_2 = client.post("/review", data = {  "recipe_id": "1",
+                                                "review": "4"}, follow_redirects=True)
+    
+    assert review_response_2.status_code == 200
+    assert review_response_2.request.path == '/'
+    
+    with client:
+        r1 = Review.query.filter_by(id=1).first()
+        r2 = Review.query.filter_by(id=2).first() 
+
+        assert r1.rating == 5
+        assert r2.rating == 4
+
+        recipe = Recipe.query.filter_by(id=1).first()
+
+        assert recipe.review_rating() == 4.5
