@@ -14,36 +14,37 @@
                 <!-- Check if username cookie is present to see if the user is logged in. -->
                 {% if session.get('id') %}
                     {% if not (user and edit) %}
-                        <form actions="/user" method="get">
-                            <div class="userpage">
-                                {% if not show_recipes and not edit %}
-                                    <div class="align_center">
-                                        <h1>Your profile page</h1>
-                                        <!-- First name and Last name-->
-                                        {% if session.get('first_name') is not none and session.get('last_name') is not none %}
-                                        <h2>Welcome back, {{session.get('first_name')}} {{session.get('last_name')}}!</h2>
-                                        
-                                        <!-- First name -->
-                                        {% elif session.get('first_name') is not none %}
-                                        <h2>Welcome back, {{session.get('first_name')}}!</h2>
-                                        
-                                        <!-- No name -> (Should be impossible) -->
-                                        {% else %}
-                                        <h2>Welcome back, User?</h2>
-                                        {% endif %}
-                                    </div>
-                                {% elif ((show_recipes) and (user) and (user.recipies)) %}
-                                <div class="recipe_grid">
-                                    {% for recipe in user.recipies %}
-                                    <div class="recipe_card" id="recipe" data-id="{{ recipe.id }}">
+                        <div class="userpage">
+                            {% if not show_recipes and not edit %}
+                                <div class="align_center">
+                                    <h1>Your profile page</h1>
+                                    <!-- First name and Last name-->
+                                    {% if session.get('first_name') is not none and session.get('last_name') is not none %}
+                                    <h2>Welcome back, {{session.get('first_name')}} {{session.get('last_name')}}!</h2>
+                                    
+                                    <!-- First name -->
+                                    {% elif session.get('first_name') is not none %}
+                                    <h2>Welcome back, {{session.get('first_name')}}!</h2>
+                                    
+                                    <!-- No name -> (Should be impossible) -->
+                                    {% else %}
+                                    <h2>Welcome back, User?</h2>
+                                    {% endif %}
+                                </div>
+                            {% elif ((show_recipes) and (user) and (user.recipies)) %}
+                            <div class="recipe_grid">
+                                {% for recipe in user.recipies %}
+                                <div class="recipe_card" data-id="{{ recipe.id }}">
+                                    <form action="/viewrecipe" method="GET">
                                         <h4>{{recipe.recipe_title}}</h4>
                                         <h5>{{recipe.description}}</h5>
-                                    </div>
-                                    {% endfor %}
+                                        <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                                    </form>
                                 </div>
-                                {% endif %}
+                                {% endfor %}
                             </div>
-                        </form>
+                            {% endif %}
+                        </div>
                         {% if not show_recipes %}
                         <!-- Looks a little clunky down here,
                         but when put into the section with profile user it kinda

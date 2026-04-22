@@ -36,8 +36,11 @@
                 <div class="recipe_grid">
                     {% for recipe in recipies %}
                         <div class="recipe_card">
-                            <h4>{{recipe.id}}.  {{recipe.recipe_title}}</h4>
-                            <h5> {{recipe.description}}</h5>
+                            <form action="/viewrecipe" method="GET">
+                                <h4>{{recipe.id}}.  {{recipe.recipe_title}}</h4>
+                                <h5> {{recipe.description}}</h5>
+                                <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                            </form>
                         </div>
                     {% endfor %}
                 </div>
@@ -47,4 +50,5 @@
         </div>
     </div>
 
+    <script src="../static/JS/homepage.js"></script>
 {% endblock %}
