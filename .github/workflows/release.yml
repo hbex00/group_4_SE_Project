@@ -1,0 +1,27 @@
+
+name: Build docker image on release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-python@v3
+      with:
+        python-version: "3.14"
+    - run: pip install pytest coverage Flask-SQLAlchemy
+    - run: PYTHONPATH=src 
+    - run: pytest
+
+    - run: docker build -t TheRecipeBox:${GITHUB_REF_NAME} .
+    - run: docker save TheFoodBox:${GITHUB_REF_NAME} -o TheRecipeBox_v:${GITHUB_REF_NAME}.tar
+    - run: zip TheRecipeBox-image.zip TheRecipeBox_v:${GITHUB_REF_NAME}.tar
+    - uses: action/upload-artefact@v:${GITHUB_REF_NAME}
+      with: 
+        name: TheRecipeBox_v:${GITHUB_REF_NAME}
+        path: TheRecipeBox_v:${GITHUB_REF_NAME}.zip
