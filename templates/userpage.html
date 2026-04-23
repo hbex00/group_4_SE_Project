@@ -54,20 +54,24 @@
                         </form>
                         {% endif %}
                     {% else %}
-                        <h1>Edit profile details</h1>
-                        <form action="/user/edit" method="POST">
-                            <h3>First name: {{user.name}}</h3>
-                            <input type="text" name="first_name" placeholder="Change First name" size="16" maxlength="40">
-                            <h3>Last name: {{user.last_name}}</h3>
-                            <input type="text" name="last_name" placeholder="Change Last name" size="16" maxlength="40">
-                            <h3>Current Email-address: {{user.email}}</h3>
-                            <input type="text" name="email_address" placeholder="New email address" size="24" maxlength="60">
-                            <h3>New Password:</h3>
-                            <input type="password" name="password1" placeholder="New Password" size="24" maxlength="80">
-                            <h3>Confirm New Password:</h3>
-                            <input type="password" name="password2" placeholder="Confirm New Password" size="24" maxlength="80">
-                            <input type="submit" value="Edit Profile Details">
-                        </form>
+                        <div class="edit_userpage">
+                            <div class="edit_paper">
+                                <h1>Edit profile details</h1>
+                                <form action="/user/edit" method="POST">
+                                    <h3>First name: {{user.name}}</h3>
+                                    <input type="text" name="first_name" placeholder="Change First name" size="16" maxlength="40">
+                                    <h3>Last name: {{user.last_name}}</h3>
+                                    <input type="text" name="last_name" placeholder="Change Last name" size="16" maxlength="40">
+                                    <h3>Current Email-address: {{user.email}}</h3>
+                                    <input type="text" name="email_address" placeholder="New email address" size="24" maxlength="60">
+                                    <h3>New Password:</h3>
+                                    <input type="password" name="password1" placeholder="New Password" size="24" maxlength="80">
+                                    <h3>Confirm New Password:</h3>
+                                    <input type="password" name="password2" placeholder="Confirm New Password" size="24" maxlength="80">
+                                    <input type="submit" value="Edit Profile Details">
+                                </form>
+                            </div>
+                        </div>
                     {% endif %}
                 {% else %}
                 <!-- username cookie is NOT present. Prompt user login or registration -->
