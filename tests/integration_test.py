@@ -1,5 +1,5 @@
 import pytest 
-from flask import request
+from flask import request, session
 from app import create_app
 from database.db import db
 from app.services.models import *
@@ -47,6 +47,32 @@ def test_register_user(client):
     with client:
         user = User.query.filter_by(email=email).first()
         assert user.email == email
+
+def test_login_user(client):
+    test_user = User(name = 'A',
+                     last_name = 'B',
+                     email = 'a@b.c',
+                     password = 'ab')
+    client.post("/register", data = {"f_name": test_user.name,
+                                     "l_name": test_user.last_name,
+                                     "email": test_user.email,
+                                     "password1": test_user.password,
+                                     "password2": test_user.password}, follow_redirects=True)
+    with client:
+        error_test = client.post("/login", data = {"email": test_user.email,
+                                                    "password": "wrong"}, follow_redirects=True)
+        assert 'id' not in session
+        assert error_test.request.path == '/login'
+
+    with client:
+        result = client.post("/login", data = {"email": test_user.email,
+                                               "password": test_user.password}, follow_redirects=True)
+        assert session['id'] == 1 
+        assert session['first_name'] == test_user.name
+        test_logedin = client.post("/login", follow_redirects=True)
+        assert test_logedin.request.path == '/'
+    assert result.status_code == 200
+    assert result.request.path == '/'
 
 def test_reviews_full(client):
     with client.session_transaction() as session:
