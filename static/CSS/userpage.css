@@ -90,3 +90,43 @@
     font-weight: 500;
     line-height: 1.5;
 }
+
+.edit_userpage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit_paper {
+    margin-top: 3.5%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    height: 50h;
+    border: 2px solid black;
+    background-color: var(--bg-dark);
+    padding: 10px;
+    padding-bottom: 25px;
+    border-radius: 6px;
+    width: 500px;
+}
+
+.edit_userpage h1 {
+    margin-bottom: 1px;
+}
+
+.edit_userpage form {
+    width: 300px;
+}
+
+.edit_userpage form h3 {
+    margin-bottom: 2px;
+    margin-top: 0px;
+}
+
+.edit_userpage form input {
+    margin-bottom: 0px;
+    margin-top: 2px;
+}
+
