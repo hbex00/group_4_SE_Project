@@ -116,3 +116,29 @@ def test_reviews_full(client):
         recipe = Recipe.query.filter_by(id=1).first()
 
         assert recipe.review_rating() == 4.5
+
+def test_logout_user(client):
+    email = "lars.larsson@larsson.se"
+    password = "123"
+
+
+    response = client.post("/register", data = {"f_name": "Lars",
+                                     "l_name": "Larsson",
+                                     "email": email,
+                                     "password1": password,
+                                     "password2": password}, follow_redirects=True)
+    
+    assert response.status_code == 200
+    assert response.request.path == '/' 
+
+    with client:
+        client.post("/login", data = {"email": email,
+                                      "password": password}, follow_redirects=True)
+        assert session['id'] == 1
+        result2 = client.post("/logout", follow_redirects=True)
+        assert 'id' not in session
+        
+    assert result2.status_code == 200
+    assert result2.request.path == '/'
+    
+   
