@@ -116,3 +116,64 @@ def test_reviews_full(client):
         recipe = Recipe.query.filter_by(id=1).first()
 
         assert recipe.review_rating() == 4.5
+
+def test_comment_route(client):
+    with client.session_transaction() as session:
+        session['id'] = 1
+    
+    test_user = User(name = 'Björk',
+                    last_name = 'Lukasson',
+                    email = 'cba@321.com',
+                    password = 'Bj123')
+    
+    db.session.add(test_user)
+    db.session.commit()
+    
+    test_recipe = Recipe(recipe_title = 'Not that good of a recipe',
+                        description = 'Decent recipe description',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit
+
+    comment_response_1 = client.post("/comment", data = {  "recipe_id": "1",
+                                                "comment": "This recipe is really useful!"}, follow_redirects=True)
+    
+    assert comment_response_1.status_code == 200
+    assert comment_response_1.request.path == '/'
+    
+    comment_response_2 = client.post("/comment", data = {  "recipe_id": "1",
+                                                "comment": ""}, follow_redirects=True)
+    
+    assert comment_response_2.status_code == 200
+    assert comment_response_2.request.path == '/'
+
+    with client:
+        comment_1 = Comment.query.filter_by(id=1).first()
+        comment_2 = Comment.query.filter_by(id=2).first() 
+
+        assert comment_1.content == "This recipe is really useful!"
+        assert comment_2 is None
+
+def test_comment_route_errors(client):
+    error_no_session_id = client.post("/comment", data = {  "recipe_id": "1",
+                                                "comment": "Good recipe!"}, follow_redirects=True)
+    
+    with client:
+        assert error_no_session_id.request.path == '/login'
+
+    with client.session_transaction() as session:
+        session['id'] = 1
+
+    error_no_recipe_id = client.post("/comment", data = {  "recipe_id": "",
+                                                "comment": "Not to my taste"}, follow_redirects=True)
+    
+    with client:
+        assert error_no_recipe_id.data == b'invalid recipe ID'
+
+    error_not_found_id = client.post("/comment", data = {  "recipe_id": "1",
+                                                "comment": "Hello from sweden"}, follow_redirects=True)
+    
+    with client:
+        assert error_not_found_id.data == b'Recipe with this ID not found'
