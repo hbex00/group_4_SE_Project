@@ -21,7 +21,7 @@ jobs:
     - run: docker build -t TheRecipeBox:${GITHUB_REF_NAME} .
     - run: docker save TheFoodBox:${GITHUB_REF_NAME} -o TheRecipeBox_v:${GITHUB_REF_NAME}.tar
     - run: zip TheRecipeBox-image.zip TheRecipeBox_v:${GITHUB_REF_NAME}.tar
-    - uses: actions/upload-artefact@v:${GITHUB_REF_NAME}
+    - uses: actions/upload-artifact@v4
       with: 
         name: TheRecipeBox_v:${GITHUB_REF_NAME}
         path: TheRecipeBox_v:${GITHUB_REF_NAME}.zip
