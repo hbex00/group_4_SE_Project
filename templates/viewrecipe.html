@@ -10,58 +10,66 @@
 {% block main_body %}
 
     <div class="view_holder">
-        <h1>{{recipe.recipe_title}}</h1>
-      
-        <h5>Rating: {{ recipe.review_rating() }}/5 ({{ recipe.reviews|length}} reviews)</h5>
-      
-        <p>Portions: {{recipe.portions}}</p>
-      
-        <p>{{recipe.description}}</p>
+        <div class="view_paper">
+            <div class="text_alignment">
+                <h1 id="title">{{recipe.recipe_title}}</h1>
+            
+                <h5>Rating: {{ recipe.review_rating() }}/5 ({{ recipe.reviews|length}} reviews)</h5>
+            
+                <p>Portions: {{recipe.portions}}</p>
+            
+                <p>{{recipe.description}}</p>
 
-        <h3>Ingredients</h3>
-        {%if recipe.ingredients|length > 0%}
-            {%for ingredient in recipe.ingredients%}
-                <p>{{ingredient.name}} {{ingredient.amount}} {{ingredient.unit}}</p><br>
-            {%endfor%}
-        {%else%}
-            <p>No ingredients, you are eating air?</p>
-        {%endif%}
-        <h3>Instructions</h3>
-        {%if recipe.steps|length > 0%}
-            {%for step in recipe.steps%}
-                <p>{{step.name}}</p><br>
-            {%endfor%}
-        {%else%}
-            <p>Already fisnished :|</p>
-        {%endif%}
+                <h3>Ingredients</h3>
+                {%if recipe.ingredients|length > 0%}
+                    {%for ingredient in recipe.ingredients%}
+                        <p>- {{ingredient.name}} {{ingredient.amount}} {{ingredient.unit}}</p>
+                    {%endfor%}
+                {%else%}
+                    <p>No ingredients, you are eating air?</p>
+                {%endif%}
+                <h3>Instructions</h3>
+                {%if recipe.steps|length > 0%}
+                    {%for step in recipe.steps%}
+                        <p>{{step.name}}</p>
+                    {%endfor%}
+                {%else%}
+                    <p>Already fisnished :|</p>
+                {%endif%}
 
-        <h1>Made by: {{recipe.user.name}}</h1>
+                <h1>Made by: {{recipe.user.name}}</h1>
+                {% if recipe.user.id == session.get('id') %}
+                <form action="/modify" method="GET">
+                    <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                    <input type="submit" value="Modify recipe">
+                </form>
+                {% endif %}
+            </div>
+        </div>
 
-        <h3>Comments</h3>
-        {% if recipe.comments | length > 0 %}
-            {% for comment in recipe.comments %}
-                <p>{{ comment.content }}</p>
-                <p>Comment made by: {{ comment.user.name }}</p>
-            {% endfor %}
-        {% else %}
-            <p>No comments on this recipe</p>
-        {% endif %}
+        <div class="comment_paper">
+            <div class="text_alignment">
+                <h3>Comments</h3>
+                {% if recipe.comments | length > 0 %}
+                    {% for comment in recipe.comments %}
+                        <div class="indv_comment_paper">
+                            <p>{{ comment.content }}</p>
+                            <p>&nbsp&nbsp&nbsp<strong>Comment made by:</strong> <i>{{ comment.user.name }}</i></p>
+                        </div><br>
+                    {% endfor %}
+                {% else %}
+                    <p>No comments on this recipe</p>
+                {% endif %}
 
-        <h3>Reviews</h3>
-        {% if recipe.reviews | length > 0 %}
-            {% for review in recipe.reviews %}
-                <p>{{ review.rating }} / 5</p>
-                <p>Review made by: {{ review.user.name }}</p>
-            {% endfor %}
-        {% else %}
-            <p>No reviews on this recipe</p>
-        {% endif %}
-      
-        {% if recipe.user.id == session.get('id') %}
-        <form action="/modify" method="GET">
-            <input type="hidden" name="recipe_id" value="{{recipe.id}}">
-            <input type="submit" value="Modify recipe">
-        </form>
-        {% endif %}
+                <h3>Reviews</h3>
+                {% if recipe.reviews | length > 0 %}
+                    {% for review in recipe.reviews %}
+                        <p>{{ review.rating }} / 5 &nbsp&nbsp-&nbsp&nbsp {{ review.user.name }}</p>
+                    {% endfor %}
+                {% else %}
+                    <p>No reviews on this recipe</p>
+                {% endif %}
+            </div>
+        </div>
     </div>
 {% endblock %}
