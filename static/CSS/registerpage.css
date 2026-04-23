@@ -1,0 +1,40 @@
+.register-page {
+    margin-top: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; 
+    height: 50h;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    
+}
+
+.register-page .border {
+    border: 2px solid black;
+    background-color: var(--bg-dark);
+    padding: 5px;
+    padding-bottom: 25px;
+    border-radius: 6px;
+    width: 500px;
+}
+
+.register-page .register {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    margin-left: 75px; 
+    margin-right: 75px;
+}
+
+.register-page .register h3 {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+
+
+.register-page .register input {
+    margin-bottom: 0px;
+    margin-top: 4px;
+}
