@@ -18,9 +18,9 @@ jobs:
     - run: PYTHONPATH=src 
     - run: pytest
 
-    - run: docker build -t therecipebox:${GITHUB_REF_NAME} .
-    - run: docker save therecipebox:${GITHUB_REF_NAME} -o therecipebox_${GITHUB_REF_NAME}.tar
-    - run: zip therecipebox-image.zip therecipebox_${GITHUB_REF_NAME}.tar
+    - run: docker build -t therecipebox .
+    - run: docker save therecipebox -o therecipebox.tar
+    - run: zip therecipebox-image.zip therecipebox.tar
     - uses: actions/upload-artifact@v4
       with: 
         name: therecipebox_${GITHUB_REF_NAME}
