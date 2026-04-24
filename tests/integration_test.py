@@ -209,3 +209,14 @@ def test_logout_user(client):
     assert result2.status_code == 200
     assert result2.request.path == '/'
     
+
+def test_expected_content(client):
+    response = client.get("/")
+
+    assert b"<title>Homepage</title>" in response.data
+
+    assert b"Search for recipe index..." in response.data
+
+    assert b"value=\"Share Recipe\"" in response.data
+    assert b"value=\"Review Recipe\"" in response.data
+    assert b"value=\"Comment Recipe\"" in response.data
