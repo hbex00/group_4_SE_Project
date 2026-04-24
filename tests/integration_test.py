@@ -33,6 +33,10 @@ def test_register_page_loads(client):
     response = client.get("/register")
     assert response.status_code == 200
 
+def test_user_page_loads(client):
+    response = client.get("/user")
+    assert response.status_code == 200
+
 def test_register_user(client):
     email = "lars.larsson@larsson.se"
     response = client.post("/register", data = {"f_name": "Lars",
@@ -185,6 +189,94 @@ def test_comment_get(client):
     response = client.get("/comment")
     assert response.status_code == 200
         
+def test_edit_user(client):
+    email = "Gunnar@student.ju.se"
+    password = "123"
+    register_response = client.post("/register", data = {"f_name": "gunnar",
+                                     "l_name":"",
+                                     "email": email,
+                                     "password1": password,
+                                     "password2": password}, follow_redirects=True)
+    
+    assert register_response.status_code == 200
+    assert register_response.request.path == '/' 
+    
+    with client:
+        client.post("/login", data = {"email": email.lower(),
+                                      "password": password}, follow_redirects=True)
+        assert session['id'] == 1
+
+        client.post("/user",follow_redirects=True)
+        assert session['id'] == 1
+        assert session['first_name'] == "Gunnar"
+
+        new_email = "Eriksson@student.ju.se"
+        new_second_email = "Eriksson2@student.ju.se"
+        wrong_email = "Erikssonson"
+        new_password = "Abc"
+        wrong_password = "abc"
+        new_name = "erik"
+        new_surname = "Eriksson"
+        
+        wrong_password = client.post("/user/edit", data = {"email_address": new_email,
+                                          "first_name" : new_name,
+                                          "last_name" : new_surname,
+                                          "password1": new_password,
+                                          "password2": wrong_password}, follow_redirects=True)
+        assert wrong_password.status_code == 200
+        assert wrong_password.request.path == '/user/edit'
+        assert session['id'] == 1
+        assert session['first_name'] == "Gunnar"
+
+        wrong_email = client.post("/user/edit", data = {"email_address": wrong_email,
+                                          "first_name":"",
+                                          "last_name":"",
+                                          "password1":"",
+                                          "password2":""},follow_redirects=True)
+        assert wrong_email.status_code == 200
+        assert wrong_email.request.path == '/user/edit'
+        assert session['id'] == 1
+        assert session['first_name'] == "Gunnar"
+
+        email_test = client.post("/user/edit", data = {"email_address": new_email,
+                                          "first_name":"",
+                                          "last_name":"",
+                                          "password1":"",
+                                          "password2":""},follow_redirects=True)
+        assert email_test.status_code == 200
+        assert email_test.request.path == '/user'
+        assert session['id'] == 1
+        assert session['first_name'] == "Gunnar"
+
+        password_test = client.post("/user/edit", data = {"email_address":"",
+                                          "first_name":"",
+                                          "last_name":"",
+                                          "password1":new_password,
+                                          "password2":new_password},follow_redirects=True)
+        assert password_test.status_code == 200
+        assert password_test.request.path == '/user'
+        assert session['id'] == 1
+        assert session['first_name'] == "Gunnar"
+        
+        existing_email = client.post("/user/edit", data = {"email_address": new_email,
+                                          "first_name" : new_name,
+                                          "last_name" : new_surname,
+                                          "password1": new_password,
+                                          "password2": new_password}, follow_redirects=True)
+        
+        assert existing_email.status_code == 200
+        assert existing_email.request.path == '/user/edit'
+
+        correct = client.post("/user/edit", data = {"email_address": new_second_email,
+                                          "first_name" : new_name,
+                                          "last_name" : new_surname,
+                                          "password1": new_password,
+                                          "password2": new_password}, follow_redirects=True)
+
+        assert session['id'] == 1
+        assert session['first_name'] == "Erik"
+        assert session['last_name'] == "Eriksson"
+
 def test_logout_user(client):
     email = "lars.larsson@larsson.se"
     password = "123"
