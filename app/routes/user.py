@@ -28,7 +28,8 @@ def userpage():
 @userpage_bp.route('/user/edit',methods = ['POST','GET'])
 def user_edit():
     if request.method == 'POST':
-        return update_user(request.form.to_dict(),page,flashes,path)
+        action = update_user(request.form.to_dict(),page,flashes,path)
+        return action
     else:
         user = check_user(page,flashes)
         if not type(user) == User:
