@@ -47,6 +47,20 @@
             {% else %}
                 <p style="text-align: center; margin-top: 40px;">No recipes found.</p>
             {% endif %}
+            {% if tags|length > 0 %}
+                <div class="recipe_grid">
+                    {% for tag in tags %}
+                        <div class="recipe_card">
+                            <form action="/viewrecipe" method="GET">
+                                <h4>{{tag.id}}.  {{tag.name}}</h4>
+                                <h5> {{tag.amount}}</h5>
+                            </form>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p style="text-align: center; margin-top: 40px;">No tags found.</p>
+            {% endif %}
         </div>
     </div>
 
