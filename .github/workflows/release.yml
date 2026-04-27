@@ -23,11 +23,15 @@ jobs:
 
     - run: docker build -t therecipebox .
     - run: docker save therecipebox -o therecipebox.tar
+
+    - name: Zip docker image
+      run: zip therecipebox-image.zip therecipebox.tar
+      
     - uses: actions/upload-artifact@v4
       with: 
         name: therecipebox_:${{ github.ref_name }}
         path: therecipebox-image.zip
-        
+
     - uses: softprops/action-gh-release@v2
       with:
         name: therecipebox_:${{ github.ref_name }}
