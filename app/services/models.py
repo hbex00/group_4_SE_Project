@@ -93,8 +93,9 @@ class Review(db.Model):
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(50))
-    amount = db.Column(db.Integer)
+    category = db.Column(db.String(50))
+    unit = db.Column(db.String(75))
+    
 
     recipetags = db.relationship('RecipeTag', back_populates='tag')
 

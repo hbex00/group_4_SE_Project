@@ -40,7 +40,7 @@
                 <h3>Tag</h3>
                 {%if recipe.tags|length > 0%}
                     {%for t in recipe.tags%}
-                        <p>{{t.tag.name}}: {{t.tag.amount}}</p>
+                        <p>{{t.tag.category}}: {{t.tag.unit}}</p>
                     {%endfor%}
                 {%else%}
                     <p>{{recipe.tags|length}}</p>

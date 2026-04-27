@@ -27,7 +27,7 @@ def create():
 
         recipe_steps = request.form.getlist('step[]')
 
-        tag = request.form['tag']
+        tag_id = request.form['tag']
 
         id = session.get('id')
         recipe_creator = User.query.filter_by(id=id).first()
@@ -49,7 +49,7 @@ def create():
 
         steps_add(recipe_steps, new_recipe.id )
 
-        tag_add(new_recipe.id, tag)
+        tag_add(new_recipe.id, tag_id)
 
         return redirect('/')
     else:

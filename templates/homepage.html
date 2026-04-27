@@ -52,8 +52,8 @@
                     {% for tag in tags %}
                         <div class="recipe_card">
                             <form action="/viewrecipe" method="GET">
-                                <h4>{{tag.id}}.  {{tag.name}}</h4>
-                                <h5> {{tag.amount}}</h5>
+                                <h4>{{tag.id}}. Category: {{tag.category}}</h4>
+                                <h5> Unit: {{tag.unit}}</h5>
                             </form>
                         </div>
                     {% endfor %}
