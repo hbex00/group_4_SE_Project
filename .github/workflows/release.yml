@@ -27,10 +27,8 @@ jobs:
       with: 
         name: therecipebox_:${{ github.ref_name }}
         path: therecipebox-image.zip
-    - run: |
-        gh release create ${{ github.ref_name }} \
-          therecipebox_${{ github.ref_name }}.zip \
-          --title "Release ${{ github.ref_name }}" \
-          --notes "Automated release"
-    env:
-        GITHUB_TOKEN: ${{ github.token }}
+        
+    - uses: softprops/action-gh-release@v2
+      with:
+        name: therecipebox_:${{ github.ref_name }}
+        path: therecipebox-image.zip
