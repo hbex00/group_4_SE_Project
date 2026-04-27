@@ -122,7 +122,7 @@ def review_create(recipe_id, score, user_id):
 def tag_add(recipe_id, tag_id):
     try:
         recipe_exist = Recipe.query.filter_by(id=recipe_id).first()
-        tag_exist = User.query.filter_by(id=tag_id).first()
+        tag_exist = Tag.query.filter_by(id=tag_id).first()
 
         if recipe_exist is not None and tag_exist is not None:
             rt = recipetag_create(recipe_id, tag_id)
