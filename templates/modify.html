@@ -21,7 +21,10 @@
                 <h2>Tags:</h2>
                 {% for cat in cats %}
                     <div class="dropdown">
-                        <input type="button" value="{{cat.category}}: {% for tag in recipe.tags %}{% if tag.tag.category == cat.category %}{{tag.tag.unit}}{% endif %}{% endfor %}" placeholder="{{cat.category}}">
+                        <div class="rem_tag">
+                            <input type="button" value="{{cat.category}}: {% for tag in recipe.tags %}{% if tag.tag.category == cat.category %}{{tag.tag.unit}}{% endif %}{% endfor %}" placeholder="{{cat.category}}">
+                            <p>x</p>
+                        </div>
                         <input type="hidden" value="{{cat.category}}: {% for tag in recipe.tags %}{% if tag.tag.category == cat.category %}{{tag.tag.unit}}{% endif %}{% endfor %}" placeholder="{{cat.category}}" name="tag[]">
                         <div class="tag_content">
                             <ul>
