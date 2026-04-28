@@ -26,13 +26,20 @@
             <div class="tag_select">
                 <h2>Tags:</h2>
                 {% for cat in cats %}
-                    {{cat.category}}
-                    {% for tag in tags2d %}
-                        {% if tag.category == cat.category %}
-                            {{tag.unit}}
-                        {% endif %}
-                    {% endfor %}
-                    <br>
+                    <div class="dropdown">
+                        <input type="button" value="{{cat.category}}">
+                        <div class="tag_content">
+                            <ul>
+                            {% for tag in tags2d %}
+                                {% if tag.category == cat.category %}
+                                    <li>
+                                        {{tag.unit}}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
                 {% endfor %}
                 
             </div>
