@@ -51,32 +51,3 @@
     display: flex;
     flex-direction: row;
 }
-
-.tag_select {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.tag_content {
-    display: none;
-    position: absolute;
-    
-}
-
-.dropdown:hover .tag_content {
-    display: block;
-}
-
-ul {
-    display: flex;
-    flex-direction: column;
-    z-index: 1;
-    border: solid black 1px;
-    border-radius: 10px;
-    background-color: var(--bg-std);
-}
-
-li {
-    padding: 5px;
-}
