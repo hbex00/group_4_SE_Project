@@ -16,6 +16,7 @@ class Recipe(db.Model):
     user = db.relationship('User', back_populates='recipies')
     comments = db.relationship('Comment', back_populates='recipe')
     reviews = db.relationship('Review', back_populates='recipe')
+    tags = db.relationship('RecipeTag', back_populates='recipe')
 
     def review_rating(self):
         review_count = len(self.reviews)
@@ -89,3 +90,19 @@ class Review(db.Model):
 
     recipe = db.relationship('Recipe', back_populates='reviews')
     user = db.relationship('User', back_populates='reviews')
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(50))
+    unit = db.Column(db.String(75))
+    
+
+    recipetags = db.relationship('RecipeTag', back_populates='tag')
+
+class RecipeTag(db.Model):
+   id = db.Column(db.Integer, primary_key=True)
+   recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'))
+   tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))
+
+   tag = db.relationship('Tag', back_populates='recipetags')
+   recipe = db.relationship('Recipe', back_populates='tags')

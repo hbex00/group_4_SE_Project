@@ -4,6 +4,7 @@
 
     <title>Modify recipe # {{recipe.id}}</title>
     <link rel="stylesheet" href="../static/CSS/modify.css">
+    <link rel="stylesheet" href="../static/CSS/tags.css">
 
 {% endblock %}
 
@@ -14,6 +15,31 @@
             <div class="title_change">
                 <h1>Title:</h1>
                 <input type="text" name="title" id="title" value="{{recipe.recipe_title}}" size="20"></h1>
+            </div>
+
+            <div class="tag_select">
+                <h2>Tags:</h2>
+                {% for cat in cats %}
+                    <div class="dropdown">
+                        <div class="rem_tag">
+                            <input type="button" value="{{cat.category}}: {% for tag in recipe.tags %}{% if tag.tag.category == cat.category %}{{tag.tag.unit}}{% endif %}{% endfor %}" placeholder="{{cat.category}}">
+                            <p>x</p>
+                        </div>
+                        <input type="hidden" value="{{cat.category}}: {% for tag in recipe.tags %}{% if tag.tag.category == cat.category %}{{tag.tag.unit}}{% endif %}{% endfor %}" placeholder="{{cat.category}}" name="tag[]">
+                        <div class="tag_content">
+                            <ul>
+                            {% for tag in tags2d %}
+                                {% if tag.category == cat.category %}
+                                    <li>
+                                        {{tag.unit}}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+                
             </div>
 
             <div class="portion_control" style="-webkit-user-select: none; user-select: none;">
@@ -67,5 +93,6 @@
         {% endif %}
 
         <script src="../static/JS/modify.js"></script>
+        <script src="../static/JS/tags.js"></script>
     </div>
 {% endblock %}

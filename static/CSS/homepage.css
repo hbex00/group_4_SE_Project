@@ -153,3 +153,13 @@
 .recipe_card:hover {
     cursor: pointer;;
 }
+
+.tag_form h6 {
+    display: inline;
+    margin: 3px;
+    color: var(--base-green);
+    border: solid black 1px;
+    border-radius: 15px;
+
+    padding: 2px;
+}

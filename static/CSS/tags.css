@@ -1,0 +1,53 @@
+.tag_select {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.tag_content {
+    display: none;
+    position: absolute;
+    
+}
+
+.dropdown:hover .tag_content {
+    display: block;
+}
+
+ul {
+    display: flex;
+    flex-direction: column;
+    z-index: 1;
+    border: solid black 1px;
+    border-radius: 10px;
+    background-color: var(--bg-std);
+}
+
+li {
+    padding: 5px;
+}
+
+.rem_tag {
+    display: flex;
+    flex-direction: row;
+    margin: 3px;
+    border: solid black 1px;
+    border-radius: 20px;
+    justify-content: center;
+}
+
+.rem_tag:hover {
+    cursor: pointer;
+}
+
+.rem_tag p {
+    margin: 5px;
+    border: 0;
+    padding-bottom: 3px;
+
+}
+
+.rem_tag input {
+    border: 0px;
+    background-color: transparent;
+}

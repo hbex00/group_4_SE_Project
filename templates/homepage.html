@@ -38,6 +38,11 @@
                         <div class="recipe_card">
                             <form action="/viewrecipe" method="GET">
                                 <h4>{{recipe.id}}.  {{recipe.recipe_title}}</h4>
+                                <div class="tag_form">
+                                    {% for tag in recipe.tags %}
+                                        <h6> {{tag.tag.unit}} </h6>
+                                    {% endfor %}
+                                </div>
                                 <h5> {{recipe.description}}</h5>
                                 <input type="hidden" name="recipe_id" value="{{recipe.id}}">
                             </form>

@@ -4,6 +4,7 @@
 
     <title>Add Recipe</title>
     <link rel="stylesheet" href="../static/CSS/addrecipe.css">
+    <link rel="stylesheet" href="../static/CSS/tags.css">
 
 {% endblock %}
 
@@ -21,6 +22,30 @@
             <div class="title_container">
                 <h2>Title</h2>
                 <input type="text" name="title" id="title" placeholder="Title" size="20">
+            </div>
+
+            <div class="tag_select">
+                <h2>Tags:</h2>
+                {% for cat in cats %}
+                    <div class="dropdown">
+                        <div class="rem_tag">
+                            <input type="button" value="{{cat.category}}" placeholder="{{cat.category}}">
+                            <p>x</p>
+                        </div>
+                        <input type="hidden" value="{{cat.category}}" placeholder="{{cat.category}}" name="tag[]">
+                        <div class="tag_content">
+                            <ul>
+                            {% for tag in tags2d %}
+                                {% if tag.category == cat.category %}
+                                    <li>
+                                        {{tag.unit}}
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
             </div>
 
             <div class="description">
@@ -47,6 +72,7 @@
                 <input type="button" id="step_btn" placeholder="Add step" value="Add step">
             </div>
 
+
             <input type="submit" value="Submit recipe">
 
             {% for recipe in recipies %}
@@ -58,5 +84,6 @@
 
 
     <script src="../static/JS/addrecipe.js"></script>
+    <script src="../static/JS/tags.js"></script>
 
 {% endblock %}
