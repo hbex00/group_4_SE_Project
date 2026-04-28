@@ -9,18 +9,18 @@
 
 {% block main_body %}
     <div class="whole_input_page">
-        <form action="/review" method="POST">
+        <form action="/review" id="review_form" method="POST">
             <div class="recipe_id_container">
-                <h2>Recipe id to review on</h2>
-                <input type="text" name="recipe_id" placeholder="Recipe id" size="20">
+                <h2>Review recipe</h2>
+                <input type="text" id="recipe_id" name="recipe_id" placeholder="Recipe id" autocomplete="off">
             </div>
 
             <div class="review">
-                <h2>Review</h2>
-                <input type="text" name="review" placeholder="Review (0 to 5)" size="50">
+                <input type="text" id="review" name="review" placeholder="Review (0 to 5)" autocomplete="off">
+                <h2 class="rating_h2">/ 5</h2>
             </div>
 
-            <input type="submit" value="Post review">
+            <input type="submit" id="submit" value="Post review">
         </form>
     </div>
 

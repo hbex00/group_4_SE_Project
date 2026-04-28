@@ -1,9 +1,26 @@
 .whole_input_page {
     display: flex;
-    width: 100%;
     flex-direction: column;
     align-items: center;
+    justify-self: center;
+    flex-shrink: 0;
+    width: 20vw;
+    min-width: 220px;
+    max-width: 350px;
+    padding: 20px;
+    margin-top: 10vh;
+    background-color: #f4e7cb;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 30px;
+}
 
+#review_form{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
 }
 
 .recipe_id_container {
@@ -11,7 +28,46 @@
     flex-direction: column;
 }
 
+#recipe_id{
+    max-width: 300px;
+}
+
 .review {
     display: flex;
-    flex-direction: column;
+    gap: 15px;
+}
+
+#review{
+    max-width: 150px;
+}
+
+.rating_h2{
+    padding: 0;
+    margin: 0;
+}
+
+input[type="text"]{
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    height: 30px;
+    font-size: 1rem;
+}
+
+#submit{
+    display: flex;
+    padding: 10px;
+    width: auto;
+    align-self: center;
+    font-size: 1.2rem;
+    font-weight: 600;
+    border: 1px solid transparent;
+    border-radius: 15px;
+    background-color: #1B6D24;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+#submit:hover{
+    border: 1px solid white;
+    background-color: #23862e;
 }

@@ -9,18 +9,18 @@
 
 {% block main_body %}
     <div class="whole_input_page">
-        <form action="/comment" method="POST">
+        <form action="/comment" id="comment_form" method="POST">
             <div class="recipe_id_container">
                 <h2>Recipe id to comment on</h2>
-                <input type="text" name="recipe_id" placeholder="Recipe id" size="20">
+                <input type="text" name="recipe_id" placeholder="Recipe id" size="20" autocomplete="off">
             </div>
 
             <div class="comment">
                 <h2>Comment</h2>
-                <input type="text" name="comment" placeholder="Comment" size="50">
+                <input type="text" name="comment" placeholder="How did it taste? Any substitions?" size="50" autocomplete="off">
             </div>
 
-            <input type="submit" value="Post comment">
+            <input type="submit" id="submit" value="Post comment">
         </form>
     </div>
 

@@ -82,7 +82,13 @@
     background-color: #23862e;
 }
 
-#share_recipe{
+.btn_row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+#recipe_function{
     display: flex;
     justify-content: center;
     align-items: center;
@@ -91,7 +97,7 @@
     gap: 15px;
 }
 
-#share_recipe_button{
+#recipe_function_button{
     background-color: #1B6D24;
     color: white;
     font-size: 1.7rem;
@@ -104,7 +110,7 @@
     transition: all 0.3s ease;
 }
 
-#share_recipe_button:hover{
+#recipe_function_button:hover{
     border: 1px solid white;
     background-color: #23862e;
 }
@@ -115,9 +121,9 @@
 
 .recipe_grid{
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     gap: 30px;
-    max-width: 1200px;
+    max-width: 1500px;
     margin: 0 auto;
 }
 
@@ -128,6 +134,7 @@
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
     text-align: left;
+    transition: all 0.3s ease;
 }
 
 .recipe_card h4{
@@ -145,11 +152,8 @@
     line-height: 1.5;
 }
 
-.btn_row {
-    display: flex;
-    flex-direction: row;
-}
-
 .recipe_card:hover {
-    cursor: pointer;;
+    cursor: pointer;
+    transform:translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
