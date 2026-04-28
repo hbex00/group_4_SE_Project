@@ -51,7 +51,7 @@
                                 <div class="recipe_card" data-id="{{ review.recipe.id }}">
                                     <form action="/viewrecipe" method="GET">
                                         <h4>Rating: {{review.rating}}</h4>
-                                        <h5>Made on recipe: {{review.recipe.recipe_title}}</h5>
+                                        <h5>Rating on recipe: {{review.recipe.recipe_title}}</h5>
                                         <input type="hidden" name="recipe_id" value="{{review.recipe.id}}">
                                     </form>
                                 </div>
@@ -63,8 +63,8 @@
                                 {% for comment in user.comments %}
                                 <div class="recipe_card" data-id="{{ comment.recipe.id }}">
                                     <form action="/viewrecipe" method="GET">
-                                        <h4>Comment: {{comment.content}}</h4>
-                                        <h5>Made on recipe: {{comment.recipe.recipe_title}}</h5>
+                                        <h4>Comment on recipe: {{comment.recipe.recipe_title}}</h4>
+                                        <h5>{{comment.content}}</h5>
                                         <input type="hidden" name="recipe_id" value="{{comment.recipe.id}}">
                                     </form>
                                 </div>
