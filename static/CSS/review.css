@@ -28,17 +28,9 @@
     flex-direction: column;
 }
 
-#recipe_id{
-    max-width: 300px;
-}
-
 .review {
     display: flex;
     gap: 15px;
-}
-
-#review{
-    max-width: 150px;
 }
 
 .rating_h2{
@@ -51,6 +43,8 @@ input[type="text"]{
     border: 1px solid rgba(0, 0, 0, 0.3);
     height: 30px;
     font-size: 1rem;
+    max-width: 300px;
+    width: 90%;
 }
 
 #submit{
