@@ -3,6 +3,7 @@ from app.services.models import User
 from app.services.models import Recipe
 from database.db import db
 
+
 def check_user(page : str, flash_message : bool):
     if not page:
         page = 'homepage.html'
@@ -174,14 +175,9 @@ def reset_password(email :str, name :str, new_password :str):
         user = db.session.get(User, session.select(User).where(User.email==email))
         if not user == User:
             return "User not found"
-        new_user = user
-        new_user.password = new_password
-        db.session.delete(user)
-        db.session.add(new_user)
+        user.set_hashed_password(new_password)
     except:
         return "reee"
     else:
         db.session.commit()
-        session['id'] = new_user.id
-        session['first_name'] = new_user.name
-    return '/'
+    return user
