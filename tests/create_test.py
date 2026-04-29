@@ -91,5 +91,14 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertEqual(review.rating, 5)
         self.assertEqual(review.user_id, 2)
 
+    def test_recipetag_correct(self):
+        recipetag = recipetag_create(1,1)
+        self.assertEqual(recipetag.recipe_id, 1)
+        self.assertEqual(recipetag.tag_id, 1)
+
+    def test_recipetag_incorrect(self):
+        recipetag = recipetag_create(0,1)
+        self.assertIsNone(recipetag)
+
 if __name__ == '__main__':
     unittest.main()

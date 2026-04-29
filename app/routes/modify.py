@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, Blueprint
 from database.db import db
 from app.services.models import *
 from app.utils.modify_db import *
+from app.utils.tag import *
 
 modify_bp = Blueprint("modify", __name__)
 
@@ -15,9 +16,13 @@ def modify():
         recipe.recipe_title = request.form['title'] 
         recipe.description = request.form['description']
         recipe.portions = request.form['portions']
-    # we delete all the lists of ingredents and steps 
+
+        tag_list = request.form.getlist('tag[]')
+
+    # we delete all the lists of ingredents, steps and tags
         Ingredient.query.filter_by(recipe_id = id).delete()
         Step.query.filter_by(recipe_id = id).delete()
+        RecipeTag.query.filter_by(recipe_id= id).delete()
         db.session.commit()
 
         ingredients = zip(
@@ -32,9 +37,21 @@ def modify():
         ingredients_add(ingredients, id)
         steps_add(steps, id)
 
+        for tags in tag_list:
+            if ':' in tags:
+                t = tags.split(':')
+                found_tag = Tag.query.filter_by(category = t[0].strip(), unit = t[1].strip()).first()
+                print(found_tag)
+                if found_tag:
+                    tag_add(id, found_tag.id)
+
+
         return redirect('/viewrecipe')
     
     id = request.args.get('recipe_id', type = int)
     recipe = Recipe.query.get(id)
-        
-    return render_template('modify.html', recipe=recipe)
+
+    categories = Tag.query.with_entities(Tag.category).distinct()
+    tags = Tag.query.all()
+    
+    return render_template('modify.html', recipe=recipe, cats = categories, tags2d = tags)

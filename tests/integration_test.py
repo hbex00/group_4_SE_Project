@@ -3,6 +3,7 @@ from flask import request, session
 from app import create_app
 from database.db import db
 from app.services.models import *
+from app.utils.tag import *
 
 @pytest.fixture
 def app():
@@ -314,3 +315,31 @@ def test_expected_content(client):
     assert b"value=\"Share Recipe\"" in response.data
     assert b"value=\"Review Recipe\"" in response.data
     assert b"value=\"Comment Recipe\"" in response.data
+
+
+def test_create_tags(client):
+    Create_Tags()
+
+    tags = Tag.query.all()
+    assert len(tags) > 0
+
+def test_tag_recipie(client):
+    Create_Tags()
+
+    test_recipe = Recipe(recipe_title = 'A random recipe',
+                        description = 'This recipe is something random',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit()
+    
+    tag_add(test_recipe.id, 1)
+    tag_add(2, 1)
+
+    tag_correct = RecipeTag.query.filter_by(recipe_id=1, tag_id=1).first()
+    tag_no_recipe_id = RecipeTag.query.filter_by(recipe_id=2, tag_id=1).first()
+
+    assert tag_correct.tag.category == 'Time'
+    assert tag_correct.tag.unit == '15 minutes'
+    assert tag_no_recipe_id is None

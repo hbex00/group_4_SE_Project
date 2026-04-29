@@ -37,6 +37,15 @@
                     <p>Already fisnished :|</p>
                 {%endif%}
 
+                <h3>Tag</h3>
+                {%if recipe.tags|length > 0%}
+                    {%for t in recipe.tags%}
+                        <p>{{t.tag.category}}: {{t.tag.unit}}</p>
+                    {%endfor%}
+                {%else%}
+                    <p>{{recipe.tags|length}}</p>
+                {%endif%}
+
                 <h1>Made by: {{recipe.user.name}}</h1>
                 {% if recipe.user.id == session.get('id') %}
                 <form action="/modify" method="GET">

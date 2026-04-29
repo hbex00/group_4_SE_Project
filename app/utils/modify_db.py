@@ -119,3 +119,27 @@ def review_create(recipe_id, score, user_id):
     else:
         return None
 
+def tag_add(recipe_id, tag_id):
+    try:
+        recipe_exist = Recipe.query.filter_by(id=recipe_id).first()
+        tag_exist = Tag.query.filter_by(id=tag_id).first()
+
+        if recipe_exist is not None and tag_exist is not None:
+            rt = recipetag_create(recipe_id, int(tag_id))
+
+            if rt is not None:
+                db.session.add(rt)
+            
+            db.session.commit()
+        
+    except:
+        return 'There was an error adding a tag to your recipe'
+    
+def recipetag_create(recipe_id, tag_id):
+    if recipe_id > 0 and tag_id > 0:
+        rt = RecipeTag( recipe_id = recipe_id,
+                        tag_id = tag_id)
+    
+        return rt
+    else:
+        return None

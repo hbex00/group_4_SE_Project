@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, Blueprint, session, flash
 from app.services.models import User
 from app.utils.user import check_user,update_user
+from app.utils.helper_function import *
 
 userpage_bp = Blueprint("userpage", __name__)
 
@@ -17,12 +18,7 @@ def userpage():
         profile_user = check_user(page,flashes)
         if not type(profile_user) == User:
             return profile_user
-        
-        session['first_name'] = profile_user.name
-        if not profile_user.last_name == "":
-            session['last_name'] = profile_user.last_name
-        else:
-            session.pop('last_name',None)
+        session_handler(user=profile_user)
         return render_template(page)
     
 @userpage_bp.route('/user/edit',methods = ['POST','GET'])
