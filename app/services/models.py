@@ -38,6 +38,7 @@ class User(db.Model):
     last_name = db.Column(db.String(50))
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(256))
+    profile_image = db.Column(db.String(200), nullable=False)
 
     recipies = db.relationship('Recipe', back_populates='user')
     comments = db.relationship('Comment', back_populates='user')

@@ -13,8 +13,9 @@ def register():
         mail = request.form['email']
         password1 = request.form['password1']
         password2 = request.form['password2']
+        profile_image = "default.svg"
         try:
-            register_user_database(first_name, last_name, mail.lower(), password1, password2)
+            register_user_database(first_name, last_name, mail.lower(), password1, password2, profile_image = profile_image)
             #after a new user is registerd we put them in the sessin before returning to 
             user = User.query.filter_by(email=mail.lower()).first()
             session_handler(user=user)
@@ -25,10 +26,10 @@ def register():
     else:
         return render_template('registerpage.html')
     
-def register_user_database(name, last_name, mail, password1, password2):
+def register_user_database(name, last_name, mail, password1, password2, profile_image):
     new_user : User
     try:
-        new_user = register_user(name, last_name, mail, password1, password2)
+        new_user = register_user(name, last_name, mail, password1, password2, profile_image)
         try:
             db.session.add(new_user)                    
             db.session.commit()
@@ -39,7 +40,7 @@ def register_user_database(name, last_name, mail, password1, password2):
     
 
 
-def register_user(name, last_name, mail, password1, password2):
+def register_user(name, last_name, mail, password1, password2, profile_image):
     if name.strip() == "":
         raise RuntimeError('Empty Name')
     if password1.strip() == "":
@@ -59,7 +60,7 @@ def register_user(name, last_name, mail, password1, password2):
             if mail:
                 mail = mail.lower()
 
-            new_user = User(name=name, last_name=last_name, email=mail)
+            new_user = User(name=name, last_name=last_name, email=mail, profile_image=profile_image)
             new_user.set_hashed_password(password1)
             return new_user
         else:
