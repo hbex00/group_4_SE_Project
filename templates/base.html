@@ -59,7 +59,7 @@ Current features are:
                         <p>{{session.get('first_name')}}</p>
                     {%endif%}
                     <a href="/login" id="user" method = "GET">
-                        {% if session.get('id') %}
+                        {% if session.get('id') and session.get('profile_image') and session.get('profile_image') != 'default.svg'  %}
                             <img src="{{ url_for('static', filename='Bilder/profile_pics/' + session.get('profile_image')) }}">
                         {% else %}
                             <img src="{{ url_for('static', filename='Bilder/default.svg') }}">

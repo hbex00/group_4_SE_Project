@@ -87,7 +87,8 @@ def test_reviews_full(client):
     test_user = User(name = 'Adam',
                     last_name = 'Eriksson',
                     email = 'abc@abc.com',
-                    password = 'Adam123')
+                    password = 'Adam123',
+                    profile_image = 'defualt.svg')
     
     db.session.add(test_user)
     db.session.commit()
@@ -130,7 +131,9 @@ def test_comment_route(client):
     test_user = User(name = 'Björk',
                     last_name = 'Lukasson',
                     email = 'cba@321.com',
-                    password = 'Bj123')
+                    password = 'Bj123',
+                    profile_image = 'defualt.svg'
+                    )
     
     db.session.add(test_user)
     db.session.commit()
