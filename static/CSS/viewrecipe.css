@@ -92,3 +92,9 @@ h3 {
 p {
     margin: 0;
 }
+
+.btn_row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}

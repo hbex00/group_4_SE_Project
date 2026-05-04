@@ -13,12 +13,13 @@
             <div class="recipe_id_container">
 
                 {% if recipe %}
-                    <h2>Review on recipe: {{recipe.id}}. {{recipe.recipe_title}}</h2>
+                    <h2>Review on recipe: {{recipe.recipe_title}}</h2>
                     <input type="hidden" name="recipe_id" value="{{recipe.id}}">
                 {% else %}
                      <h2>Recipe id to review on</h2>
-                    <input type="text" name="recipe_id" placeholder="Recipe id" size="20">
+                    <input type="text" name="recipe_id" placeholder="Recipe id" size="20" autocomplete="off">
                 {% endif %}
+            </div>
 
             <div class="review">
                 <input type="text" id="review" name="review" placeholder="Review (0 to 5)" autocomplete="off">

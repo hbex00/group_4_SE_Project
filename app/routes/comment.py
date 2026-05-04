@@ -30,6 +30,13 @@ def comment():
         return redirect('/')
     
     else:
-        return render_template('comment.html')
+        
+        id = request.args.get('c_id', type = int)
+        if id is not None:
+            recipe = db.session.get(Recipe, id)
+        else:
+            recipe = None
+
+        return render_template('comment.html', recipe = recipe)
 
     

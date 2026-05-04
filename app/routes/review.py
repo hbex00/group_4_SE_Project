@@ -31,7 +31,6 @@ def review():
         return redirect('/')
     else:
 
-
         id = request.args.get('r_id', type = int)
         recipe = Recipe.query.get(id)
 
