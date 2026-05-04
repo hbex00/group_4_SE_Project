@@ -52,6 +52,11 @@
                     <input type="hidden" name="recipe_id" value="{{recipe.id}}">
                     <input type="submit" value="Modify recipe">
                 </form>
+                {% else%}
+                    <form action="/review" method="GET">
+                        <input type="hidden" name="r_id" value="{{recipe.id}}">
+                        <input type="submit" value="Review recipe">
+                    </form>
                 {% endif %}
             </div>
         </div>

@@ -30,4 +30,9 @@ def review():
 
         return redirect('/')
     else:
-        return render_template('review.html')
+
+
+        id = request.args.get('r_id', type = int)
+        recipe = Recipe.query.get(id)
+
+        return render_template('review.html', recipe = recipe)

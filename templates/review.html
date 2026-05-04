@@ -11,9 +11,13 @@
     <div class="whole_input_page">
         <form action="/review" method="POST">
             <div class="recipe_id_container">
-                <h2>Recipe id to review on</h2>
-                <input type="text" name="recipe_id" placeholder="Recipe id" size="20">
-            </div>
+                {% if recipe %}
+                    <h2>Review on recipe: {{recipe.id}}. {{recipe.recipe_title}}</h2>
+                    <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                {% else %}
+                     <h2>Recipe id to review on</h2>
+                    <input type="text" name="recipe_id" placeholder="Recipe id" size="20">
+                {% endif %}
 
             <div class="review">
                 <h2>Review</h2>
