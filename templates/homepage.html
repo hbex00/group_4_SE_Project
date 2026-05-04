@@ -19,14 +19,14 @@
             </form>
 
             <div class="btn_row">
-                <form action="/review" id="share_recipe" method="GET">
-                    <input type="submit" id="share_recipe_button" value="Review Recipe">
+                <form action="/review" id="recipe_function" method="GET">
+                    <input type="submit" id="recipe_function_button" value="Review Recipe">
                 </form>
-                <form action="/create" id="share_recipe" method="GET">
-                    <input type="submit" id="share_recipe_button" value="Share Recipe">
+                <form action="/create" id="recipe_function" method="GET">
+                    <input type="submit" id="recipe_function_button" value="Share Recipe">
                 </form>
-                <form action="/comment" id="share_recipe" method="GET">
-                    <input type="submit" id="share_recipe_button" value="Comment Recipe">
+                <form action="/comment" id="recipe_function" method="GET">
+                    <input type="submit" id="recipe_function_button" value="Comment Recipe">
                 </form>
             </div>
         </div>
@@ -40,7 +40,7 @@
                                 <h4>{{recipe.id}}.  {{recipe.recipe_title}}</h4>
                                 <div class="tag_form">
                                     {% for tag in recipe.tags %}
-                                        <h6> {{tag.tag.unit}} </h6>
+                                        <h6>{{tag.tag.category}}: {{tag.tag.unit}} </h6>
                                     {% endfor %}
                                 </div>
                                 <h5> {{recipe.description}}</h5>
