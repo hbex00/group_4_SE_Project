@@ -9,6 +9,9 @@ def create_app(URI):
 
     app.config['SQLALCHEMY_DATABASE_URI'] = URI
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    #new for profilepics
+    app.config['UPLOAD_FOLDER'] = 'static/bilder/profile_pics'
+    app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024  
 
     from database.db import db
     db.init_app(app)

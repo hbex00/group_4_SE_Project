@@ -91,7 +91,9 @@
                         <div class="edit_userpage">
                             <div class="edit_paper">
                                 <h1>Edit profile details</h1>
-                                <form action="/user/edit" method="POST">
+                                <form action="/user/edit" method="POST" enctype=multipart/form-data>
+                                    <h3>Upload a user icon </h3> 
+                                    <input type=file name=file>
                                     <h3>First name: {{user.name}}</h3>
                                     <input type="text" name="first_name" placeholder="Change First name" size="16" maxlength="40">
                                     <h3>Last name: {{user.last_name}}</h3>

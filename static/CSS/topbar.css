@@ -159,6 +159,13 @@ input[type="search"]::-webkit-search-cancel-button{
     cursor: pointer;
 }
 
+.user_icon_wrapper img {
+    width: 65px;
+    height: 65px;
+    border-radius: 80%;
+    object-fit: cover;
+}
+
 #user{
     justify-self: end;
     height: 100%;
