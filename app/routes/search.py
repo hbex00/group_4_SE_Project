@@ -14,26 +14,32 @@ def searchpage():
     if request.method == "POST":
         try:
             pattern = getArgument(arguments=request.form.to_dict(), value="pattern")
-            result_users = list()
-            result_recipes = list()
-
             has_filter_user   = hasArgument(arg=request.form.to_dict(), val="filter_user")
             has_filter_recipe = hasArgument(arg=request.form.to_dict(), val="filter_recipe")
             has_any_filter    = has_filter_user | has_filter_recipe
 
-            if has_filter_user:
-                result_users.extend(exact_text_search_table(pattern,User))
-                has_filter = False
+            if pattern:
+                result_users = list()
+                result_recipes = list()
 
-            if has_filter_recipe | (not has_any_filter):
-                result_recipes.extend(text_search_table(pattern,Recipe))
-                has_filter = True
+                if has_filter_user:
+                    result_users.extend(exact_text_search_table(pattern,User))
+                    has_filter = False
+
+                if has_filter_recipe | (not has_any_filter):
+                    result_recipes.extend(text_search_table(pattern,Recipe))
+                    has_filter = True
+                
+                return render_template(page,
+                                    search_recipes=(not has_any_filter)|has_filter_recipe,
+                                    search_users=has_filter_user,
+                                    result_users=result_users,
+                                    result_recipes=result_recipes)
+            else:
+                return render_template(page,
+                                    search_recipes=(not has_any_filter)|has_filter_recipe,
+                                    search_users=has_filter_user)
             
-            return render_template(page,
-                                search_recipes=(not has_any_filter)|has_filter_recipe,
-                                search_users=has_filter_user,
-                                result_users=result_users,
-                                result_recipes=result_recipes)
         except Exception as error: return error
     else:
         return render_template(page)

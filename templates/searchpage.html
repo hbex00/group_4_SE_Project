@@ -34,7 +34,7 @@
                         </div>
                     {% endfor %}
                 </div>
-            {% elif search_recipes %}
+            {% elif search_recipes and not search_users %}
                 <p style="text-align: center; margin-top: 40px;">No recipes found.</p>
             {% endif %}
             {% if search_users and result_users %}
@@ -49,8 +49,11 @@
                         </div>
                     {% endfor %}
                 </div>
-            {% elif search_user %}
+            {% elif search_users and not search_recipes %}
                 <p style="text-align: center; margin-top: 40px;">No users found.</p>
+            {% endif %}
+            {% if search_users and search_recipes and not result_recipes and not result_users %}
+                <p style="text-align: center; margin-top: 40px;">No results found.</p>
             {% endif %}
         </div>
         {% endif %}
