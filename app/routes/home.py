@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, Blueprint
+from flask import Flask, render_template, request, redirect, Blueprint, session
 from database.db import db
 from app.services.models import *
 from app.utils.tag import *
