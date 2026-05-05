@@ -14,9 +14,6 @@ def searchpage():
     if request.method == "POST":
         try:
             pattern_filter=dict()
-            print(">>>>>>>>>>>>>>Error after this point!<<<<<<<<<<<<<<<<")
-            print("arguments > " + str(request.form.to_dict()))
-
             pattern_filter["recipe"] = hasArgument(arg=request.form.to_dict(), val="filter_recipe")
             pattern_filter["user"]   = hasArgument(arg=request.form.to_dict(), val="filter_user")
             
@@ -47,7 +44,7 @@ def searchpage():
                                 search_users=pattern_filter["user"],
                                 result_users=result_users,
                                 result_recipes=result_recipes)
-        except TypeError as error: return error
+        except Exception as error: return error
     else:
         return render_template(page)
     
@@ -57,17 +54,10 @@ def getArgument(arguments: dict, value: str):
     return None
     
 def hasArgument(arg: dict, val):
-    print("Bool status:")
-    print(" > " + str(bool(arg)))
-    print("   - " + str(arg))
     if bool(arg) == False:
         return False
-    print(" => " + str(arg.get(val)))
     if arg.get(val) == None:
         return False
     if type(arg.get(val)) == str and arg.get(val) == "":
         return False
     return True
-
-def trigger(index,argument):
-    print("AT: " + str(index) + "> " + str(argument))
