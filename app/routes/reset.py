@@ -5,9 +5,9 @@ from app.utils.user import reset_password
 from app.utils.helper_function import session_handler
 from sqlalchemy import select
 
-reset_bp = Blueprint("reset", __name__)
+reset_bp = Blueprint("pw-reset", __name__)
 
-@reset_bp.route('/reset', methods=['POST', 'GET'])
+@reset_bp.route('/pw-reset', methods=['POST', 'GET'])
 def passwordReset():
     if request.method == 'GET':
         return render_template('password-reset.html')
