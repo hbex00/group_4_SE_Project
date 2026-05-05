@@ -50,6 +50,8 @@ def create_app(URI):
     from .routes.delete import delete_bp
     app.register_blueprint(delete_bp)
 
+    from .routes.search import search_bp
+    app.register_blueprint(search_bp)
 
     # Create database
     with app.app_context():
