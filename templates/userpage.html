@@ -57,7 +57,7 @@
                                             <form action="/viewrecipe" method="GET">
                                                 <input type="hidden" name="recipe_id" value="{{review.recipe.id}}">
                                             </form>
-                                            <form action="/delete_review" method="POST">
+                                            <form action="/delete-review" method="POST">
                                                 <input type="hidden" name="review_id" value="{{review.id}}">
                                                 <input type="submit" value="DELETE REVIEW">
                                             </form>
@@ -71,10 +71,14 @@
                                     <div class="recipe_grid">
                                         {% for comment in user.comments %}
                                         <div class="recipe_card" data-id="{{ comment.recipe.id }}">
+                                            <h4>Comment on recipe: {{comment.recipe.recipe_title}}</h4>
+                                            <h5>{{comment.content}}</h5>
                                             <form action="/viewrecipe" method="GET">
-                                                <h4>Comment on recipe: {{comment.recipe.recipe_title}}</h4>
-                                                <h5>{{comment.content}}</h5>
                                                 <input type="hidden" name="recipe_id" value="{{comment.recipe.id}}">
+                                            </form>
+                                            <form action="/delete-comment" method="POST">
+                                                <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                                <input type="submit" value="DELETE COMMENT">
                                             </form>
                                         </div>
                                         {% endfor %}

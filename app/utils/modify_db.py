@@ -156,3 +156,16 @@ def review_remove(review_id, user_id):
             return None
     except:
         return None
+    
+def comment_remove(comment_id, user_id):
+    try:
+        comment = db.session.get(Comment, comment_id)
+        user = db.session.get(User, user_id)
+
+        if comment is not None and user.id == comment.user_id:
+            db.session.delete(comment)
+            db.session.commit()
+        else:
+            return None
+    except:
+        return None

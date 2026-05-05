@@ -40,3 +40,16 @@ def comment():
         return render_template('comment.html', recipe = recipe)
 
     
+@comment_bp.route('/delete-comment', methods=['POST', 'GET'])
+def delete_review():
+    if request.method == 'POST':
+        if session.get('id') is None:
+            return redirect('/login')
+
+        comment_id = request.form.get('comment_id', type = int)
+        user_id = session.get('id')
+
+        comment_remove(comment_id, user_id)
+        return redirect('/user/recipes')
+    else:
+        return redirect('/')

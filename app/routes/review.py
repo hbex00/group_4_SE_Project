@@ -37,7 +37,7 @@ def review():
         return render_template('review.html', recipe = recipe)
     
 
-@review_bp.route('/delete_review', methods=['POST', 'GET'])
+@review_bp.route('/delete-review', methods=['POST', 'GET'])
 def delete_review():
     if request.method == 'POST':
         if session.get('id') is None:
