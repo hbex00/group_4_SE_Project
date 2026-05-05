@@ -1,8 +1,12 @@
-from flask import Flask, render_template, request, redirect, Blueprint
+from flask import Flask, render_template, request, redirect, Blueprint, current_app
 from database.db import db
 from app.services.models import *
 from app.utils.modify_db import *
 from app.utils.tag import *
+from app.utils.helper_function import *
+import uuid
+from werkzeug.utils import secure_filename
+import os
 
 modify_bp = Blueprint("modify", __name__)
 
@@ -18,6 +22,25 @@ def modify():
         recipe.portions = request.form['portions']
 
         tag_list = request.form.getlist('tag[]')
+
+        file = request.files.get('file')
+
+        if file and file.filename != '':
+
+            if allowed_file(file.filename):
+
+                if recipe.recipe_image and recipe.recipe_image != None:
+                    old_path = os.path.join(current_app.static_folder, "Bilder", "recipe_pics",recipe.recipe_image)
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+
+                filename = secure_filename(file.filename)
+                unique_name = str(uuid.uuid4()) + "_" + filename
+
+                UPLOAD_FOLDER = os.path.join(current_app.static_folder, "Bilder", "recipe_pics")
+                os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+                file.save(os.path.join(UPLOAD_FOLDER, unique_name))
+                recipe.recipe_image = unique_name
 
     # we delete all the lists of ingredents, steps and tags
         Ingredient.query.filter_by(recipe_id = id).delete()
