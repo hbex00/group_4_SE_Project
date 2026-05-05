@@ -63,3 +63,12 @@
     padding: 3px;
     border-radius: 20px;
 }
+
+.private {
+    display: flex;
+    flex-direction: row;
+}
+
+.private p {
+    border: none;
+}

@@ -81,6 +81,11 @@
                 {%endif%}
             </div>
             <p id="add_step_btn">Add step</p>
+            <div class="private">
+                <input type="checkbox" placeholder="Private" value="yes">
+                <input type="hidden" value="no">
+                <p>Private</p>
+            </div>
             <input type="hidden" name="recipe_id" value="{{recipe.id}}">
             <input type="submit" value="Submit">
         </form>
