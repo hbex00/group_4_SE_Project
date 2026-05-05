@@ -35,3 +35,18 @@ def review():
         recipe = Recipe.query.get(id)
 
         return render_template('review.html', recipe = recipe)
+    
+
+@review_bp.route('/delete_review', methods=['POST', 'GET'])
+def delete_review():
+    if request.method == 'POST':
+        if session.get('id') is None:
+            return redirect('/login')
+
+        review_id = request.form.get('review_id', type = int)
+        user_id = session.get('id')
+
+        review_remove(review_id, user_id)
+        return redirect('/user/recipes')
+    else:
+        return redirect('/')

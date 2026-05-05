@@ -14,8 +14,8 @@ class Recipe(db.Model):
     ingredients = db.relationship('Ingredient', back_populates='recipe')
     steps = db.relationship('Step', back_populates='recipe')
     user = db.relationship('User', back_populates='recipies')
-    comments = db.relationship('Comment', back_populates='recipe')
-    reviews = db.relationship('Review', back_populates='recipe')
+    comments = db.relationship('Comment', back_populates='recipe', cascade="all, delete")
+    reviews = db.relationship('Review', back_populates='recipe', cascade="all, delete")
     tags = db.relationship('RecipeTag', back_populates='recipe')
 
     def review_rating(self):

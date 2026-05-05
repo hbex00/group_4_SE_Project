@@ -143,3 +143,16 @@ def recipetag_create(recipe_id, tag_id):
         return rt
     else:
         return None
+    
+def review_remove(review_id, user_id):
+    try:
+        review = db.session.get(Review, review_id)
+        user = db.session.get(User, user_id)
+
+        if review is not None and user.id == review.user_id:
+            db.session.delete(review)
+            db.session.commit()
+        else:
+            return None
+    except:
+        return None

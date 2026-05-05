@@ -52,10 +52,14 @@
                                     <div class="recipe_grid">
                                         {% for review in user.reviews %}
                                         <div class="recipe_card" data-id="{{ review.recipe.id }}">
+                                            <h4>Rating: {{review.rating}}</h4>
+                                            <h5>Review on recipe: {{review.recipe.recipe_title}}</h5>
                                             <form action="/viewrecipe" method="GET">
-                                                <h4>Rating: {{review.rating}}</h4>
-                                                <h5>Review on recipe: {{review.recipe.recipe_title}}</h5>
                                                 <input type="hidden" name="recipe_id" value="{{review.recipe.id}}">
+                                            </form>
+                                            <form action="/delete_review" method="POST">
+                                                <input type="hidden" name="review_id" value="{{review.id}}">
+                                                <input type="submit" value="DELETE REVIEW">
                                             </form>
                                         </div>
                                         {% endfor %}
