@@ -10,6 +10,7 @@ class Recipe(db.Model):
     description = db.Column(db.String(150))
     portions = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    private = db.Column(db.Boolean)
 
     ingredients = db.relationship('Ingredient', back_populates='recipe')
     steps = db.relationship('Step', back_populates='recipe')
