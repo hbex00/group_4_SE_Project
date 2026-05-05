@@ -9,13 +9,16 @@ modify_bp = Blueprint("modify", __name__)
 @modify_bp.route('/modify', methods=['POST', 'GET'])
 def modify():
     
-    # when geting input from user we change all the inputs for a recipe in the databas  
+    # when geting input from user we change all the inputs for a recipe in the database
     if request.method == 'POST' :
         id = request.form.get('recipe_id', type = int)
         recipe = Recipe.query.get(id)
         recipe.recipe_title = request.form['title'] 
         recipe.description = request.form['description']
         recipe.portions = request.form['portions']
+        recipe.private = True if 'private' in request.form else False
+        print(recipe.recipe_title)
+        print(recipe.private)
 
         tag_list = request.form.getlist('tag[]')
 

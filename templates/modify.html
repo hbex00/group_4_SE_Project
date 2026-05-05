@@ -83,9 +83,9 @@
             <p id="add_step_btn">Add step</p>
             <div class="private">
                 {% if recipe.private == True %}
-                    <input type="checkbox" placeholder="Private" value="yes" checked>
+                    <input type="checkbox" placeholder="Private" value="yes" name="private" checked >
                 {% else %}
-                    <input type="checkbox" placeholder="Private" value="yes">
+                    <input type="checkbox" placeholder="Private" value="yes" name="private">
                 {% endif %}
                 <p>Private</p>
             </div>

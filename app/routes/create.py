@@ -29,7 +29,7 @@ def create():
 
         tag_list = request.form.getlist('tag[]')
 
-        private = 'private' in request.form
+        private = True if 'private' in request.form else False
 
         id = session.get('id')
         recipe_creator = User.query.filter_by(id=id).first()
