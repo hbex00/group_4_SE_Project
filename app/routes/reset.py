@@ -21,8 +21,8 @@ def passwordReset():
             password_control = request.form['password2']
             new_user = reset_password(email, name, new_pass, password_control)
             if new_user == None:
-                return render_template('password-reset.html', error = "User not found")
+                return "User not found"
             if isinstance(new_user, str):
-                return render_template('password-reset.html', error = new_user)
+                return new_user
             session_handler(new_user)
             return redirect('/')
