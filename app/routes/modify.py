@@ -18,8 +18,6 @@ def modify():
         recipe.description = request.form['description']
         recipe.portions = request.form['portions']
         recipe.private = True if 'private' in request.form else False
-        print(recipe.recipe_title)
-        print(recipe.private)
 
         tag_list = request.form.getlist('tag[]')
 
