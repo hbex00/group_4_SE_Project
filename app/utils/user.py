@@ -179,7 +179,7 @@ def reset_password(email :str, name :str, new_password :str, password_controll :
     if not user:
         return None
     if user.name.lower() != name.lower():
-        return "User not found other"
+        return "Reset error 2"
     user.set_hashed_password(new_password)
     db.session.commit()
     db.session.refresh(user)

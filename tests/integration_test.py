@@ -4,6 +4,7 @@ from app import create_app
 from database.db import db
 from app.services.models import *
 from app.utils.tag import *
+from app.utils.user import reset_password
 
 @pytest.fixture
 def app():
@@ -343,3 +344,21 @@ def test_tag_recipie(client):
     assert tag_correct.tag.category == 'Time'
     assert tag_correct.tag.unit == '15 minutes'
     assert tag_no_recipe_id is None
+
+def test_password_reset(client):
+    create_user = User(name = "a",
+                       last_name = "a",
+                       email = "a@a.a",
+                       password = "a")
+    client.post("/register", data = {"f_name": create_user.name,
+                                     "l_name": create_user.last_name,
+                                     "email": create_user.email,
+                                     "password1": create_user.password,
+                                     "password2": create_user.password}, follow_redirects=True)
+    client.post("/logout")
+    with client:
+        client.post("/reset", data = {"email": create_user.email,
+                                    "name": create_user.name,
+                                    "password1": "new",
+                                    "password2": "new"}, follow_redirects = True)
+        assert session['first_name'].lower() == create_user.name.lower()
