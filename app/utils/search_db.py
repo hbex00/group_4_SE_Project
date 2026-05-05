@@ -2,23 +2,6 @@ from flask import Flask, session
 from sqlalchemy import select, String, Text, or_
 from sqlalchemy.orm import DeclarativeMeta
 from database.db import db
-from app.services.models import *
-
-def search(pattern, filter : dict):
-    return_list = list()
-    if pattern == None:
-        return return_list
-    
-    if bool(filter):
-        if filter['recipe']:
-            return_list.extend(text_search_table(pattern, Recipe))
-
-        if filter['user']:
-            return_list.extend(text_search_table(pattern, User))
-    else:
-        raise ValueError("No filter provided")
-    
-    return return_list
 
 def text_search_table(pattern,orm_class):
     if not pattern:

@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, Blueprint, session, flash
-from app.utils.search_db import search
+from app.utils.search_db import text_search_table
 from app.services.models import User,Recipe
 
 search_bp = Blueprint("searchpage", __name__)
@@ -13,35 +13,25 @@ flashes = True
 def searchpage():
     if request.method == "POST":
         try:
-            pattern_filter=dict()
-            pattern_filter["recipe"] = hasArgument(arg=request.form.to_dict(), val="filter_recipe")
-            pattern_filter["user"]   = hasArgument(arg=request.form.to_dict(), val="filter_user")
-            
-
-            # No pattern was provided. Assuming search for Recipe content
-            if not pattern_filter["user"] and not pattern_filter["recipe"]:
-                pattern_filter["recipe"] = True
-
             pattern = getArgument(arguments=request.form.to_dict(), value="pattern")
-            results = search(pattern=pattern, filter=pattern_filter)
             result_users = list()
             result_recipes = list()
 
-            if len(results) > 0:
-                i = 0
-                if pattern_filter["user"]:
-                    while len(results) > i and type(results[i]) == User:
-                        result_users.append(results[i])
-                        i = i+1
+            has_filter_user   = hasArgument(arg=request.form.to_dict(), val="filter_user")
+            has_filter_recipe = hasArgument(arg=request.form.to_dict(), val="filter_recipe")
+            has_any_filter    = has_filter_user | has_filter_recipe
 
-                if pattern_filter["recipe"]:
-                    while len(results) > i and type(results[i]) == Recipe:
-                        result_recipes.append(results[i])
-                        i = i+1
+            if has_filter_user:
+                result_users.extend(text_search_table(pattern,User))
+                has_filter = False
 
+            if has_filter_recipe | (not has_any_filter):
+                result_recipes.extend(text_search_table(pattern,Recipe))
+                has_filter = True
+            
             return render_template(page,
-                                search_recipes=pattern_filter["recipe"],
-                                search_users=pattern_filter["user"],
+                                search_recipes=(not has_any_filter)|has_filter_recipe,
+                                search_users=has_filter_user,
                                 result_users=result_users,
                                 result_recipes=result_recipes)
         except Exception as error: return error
