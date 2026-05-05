@@ -1,8 +1,12 @@
-from flask import Flask, render_template, request, redirect, Blueprint, session
+from flask import Flask, render_template, request, redirect, Blueprint, session, current_app
 from database.db import db
 from app.services.models import *
 from app.utils.modify_db import *
 from app.utils.tag import *
+from app.utils.helper_function import *
+import uuid
+from werkzeug.utils import secure_filename
+import os
 
 
 create_bp = Blueprint("create", __name__)
@@ -18,6 +22,17 @@ def create():
 
     if request.method == 'POST':
         recipe_name = request.form['title']
+        file = request.files.get('file')
+        if file and file.filename != '':
+            if allowed_file(file.filename):
+                filename = secure_filename(file.filename)
+                unique_name = str(uuid.uuid4()) + "_" + filename
+                UPLOAD_FOLDER = os.path.join(current_app.static_folder, "Bilder", "recipe_pics")
+                os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+                file.save(os.path.join(UPLOAD_FOLDER, unique_name))
+                recipe_image = unique_name
+        else:
+            recipe_image = None
         recipe_description = request.form['description']
         recipe_portions = request.form['portions']
 
@@ -35,7 +50,7 @@ def create():
         
         try:
             #function that creats a new recipe
-            new_recipe = create_recepie(recipe_name, recipe_description, recipe_portions, recipe_creator.id)
+            new_recipe = create_recepie(recipe_name, recipe_description, recipe_portions, recipe_creator.id,recipe_image)
             db.session.add(new_recipe)
             db.session.commit()
         except:
@@ -67,9 +82,10 @@ def create():
 
 
 
-def create_recepie(name, description, portions, user_id):
+def create_recepie(name, description, portions, user_id, recipe_image):
         recipe = Recipe(
             recipe_title=name,
+            recipe_image= recipe_image,
             description=description,
             portions=check_portions(portions),
             user_id=user_id)

@@ -11,10 +11,14 @@
 {% block main_body %}
 
     <div class="modify_holder">
-        <form action="/modify" method="POST">
+        <form action="/modify" method="POST" enctype=multipart/form-data>
             <div class="title_change">
                 <h1>Title:</h1>
                 <input type="text" name="title" id="title" value="{{recipe.recipe_title}}" size="20"></h1>
+            </div>
+             <div class="recipe_image">
+                <h2>modify a image to your recipe</h2>
+                <input type=file name=file>
             </div>
 
             <div class="tag_select">

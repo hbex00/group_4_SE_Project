@@ -18,10 +18,15 @@
         ex title, ingredients and more
     -->
     <div class="whole_input_page">
-        <form action="/create" method="POST">
+        <form action="/create" method="POST"enctype=multipart/form-data>
             <div class="title_container">
                 <h2>Title</h2>
                 <input type="text" name="title" id="title" placeholder="Title" size="20">
+            </div>
+
+            <div class="recipe_image">
+                <h2>Add a image to your recipe</h2>
+                <input type=file name=file>
             </div>
 
             <div class="tag_select">
