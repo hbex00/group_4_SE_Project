@@ -16,13 +16,13 @@ def searchpage():
             pattern_filter=dict()
             print(">>>>>>>>>>>>>>Error after this point!<<<<<<<<<<<<<<<<")
             print("arguments > " + str(request.form.to_dict()))
-            value = hasArgument(arg=request.form.to_dict(), val="filter_recipe")
-            pattern_filter["recipe"] = value
-            value = hasArgument(arg=request.form.to_dict(), val="filter_user")
-            pattern_filter["user"] = value
+
+            pattern_filter["recipe"] = hasArgument(arg=request.form.to_dict(), val="filter_recipe")
+            pattern_filter["user"]   = hasArgument(arg=request.form.to_dict(), val="filter_user")
+            
 
             # No pattern was provided. Assuming search for Recipe content
-            if not (pattern_filter["user"] and pattern_filter["recipe"]):
+            if not pattern_filter["user"] and not pattern_filter["recipe"]:
                 pattern_filter["recipe"] = True
 
             pattern = getArgument(arguments=request.form.to_dict(), value="pattern")

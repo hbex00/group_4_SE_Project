@@ -1,43 +1,47 @@
 from flask import Flask, session
-from sqlalchemy import select
+from sqlalchemy import select, String, Text, or_
+from sqlalchemy.orm import DeclarativeMeta
 from database.db import db
 from app.services.models import *
 
 def search(pattern, filter : dict):
     return_list = list()
     if pattern == None:
-        print("Pattern is None...")
         return return_list
     
-    if bool(filter) == True:
-        print(str(pattern)+"...")
-        if filter.get('user') and filter.get('user') == True:
-            trigger(1)
-            for i in range(0,len(select(User))):
-                trigger(2,i)
-                user: User = db.session.get(User,i)
-                fullname :str = (user.name + (user.last_name | "")).lower()
-                if pattern.lower() in fullname:
-                    trigger(2,fullname)
-                    return_list.append(user)
+    if bool(filter):
+        if filter['recipe']:
+            return_list.extend(text_search_table(pattern, Recipe))
 
-        if filter.get('recipe') and filter.get('recipe') == True:
-            trigger(3)
-            for i in range(0,len(select(Recipe))):
-                trigger(4,i)
-                recipe: Recipe = db.session.get(Recipe,i)
-                text :str = (recipe.recipe_title).lower() + ((recipe.description).lower() | "") + ((recipe.steps).lower() | "")
-                if pattern.lower() in text:
-                    trigger(4,text)
-                    return_list.append(recipe) 
-
-    print("No return at all?")
+        if filter['user']:
+            return_list.extend(text_search_table(pattern, User))
+    else:
+        raise ValueError("No filter provided")
+    
     return return_list
 
-def trigger(arg, args):
-    if bool(args):
-        print("Error encountered at: " + str(arg) + "> " + str(args))
-    else:
-        print("Error encountered at: " + str(arg))
+def text_search_table(pattern,orm_class):
+    if not pattern:
+        raise ValueError("Empty pattern")
     
+    if not orm_class:
+        raise ValueError("Empty class")
+    
+    if not isinstance(orm_class, DeclarativeMeta):
+        raise TypeError("orm_class must be a SQLAlchemy model")
+    
+    search_pattern = f"%{pattern}%"    
+
+    table_text_columns = []
+    for column in orm_class.__table__.columns:
+        if isinstance(column.type, (String,Text)):
+            table_text_columns.append(column)
+    if not table_text_columns:
+        return []
+
+    column_match_conditions = [column.ilike(search_pattern) for column in table_text_columns]
+    matching_table_query = select(orm_class).where(or_(*column_match_conditions))
+    try:
+        return db.session.execute(matching_table_query).scalars().all()
+    except: raise
     
