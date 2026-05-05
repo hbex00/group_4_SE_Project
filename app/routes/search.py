@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, Blueprint, session, flash
-from app.utils.search_db import text_search_table
+from app.utils.search_db import text_search_table, exact_text_search_table
 from app.services.models import User,Recipe
 
 search_bp = Blueprint("searchpage", __name__)
@@ -22,7 +22,7 @@ def searchpage():
             has_any_filter    = has_filter_user | has_filter_recipe
 
             if has_filter_user:
-                result_users.extend(text_search_table(pattern,User))
+                result_users.extend(exact_text_search_table(pattern,User))
                 has_filter = False
 
             if has_filter_recipe | (not has_any_filter):
