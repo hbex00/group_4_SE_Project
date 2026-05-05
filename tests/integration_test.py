@@ -357,7 +357,7 @@ def test_password_reset(client):
                                      "password2": create_user.password}, follow_redirects=True)
     client.post("/logout")
     with client:
-        client.post("/reset", data = {"email": create_user.email,
+        client.post("/pw-reset", data = {"email": create_user.email,
                                     "name": create_user.name,
                                     "password1": "new",
                                     "password2": "new"}, follow_redirects = True)
