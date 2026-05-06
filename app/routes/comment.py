@@ -41,7 +41,7 @@ def comment():
 
     
 @comment_bp.route('/delete-comment', methods=['POST', 'GET'])
-def delete_review():
+def delete_comment():
     if request.method == 'POST':
         if session.get('id') is None:
             return redirect('/login')
@@ -53,3 +53,24 @@ def delete_review():
         return redirect('/user/recipes')
     else:
         return redirect('/')
+    
+@comment_bp.route('/edit-comment', methods=['POST', 'GET'])
+def edit_comment():
+    if request.method == 'POST':
+        if session.get('id') is None:
+            return redirect('/login')
+
+        comment_id = request.form.get('comment_id', type = int)
+        user_id = session.get('id')
+        content = request.form.get('content')
+
+        comment_edit(comment_id, content, user_id)
+        
+
+        return redirect('/user/recipes')
+    else:
+        comment_id = request.args.get('comment_id')
+        comment = db.session.get(Comment, comment_id)
+        recipe = db.session.get(Recipe, comment.recipe_id)
+
+        return render_template('editcomment.html', comment = comment, recipe = recipe)

@@ -182,4 +182,16 @@ def review_edit(review_id, score, user_id):
     except:
         return None
     
+def comment_edit(comment_id, content, user_id):
+    try:
+        comment = db.session.get(Comment, comment_id)
+        edited = comment_create(comment.recipe_id, content, user_id)
+        if edited is not None:
+            db.session.add(edited)
+            db.session.delete(comment)
+
+        db.session.commit()
+    except:
+        return None
+    
 

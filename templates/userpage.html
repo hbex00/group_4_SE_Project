@@ -82,10 +82,16 @@
                                             <form action="/viewrecipe" method="GET">
                                                 <input type="hidden" name="recipe_id" value="{{comment.recipe.id}}">
                                             </form>
-                                            <form action="/delete-comment" method="POST">
-                                                <input type="hidden" name="comment_id" value="{{comment.id}}">
-                                                <input type="submit" value="DELETE COMMENT">
-                                            </form>
+                                            <div class="btn_row">
+                                                <form action="/edit-comment" method="GET">
+                                                    <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                                    <input type="submit" value="Edit comment">
+                                                </form>
+                                                <form action="/delete-comment" method="POST">
+                                                    <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                                    <input type="submit" value="DELETE COMMENT">
+                                                </form>
+                                            </div>
                                         </div>
                                         {% endfor %}
                                     </div>
