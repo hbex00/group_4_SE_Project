@@ -2,6 +2,9 @@ from flask import Flask, render_template, request, redirect, session, flash
 from app.services.models import User
 from app.services.models import Recipe
 from database.db import db
+from sqlalchemy import select, update
+from sqlalchemy.orm import Session
+
 
 def check_user(page : str, flash_message : bool):
     if not page:
@@ -162,3 +165,22 @@ def update_user(args :dict, page :str, flashes :bool, url_path :str):
         db.session.commit()
     
     return redirect(url_path)
+
+def reset_password(email :str, name :str, new_password :str, password_controll :str):
+    if not email:
+        return "Error no email"
+    if not name:
+        return "Error no name"
+    if not new_password:
+        return "Error no password"
+    if new_password != password_controll:
+        return "Password Missmatch"
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return None
+    if user.name.lower() != name.lower():
+        return "Reset error 2"
+    user.set_hashed_password(new_password)
+    db.session.commit()
+    db.session.refresh(user)
+    return user

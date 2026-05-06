@@ -6,13 +6,13 @@ from app.utils.modify_db import *
 class Testcreat_recepie(unittest.TestCase):
 
     def test_create_one_recepie(self):
-        result = create_recepie("Köttbullar","goda kötbullar", 1, 2)
+        result = create_recepie("Köttbullar","goda kötbullar", 1, 2, "no")
         self.assertEqual(result.recipe_title,"Köttbullar")
         self.assertEqual(result.description,"goda kötbullar")
         self.assertEqual(result.user_id, 2)
 
     def test_create_two_recepies(self):
-        result = create_recepie("Hamburgare","goda Hamburgare", 1, 3)
+        result = create_recepie("Hamburgare","goda Hamburgare", 1, 3, "yes")
         self.assertEqual(result.recipe_title,"Hamburgare")
         self.assertEqual(result.description,"goda Hamburgare")
         self.assertEqual(result.user_id, 3)
@@ -28,16 +28,16 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertIsNone(result)
 
     def test_register_user(self):
-        result = register_user('f_name','l_name','email@test.se','pass','pass')
+        result = register_user('f_name','l_name','email@test.se','pass','pass','')
         self.assertIsInstance(result, User) # correct, should pass
         with self.assertRaises(RuntimeError): # missing username argument exception    
-            result = register_user('','','','','')
+            result = register_user('','','','','','')
         with self.assertRaises(RuntimeError): # missing password argument
-            result = register_user('f_name','l_name','email@test.se','','')
+            result = register_user('f_name','l_name','email@test.se','','','')
         with self.assertRaises(RuntimeError): # password miss match error
-            result = register_user('f_name','l_name','email@test.se','pass','ssap')
+            result = register_user('f_name','l_name','email@test.se','pass','ssap','')
         with self.assertRaises(RuntimeError): # incorrect email formatting
-            result = register_user('f_name','l_name','emailtestse','pass','pass')
+            result = register_user('f_name','l_name','emailtestse','pass','pass','')
 
     def test_check_portions(self):
         self.assertEqual(check_portions(5),5)

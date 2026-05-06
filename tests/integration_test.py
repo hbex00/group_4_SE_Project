@@ -4,6 +4,7 @@ from app import create_app
 from database.db import db
 from app.services.models import *
 from app.utils.tag import *
+from app.utils.user import reset_password
 
 @pytest.fixture
 def app():
@@ -87,7 +88,8 @@ def test_reviews_full(client):
     test_user = User(name = 'Adam',
                     last_name = 'Eriksson',
                     email = 'abc@abc.com',
-                    password = 'Adam123')
+                    password = 'Adam123',
+                    profile_image = 'defualt.svg')
     
     db.session.add(test_user)
     db.session.commit()
@@ -130,7 +132,9 @@ def test_comment_route(client):
     test_user = User(name = 'Björk',
                     last_name = 'Lukasson',
                     email = 'cba@321.com',
-                    password = 'Bj123')
+                    password = 'Bj123',
+                    profile_image = 'defualt.svg'
+                    )
     
     db.session.add(test_user)
     db.session.commit()
@@ -343,3 +347,21 @@ def test_tag_recipie(client):
     assert tag_correct.tag.category == 'Time'
     assert tag_correct.tag.unit == '15 minutes'
     assert tag_no_recipe_id is None
+
+def test_password_reset(client):
+    create_user = User(name = "a",
+                       last_name = "a",
+                       email = "a@a.a",
+                       password = "a")
+    client.post("/register", data = {"f_name": create_user.name,
+                                     "l_name": create_user.last_name,
+                                     "email": create_user.email,
+                                     "password1": create_user.password,
+                                     "password2": create_user.password}, follow_redirects=True)
+    client.post("/logout")
+    with client:
+        client.post("/pw-reset", data = {"email": create_user.email,
+                                    "name": create_user.name,
+                                    "password1": "new",
+                                    "password2": "new"}, follow_redirects = True)
+        assert session['first_name'].lower() == create_user.name.lower()

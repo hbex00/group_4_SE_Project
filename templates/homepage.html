@@ -35,18 +35,20 @@
             {% if recipies|length > 0 %}
                 <div class="recipe_grid">
                     {% for recipe in recipies %}
-                        <div class="recipe_card">
-                            <form action="/viewrecipe" method="GET">
-                                <h4>{{recipe.id}}.  {{recipe.recipe_title}}</h4>
-                                <div class="tag_form">
-                                    {% for tag in recipe.tags %}
-                                        <h6>{{tag.tag.category}}: {{tag.tag.unit}} </h6>
-                                    {% endfor %}
-                                </div>
-                                <h5> {{recipe.description}}</h5>
-                                <input type="hidden" name="recipe_id" value="{{recipe.id}}">
-                            </form>
-                        </div>
+                        {% if recipe.private == False or recipe.user.id == session.get('id') %}
+                            <div class="recipe_card">
+                                <form action="/viewrecipe" method="GET">
+                                    <h4>{{recipe.id}}.  {{recipe.recipe_title}}</h4>
+                                    <div class="tag_form">
+                                        {% for tag in recipe.tags %}
+                                            <h6>{{tag.tag.category}}: {{tag.tag.unit}} </h6>
+                                        {% endfor %}
+                                    </div>
+                                    <h5> {{recipe.description}}</h5>
+                                    <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                                </form>
+                            </div>
+                        {% endif %}
                     {% endfor %}
                 </div>
             {% else %}

@@ -12,9 +12,11 @@
 <!-- Mmmm, curves :33 -->
         <div class="register-page">
             <div class="border">
-                <form action="/register" method="post">
+                <form action="/register" method="post" enctype=multipart/form-data>
                     <div class="register">
                         <h2>Register new account</h2>
+                        <h3>Upload a user icon </h3> 
+                        <input type=file name=file>
                         <h3>First name:</h3>
                         <input type="text" name="f_name" placeholder="First name" size="12">
                         <h3>Last name:</h3>
