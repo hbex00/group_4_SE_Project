@@ -57,10 +57,16 @@
                                             <form action="/viewrecipe" method="GET">
                                                 <input type="hidden" name="recipe_id" value="{{review.recipe.id}}">
                                             </form>
-                                            <form action="/delete-review" method="POST">
-                                                <input type="hidden" name="review_id" value="{{review.id}}">
-                                                <input type="submit" value="DELETE REVIEW">
-                                            </form>
+                                            <div class="btn_row">
+                                                <form action="/edit-review" method="GET">
+                                                    <input type="hidden" name="review_id" value="{{review.id}}">
+                                                    <input type="submit" value="Edit review">
+                                                </form>
+                                                <form action="/delete-review" method="POST">
+                                                    <input type="hidden" name="review_id" value="{{review.id}}">
+                                                    <input type="submit" value="DELETE REVIEW">
+                                                </form>
+                                            </div>
                                         </div>
                                         {% endfor %}
                                     </div>

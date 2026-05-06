@@ -50,3 +50,24 @@ def delete_review():
         return redirect('/user/recipes')
     else:
         return redirect('/')
+
+@review_bp.route('/edit-review', methods=['POST', 'GET'])
+def edit_review():
+    if request.method == 'POST':
+        if session.get('id') is None:
+            return redirect('/login')
+
+        review_id = request.form.get('review_id', type = int)
+        user_id = session.get('id')
+        score = request.form.get('review', type = int)
+
+        review_edit(review_id, score, user_id)
+        
+
+        return redirect('/user/recipes')
+    else:
+        review_id = request.args.get('review_id')
+        review = db.session.get(Review, review_id)
+        recipe = db.session.get(Recipe, review.recipe_id)
+
+        return render_template('editreview.html', review = review, recipe = recipe)

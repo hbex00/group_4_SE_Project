@@ -169,3 +169,17 @@ def comment_remove(comment_id, user_id):
             return None
     except:
         return None
+    
+def review_edit(review_id, score, user_id):
+    try:
+        review = db.session.get(Review, review_id)
+        edited = review_create(review.recipe_id, score, user_id)
+        if edited is not None:
+            db.session.add(edited)
+            db.session.delete(review)
+
+        db.session.commit()
+    except:
+        return None
+    
+
