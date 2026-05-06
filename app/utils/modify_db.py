@@ -175,8 +175,8 @@ def review_edit(review_id, score, user_id):
         review = db.session.get(Review, review_id)
         edited = review_create(review.recipe_id, score, user_id)
         if edited is not None:
-            db.session.add(edited)
-            db.session.delete(review)
+            review.rating = edited.rating
+            db.session.commit()
 
         db.session.commit()
     except:
@@ -185,12 +185,9 @@ def review_edit(review_id, score, user_id):
 def comment_edit(comment_id, content, user_id):
     try:
         comment = db.session.get(Comment, comment_id)
-        edited = comment_create(comment.recipe_id, content, user_id)
-        if edited is not None:
-            db.session.add(edited)
-            db.session.delete(comment)
-
-        db.session.commit()
+        if content.strip() != "" and comment.user_id == user_id:
+            comment.content = content
+            db.session.commit()
     except:
         return None
     

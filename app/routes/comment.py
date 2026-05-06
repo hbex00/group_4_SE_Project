@@ -63,14 +63,18 @@ def edit_comment():
         comment_id = request.form.get('comment_id', type = int)
         user_id = session.get('id')
         content = request.form.get('content')
-
+        
         comment_edit(comment_id, content, user_id)
         
 
         return redirect('/user/recipes')
     else:
         comment_id = request.args.get('comment_id')
-        comment = db.session.get(Comment, comment_id)
-        recipe = db.session.get(Recipe, comment.recipe_id)
 
-        return render_template('editcomment.html', comment = comment, recipe = recipe)
+        if comment_id is not None:
+            comment = db.session.get(Comment, comment_id)
+            recipe = db.session.get(Recipe, comment.recipe_id)
+
+            return render_template('editcomment.html', comment = comment, recipe = recipe)
+        else:
+            return redirect('/')

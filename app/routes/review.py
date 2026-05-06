@@ -8,11 +8,11 @@ review_bp = Blueprint("review", __name__)
 @review_bp.route('/review', methods=['POST', 'GET'])
 def review():
     
-    if session.get('id') is None:
-        return redirect('/login')
 
     if request.method == 'POST':
-        
+        if session.get('id') is None:
+            return redirect('/login')
+    
         recipe_id = request.form.get('recipe_id', type = int)
         found_recipe = Recipe.query.filter_by(id=recipe_id).first()
         
@@ -32,9 +32,12 @@ def review():
     else:
 
         id = request.args.get('r_id', type = int)
-        recipe = Recipe.query.get(id)
+        if id is not None:
+            recipe = Recipe.query.get(id)
 
-        return render_template('review.html', recipe = recipe)
+            return render_template('review.html', recipe = recipe)
+        else:
+            return redirect('/')
     
 
 @review_bp.route('/delete-review', methods=['POST', 'GET'])
@@ -67,7 +70,11 @@ def edit_review():
         return redirect('/user/recipes')
     else:
         review_id = request.args.get('review_id')
-        review = db.session.get(Review, review_id)
-        recipe = db.session.get(Recipe, review.recipe_id)
 
-        return render_template('editreview.html', review = review, recipe = recipe)
+        if review_id is not None:
+            review = db.session.get(Review, review_id)
+            recipe = db.session.get(Recipe, review.recipe_id)
+
+            return render_template('editreview.html', review = review, recipe = recipe)
+        else:
+            return redirect('/')
