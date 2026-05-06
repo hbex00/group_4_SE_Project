@@ -8,4 +8,5 @@ __pycache__
 app/__pycache__/
 
 project-nevn/
-/app/static/Bilder/profile_pics/*
+profile_pics/
+recipe_pics/
