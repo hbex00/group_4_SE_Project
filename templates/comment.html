@@ -11,8 +11,13 @@
     <div class="whole_input_page">
         <form action="/comment" id="comment_form" method="POST">
             <div class="recipe_id_container">
-                <h2>Recipe id to comment on</h2>
-                <input type="text" name="recipe_id" placeholder="Recipe id" size="20" autocomplete="off">
+                {% if recipe %}
+                    <h2>Comment on recipe: {{recipe.recipe_title}}</h2>
+                    <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                {% else %}
+                    <h2>Recipe id to comment on</h2>
+                    <input type="text" name="recipe_id" placeholder="Recipe id" size="20" autocomplete="off">
+                {% endif %}
             </div>
 
             <div class="comment">

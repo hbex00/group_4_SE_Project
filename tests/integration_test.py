@@ -365,3 +365,124 @@ def test_password_reset(client):
                                     "password1": "new",
                                     "password2": "new"}, follow_redirects = True)
         assert session['first_name'].lower() == create_user.name.lower()
+
+def test_comment_edit_delete(client):
+    with client.session_transaction() as session:
+        session['id'] = 1
+    
+    test_user = User(name = 'Adam',
+                    last_name = 'Karlsson',
+                    email = 'cba@123.com',
+                    password = 'Ad123',
+                    profile_image = 'defualt.svg'
+                    )
+    
+    db.session.add(test_user)
+    db.session.commit()
+    
+    test_recipe = Recipe(recipe_title = 'This recipe is a test',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit
+
+    test_comment = Comment(recipe_id = test_recipe.id,
+                           user_id = test_user.id,
+                           content = 'Hello, Hello!')
+    
+    db.session.add(test_comment)
+    db.session.commit
+
+    comment_response_edit = client.post("/edit-comment", data = {  "comment_id": "1" ,
+                                                                   "content": "Hello" }, follow_redirects=True)
+    
+    assert comment_response_edit.status_code == 200
+    assert comment_response_edit.request.path == '/user/recipes'
+
+    with client:
+        comment = db.session.get(Comment, 1)
+        assert comment.content == "Hello"
+
+    comment_response_delete = client.post("/delete-comment", data = {  "comment_id": "1" }, follow_redirects=True)
+    
+    assert comment_response_delete.status_code == 200
+    assert comment_response_delete.request.path == '/user/recipes'
+
+    with client:
+        comment = db.session.get(Comment, 1)
+        assert comment is None
+
+def test_review_edit_delete(client):
+    with client.session_transaction() as session:
+        session['id'] = 1
+    
+    test_user = User(name = 'Adam',
+                    last_name = 'Karlsson',
+                    email = 'Hello@123.com',
+                    password = 'Ad123',
+                    profile_image = 'defualt.svg'
+                    )
+    
+    db.session.add(test_user)
+    db.session.commit()
+    
+    test_recipe = Recipe(recipe_title = 'This recipe is a test',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit
+
+    test_review = Review(recipe_id = test_recipe.id,
+                           user_id = test_user.id,
+                           rating = 5)
+    
+    db.session.add(test_review)
+    db.session.commit
+
+    review_response_edit = client.post("/edit-review", data = {  "review_id": "1" ,
+                                                                   "review": "0" }, follow_redirects=True)
+    
+    assert review_response_edit.status_code == 200
+    assert review_response_edit.request.path == '/user/recipes'
+
+    with client:
+        review = db.session.get(Review, 1)
+        assert review.rating == 0
+
+    review_response_delete = client.post("/delete-review", data = {  "review_id": "1" }, follow_redirects=True)
+    
+    assert review_response_delete.status_code == 200
+    assert review_response_delete.request.path == '/user/recipes'
+
+    with client:
+        review = db.session.get(Review, 1)
+        assert review is None
+
+def test_review_page_loads(client):
+    response = client.get("/review", follow_redirects=True)
+    assert response.status_code == 200
+
+def test_review_edit_page_loads(client):
+    response = client.get("/edit-review", follow_redirects=True)
+    assert response.status_code == 200
+    
+    db.session.add(Review(recipe_id = 1))
+    db.session.commit()
+    response = client.get("/edit-review?review_id=1", follow_redirects=True)
+    assert response.status_code == 200
+
+def test_comment_page_loads(client):
+    response_no_id = client.get("/comment", follow_redirects=True)
+    assert response_no_id.status_code == 200
+
+
+def test_comment_edit_page_get(client):
+    response = client.get("/edit-comment", follow_redirects=True)
+    assert response.status_code == 200
+
+    db.session.add(Comment(recipe_id = 1))
+    db.session.commit()
+    response = client.get("/edit-comment?comment_id=1", follow_redirects=True)
+    assert response.status_code == 200

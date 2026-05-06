@@ -6,7 +6,7 @@
     justify-self: center;
     flex-shrink: 0;
     width: 20vw;
-    width: 350px;
+    width: 400px;
     padding: 20px;
     margin-top: 10vh;
     background-color: #f4e7cb;
@@ -20,6 +20,7 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: 30px;
 }
 
@@ -32,7 +33,6 @@ h2{
     display: flex;
     flex-direction: column;
 }
-
 
 
 .comment {

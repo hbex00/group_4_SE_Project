@@ -143,3 +143,52 @@ def recipetag_create(recipe_id, tag_id):
         return rt
     else:
         return None
+    
+def review_remove(review_id, user_id):
+    try:
+        review = db.session.get(Review, review_id)
+        user = db.session.get(User, user_id)
+
+        if review is not None and user.id == review.user_id:
+            db.session.delete(review)
+            db.session.commit()
+        else:
+            return None
+    except:
+        return None
+    
+def comment_remove(comment_id, user_id):
+    try:
+        comment = db.session.get(Comment, comment_id)
+        user = db.session.get(User, user_id)
+
+        if comment is not None and user.id == comment.user_id:
+            db.session.delete(comment)
+            db.session.commit()
+        else:
+            return None
+    except:
+        return None
+    
+def review_edit(review_id, score, user_id):
+    try:
+        review = db.session.get(Review, review_id)
+        edited = review_create(review.recipe_id, score, user_id)
+        if edited is not None:
+            review.rating = edited.rating
+            db.session.commit()
+
+        db.session.commit()
+    except:
+        return None
+    
+def comment_edit(comment_id, content, user_id):
+    try:
+        comment = db.session.get(Comment, comment_id)
+        if content.strip() != "" and comment.user_id == user_id:
+            comment.content = content
+            db.session.commit()
+    except:
+        return None
+    
+

@@ -30,6 +30,51 @@ def comment():
         return redirect('/')
     
     else:
-        return render_template('comment.html')
+        
+        id = request.args.get('c_id', type = int)
+        if id is not None:
+            recipe = db.session.get(Recipe, id)
+        else:
+            recipe = None
+
+        return render_template('comment.html', recipe = recipe)
 
     
+@comment_bp.route('/delete-comment', methods=['POST', 'GET'])
+def delete_comment():
+    if request.method == 'POST':
+        if session.get('id') is None:
+            return redirect('/login')
+
+        comment_id = request.form.get('comment_id', type = int)
+        user_id = session.get('id')
+
+        comment_remove(comment_id, user_id)
+        return redirect('/user/recipes')
+    else:
+        return redirect('/')
+    
+@comment_bp.route('/edit-comment', methods=['POST', 'GET'])
+def edit_comment():
+    if request.method == 'POST':
+        if session.get('id') is None:
+            return redirect('/login')
+
+        comment_id = request.form.get('comment_id', type = int)
+        user_id = session.get('id')
+        content = request.form.get('content')
+        
+        comment_edit(comment_id, content, user_id)
+        
+
+        return redirect('/user/recipes')
+    else:
+        comment_id = request.args.get('comment_id')
+
+        if comment_id is not None:
+            comment = db.session.get(Comment, comment_id)
+            recipe = db.session.get(Recipe, comment.recipe_id)
+
+            return render_template('editcomment.html', comment = comment, recipe = recipe)
+        else:
+            return redirect('/')

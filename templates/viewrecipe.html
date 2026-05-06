@@ -52,6 +52,17 @@
                     <input type="hidden" name="recipe_id" value="{{recipe.id}}">
                     <input type="submit" value="Modify recipe">
                 </form>
+                {% else%}
+                <div class="btn_row">
+                    <form action="/review" method="GET">
+                        <input type="hidden" name="r_id" value="{{recipe.id}}">
+                        <input type="submit" value="Review recipe">
+                    </form>
+                    <form action="/comment" method="GET">
+                        <input type="hidden" name="c_id" value="{{recipe.id}}">
+                        <input type="submit" value="Comment recipe">
+                    </form>
+                </div>
                 {% endif %}
             </div>
         </div>

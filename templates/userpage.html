@@ -52,11 +52,21 @@
                                     <div class="recipe_grid">
                                         {% for review in user.reviews %}
                                         <div class="recipe_card" data-id="{{ review.recipe.id }}">
+                                            <h4>Rating: {{review.rating}}</h4>
+                                            <h5>Review on recipe: {{review.recipe.recipe_title}}</h5>
                                             <form action="/viewrecipe" method="GET">
-                                                <h4>Rating: {{review.rating}}</h4>
-                                                <h5>Review on recipe: {{review.recipe.recipe_title}}</h5>
                                                 <input type="hidden" name="recipe_id" value="{{review.recipe.id}}">
                                             </form>
+                                            <div class="btn_row">
+                                                <form action="/edit-review" method="GET">
+                                                    <input type="hidden" name="review_id" value="{{review.id}}">
+                                                    <input type="submit" value="Edit review">
+                                                </form>
+                                                <form action="/delete-review" method="POST">
+                                                    <input type="hidden" name="review_id" value="{{review.id}}">
+                                                    <input type="submit" value="DELETE REVIEW">
+                                                </form>
+                                            </div>
                                         </div>
                                         {% endfor %}
                                     </div>
@@ -67,11 +77,21 @@
                                     <div class="recipe_grid">
                                         {% for comment in user.comments %}
                                         <div class="recipe_card" data-id="{{ comment.recipe.id }}">
+                                            <h4>Comment on recipe: {{comment.recipe.recipe_title}}</h4>
+                                            <h5>{{comment.content}}</h5>
                                             <form action="/viewrecipe" method="GET">
-                                                <h4>Comment on recipe: {{comment.recipe.recipe_title}}</h4>
-                                                <h5>{{comment.content}}</h5>
                                                 <input type="hidden" name="recipe_id" value="{{comment.recipe.id}}">
                                             </form>
+                                            <div class="btn_row">
+                                                <form action="/edit-comment" method="GET">
+                                                    <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                                    <input type="submit" value="Edit comment">
+                                                </form>
+                                                <form action="/delete-comment" method="POST">
+                                                    <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                                    <input type="submit" value="DELETE COMMENT">
+                                                </form>
+                                            </div>
                                         </div>
                                         {% endfor %}
                                     </div>
