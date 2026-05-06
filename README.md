@@ -1,6 +1,8 @@
 # group_4_SE_project
 
 [![build](https://github.com/hbex00/group-4-SE-project/actions/workflows/build.yml/badge.svg)](https://github.com/hbex00/group-4-SE-project/actions/workflows/build.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License](https://img.shields.io/badge/License-BSD_3--Clause-blue.svg)](https://opensource.org/licenses/BSD-3-Clause)
 
 |Group Members|Git Handles|Emails|
 |-------------|-----------|-----|
