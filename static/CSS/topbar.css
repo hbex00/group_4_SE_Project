@@ -1,5 +1,5 @@
 :root{
-    --topbar_bottom_padding: 10px;
+    --topbar_bottom_padding: 5px;
     --base-green: #2E7D32;
     --deep-green: #1B6D24;
     --bg-light: #fdf5e6;
@@ -160,9 +160,9 @@ input[type="search"]::-webkit-search-cancel-button{
 }
 
 .user_icon_wrapper img {
-    width: 65px;
-    height: 65px;
-    border-radius: 80%;
+    height: 50px;
+    aspect-ratio: 1/1;
+    border-radius: 50%;
     object-fit: cover;
 }
 
@@ -208,15 +208,18 @@ input[type="search"]::-webkit-search-cancel-button{
     gap: 5px;
 }
 
-.dropdown_content li{
+.dropdown_content a{
+    display: block;
     padding: 10px;
     background-color: #f4e7d1;
     height: auto;
     font-size: 1rem;
     border-radius: 10px;
+    color: inherit;
+    transition: all 0.3s ease;
+    text-decoration: none;
 }
 
-.dropdown_content li:hover{
+.dropdown_content a:hover{
     background-color: #66ff5841;
 }
-
