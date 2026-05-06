@@ -1,6 +1,6 @@
 ## License
 
-Copyright 2026 Axel Håkansson, Hugo Bexel, Bjarne Svensson, Noah Haraldsson, Samuel Johansson, William Klasson
+Copyright 2026 Axel Håkansson, Hugo Bexell, Bjarne Svensson, Noah Haraldsson, Samuel Johansson, William Klasson
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided that the following conditions are met:
 
