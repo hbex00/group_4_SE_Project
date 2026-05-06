@@ -31,18 +31,72 @@
                                     <h2>Welcome back, User?</h2>
                                     {% endif %}
                                 </div>
-                            {% elif ((show_recipes) and (user) and (user.recipies)) %}
-                            <div class="recipe_grid">
-                                {% for recipe in user.recipies %}
-                                <div class="recipe_card" data-id="{{ recipe.id }}">
-                                    <form action="/viewrecipe" method="GET">
-                                        <h4>{{recipe.recipe_title}}</h4>
-                                        <h5>{{recipe.description}}</h5>
-                                        <input type="hidden" name="recipe_id" value="{{recipe.id}}">
-                                    </form>
-                                </div>
-                                {% endfor %}
-                            </div>
+                            {% elif ((show_recipes) and (user)) %}
+                                {% if user.recipies %}
+                                    <h2>Your recipies</h2>
+                                    <div class="recipe_grid">
+                                        {% for recipe in user.recipies %}
+                                        <div class="recipe_card" data-id="{{ recipe.id }}">
+                                            <form action="/viewrecipe" method="GET">
+                                                <h4>{{recipe.recipe_title}}</h4>
+                                                <h5>{{recipe.description}}</h5>
+                                                <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                                            </form>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                
+                                {% if user.reviews %}
+                                    <h2>Your reviews</h2>
+                                    <div class="recipe_grid">
+                                        {% for review in user.reviews %}
+                                        <div class="recipe_card" data-id="{{ review.recipe.id }}">
+                                            <h4>Rating: {{review.rating}}</h4>
+                                            <h5>Review on recipe: {{review.recipe.recipe_title}}</h5>
+                                            <form action="/viewrecipe" method="GET">
+                                                <input type="hidden" name="recipe_id" value="{{review.recipe.id}}">
+                                            </form>
+                                            <div class="btn_row">
+                                                <form action="/edit-review" method="GET">
+                                                    <input type="hidden" name="review_id" value="{{review.id}}">
+                                                    <input type="submit" value="Edit review">
+                                                </form>
+                                                <form action="/delete-review" method="POST">
+                                                    <input type="hidden" name="review_id" value="{{review.id}}">
+                                                    <input type="submit" value="DELETE REVIEW">
+                                                </form>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                                
+                                {% if user.comments %}
+                                    <h2>Your comments</h2>
+                                    <div class="recipe_grid">
+                                        {% for comment in user.comments %}
+                                        <div class="recipe_card" data-id="{{ comment.recipe.id }}">
+                                            <h4>Comment on recipe: {{comment.recipe.recipe_title}}</h4>
+                                            <h5>{{comment.content}}</h5>
+                                            <form action="/viewrecipe" method="GET">
+                                                <input type="hidden" name="recipe_id" value="{{comment.recipe.id}}">
+                                            </form>
+                                            <div class="btn_row">
+                                                <form action="/edit-comment" method="GET">
+                                                    <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                                    <input type="submit" value="Edit comment">
+                                                </form>
+                                                <form action="/delete-comment" method="POST">
+                                                    <input type="hidden" name="comment_id" value="{{comment.id}}">
+                                                    <input type="submit" value="DELETE COMMENT">
+                                                </form>
+                                            </div>
+                                        </div>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            
                             {% endif %}
                         </div>
                         {% if not show_recipes %}
@@ -57,7 +111,9 @@
                         <div class="edit_userpage">
                             <div class="edit_paper">
                                 <h1>Edit profile details</h1>
-                                <form action="/user/edit" method="POST">
+                                <form action="/user/edit" method="POST" enctype=multipart/form-data>
+                                    <h3>Upload a user icon </h3> 
+                                    <input type=file name=file>
                                     <h3>First name: {{user.name}}</h3>
                                     <input type="text" name="first_name" placeholder="Change First name" size="16" maxlength="40">
                                     <h3>Last name: {{user.last_name}}</h3>

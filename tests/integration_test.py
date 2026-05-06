@@ -5,6 +5,8 @@ from database.db import db
 from app.services.models import *
 from sqlalchemy import select
 from sqlalchemy.orm import DeclarativeMeta
+from app.utils.tag import *
+from app.utils.user import reset_password
 
 @pytest.fixture
 def app():
@@ -64,6 +66,7 @@ def test_login_user(client):
                                      "email": test_user.email,
                                      "password1": test_user.password,
                                      "password2": test_user.password}, follow_redirects=True)
+    client.post("/logout")
     with client:
         error_test = client.post("/login", data = {"email": test_user.email,
                                                     "password": "wrong"}, follow_redirects=True)
@@ -87,7 +90,8 @@ def test_reviews_full(client):
     test_user = User(name = 'Adam',
                     last_name = 'Eriksson',
                     email = 'abc@abc.com',
-                    password = 'Adam123')
+                    password = 'Adam123',
+                    profile_image = 'defualt.svg')
     
     db.session.add(test_user)
     db.session.commit()
@@ -130,7 +134,9 @@ def test_comment_route(client):
     test_user = User(name = 'Björk',
                     last_name = 'Lukasson',
                     email = 'cba@321.com',
-                    password = 'Bj123')
+                    password = 'Bj123',
+                    profile_image = 'defualt.svg'
+                    )
     
     db.session.add(test_user)
     db.session.commit()
@@ -203,6 +209,7 @@ def test_edit_user(client):
     assert register_response.status_code == 200
     assert register_response.request.path == '/' 
     
+    client.post("/logout", follow_redirects=True)
     with client:
         client.post("/login", data = {"email": email.lower(),
                                       "password": password}, follow_redirects=True)
@@ -524,3 +531,170 @@ def test_expected_content(client):
     assert b"value=\"Share Recipe\"" in response.data
     assert b"value=\"Review Recipe\"" in response.data
     assert b"value=\"Comment Recipe\"" in response.data
+
+
+def test_create_tags(client):
+    Create_Tags()
+
+    tags = Tag.query.all()
+    assert len(tags) > 0
+
+def test_tag_recipie(client):
+    Create_Tags()
+
+    test_recipe = Recipe(recipe_title = 'A random recipe',
+                        description = 'This recipe is something random',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit()
+    
+    tag_add(test_recipe.id, 1)
+    tag_add(2, 1)
+
+    tag_correct = RecipeTag.query.filter_by(recipe_id=1, tag_id=1).first()
+    tag_no_recipe_id = RecipeTag.query.filter_by(recipe_id=2, tag_id=1).first()
+
+    assert tag_correct.tag.category == 'Time'
+    assert tag_correct.tag.unit == '15 minutes'
+    assert tag_no_recipe_id is None
+
+def test_password_reset(client):
+    create_user = User(name = "a",
+                       last_name = "a",
+                       email = "a@a.a",
+                       password = "a")
+    client.post("/register", data = {"f_name": create_user.name,
+                                     "l_name": create_user.last_name,
+                                     "email": create_user.email,
+                                     "password1": create_user.password,
+                                     "password2": create_user.password}, follow_redirects=True)
+    client.post("/logout")
+    with client:
+        client.post("/pw-reset", data = {"email": create_user.email,
+                                    "name": create_user.name,
+                                    "password1": "new",
+                                    "password2": "new"}, follow_redirects = True)
+        assert session['first_name'].lower() == create_user.name.lower()
+
+def test_comment_edit_delete(client):
+    with client.session_transaction() as session:
+        session['id'] = 1
+    
+    test_user = User(name = 'Adam',
+                    last_name = 'Karlsson',
+                    email = 'cba@123.com',
+                    password = 'Ad123',
+                    profile_image = 'defualt.svg'
+                    )
+    
+    db.session.add(test_user)
+    db.session.commit()
+    
+    test_recipe = Recipe(recipe_title = 'This recipe is a test',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit
+
+    test_comment = Comment(recipe_id = test_recipe.id,
+                           user_id = test_user.id,
+                           content = 'Hello, Hello!')
+    
+    db.session.add(test_comment)
+    db.session.commit
+
+    comment_response_edit = client.post("/edit-comment", data = {  "comment_id": "1" ,
+                                                                   "content": "Hello" }, follow_redirects=True)
+    
+    assert comment_response_edit.status_code == 200
+    assert comment_response_edit.request.path == '/user/recipes'
+
+    with client:
+        comment = db.session.get(Comment, 1)
+        assert comment.content == "Hello"
+
+    comment_response_delete = client.post("/delete-comment", data = {  "comment_id": "1" }, follow_redirects=True)
+    
+    assert comment_response_delete.status_code == 200
+    assert comment_response_delete.request.path == '/user/recipes'
+
+    with client:
+        comment = db.session.get(Comment, 1)
+        assert comment is None
+
+def test_review_edit_delete(client):
+    with client.session_transaction() as session:
+        session['id'] = 1
+    
+    test_user = User(name = 'Adam',
+                    last_name = 'Karlsson',
+                    email = 'Hello@123.com',
+                    password = 'Ad123',
+                    profile_image = 'defualt.svg'
+                    )
+    
+    db.session.add(test_user)
+    db.session.commit()
+    
+    test_recipe = Recipe(recipe_title = 'This recipe is a test',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit
+
+    test_review = Review(recipe_id = test_recipe.id,
+                           user_id = test_user.id,
+                           rating = 5)
+    
+    db.session.add(test_review)
+    db.session.commit
+
+    review_response_edit = client.post("/edit-review", data = {  "review_id": "1" ,
+                                                                   "review": "0" }, follow_redirects=True)
+    
+    assert review_response_edit.status_code == 200
+    assert review_response_edit.request.path == '/user/recipes'
+
+    with client:
+        review = db.session.get(Review, 1)
+        assert review.rating == 0
+
+    review_response_delete = client.post("/delete-review", data = {  "review_id": "1" }, follow_redirects=True)
+    
+    assert review_response_delete.status_code == 200
+    assert review_response_delete.request.path == '/user/recipes'
+
+    with client:
+        review = db.session.get(Review, 1)
+        assert review is None
+
+def test_review_page_loads(client):
+    response = client.get("/review", follow_redirects=True)
+    assert response.status_code == 200
+
+def test_review_edit_page_loads(client):
+    response = client.get("/edit-review", follow_redirects=True)
+    assert response.status_code == 200
+    
+    db.session.add(Review(recipe_id = 1))
+    db.session.commit()
+    response = client.get("/edit-review?review_id=1", follow_redirects=True)
+    assert response.status_code == 200
+
+def test_comment_page_loads(client):
+    response_no_id = client.get("/comment", follow_redirects=True)
+    assert response_no_id.status_code == 200
+
+
+def test_comment_edit_page_get(client):
+    response = client.get("/edit-comment", follow_redirects=True)
+    assert response.status_code == 200
+
+    db.session.add(Comment(recipe_id = 1))
+    db.session.commit()
+    response = client.get("/edit-comment?comment_id=1", follow_redirects=True)
+    assert response.status_code == 200
