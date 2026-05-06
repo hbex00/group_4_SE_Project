@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, Blueprint, session, flash
-from app.utils.search_db import text_search_table, exact_text_search_table
+from app.utils.search_db import text_search_table
 from app.services.models import User,Recipe
 
 search_bp = Blueprint("searchpage", __name__)
