@@ -53,11 +53,11 @@
                     <input type="submit" value="Modify recipe">
                 </form>
                 {% endif %}
-                <div>
-                    {%if recipe.recipe_image != none%}
-                        <img src="{{ url_for('static', filename='Bilder/recipe_pics/' + recipe.recipe_image) }}">
-                    {%endif%}
-                </div>
+            </div>
+            <div class="test">
+                {%if recipe.recipe_image != none%}
+                    <img id="image" src="{{ url_for('static', filename='Bilder/recipe_pics/' + recipe.recipe_image) }}">
+                {%endif%}
             </div>
         </div>
 

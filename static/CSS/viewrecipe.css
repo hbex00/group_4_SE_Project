@@ -19,11 +19,10 @@
     border-radius: 40px;
     background-color: #f4e7cb;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
-    padding-top: 20px;
-    padding-bottom: 20px;
+    padding: 20px 0;
 }
 
 .view_paper input {
@@ -62,7 +61,7 @@
 
 .text_alignment {
     align-items: center;
-    width: 70%;
+    width: 40%;
 }
 
 .text_alignment h3 {
@@ -91,4 +90,16 @@ h3 {
 
 p {
     margin: 0;
+}
+
+#image{
+    display: block;
+    width: 100%;
+    border: 2px solid rgba(0, 0, 0, 0.4);
+    border-radius: 20px;
+}
+
+.test{
+    width: 50%;
+    align-self: flex-start;
 }

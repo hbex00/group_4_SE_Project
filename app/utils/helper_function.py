@@ -2,7 +2,7 @@ from flask import Flask, session
 from database.db import db
 from app.services.models import *
 
-ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp'}
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'webp', 'gif'}
 
 def session_handler(user):
     session['id'] = user.id
