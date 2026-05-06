@@ -134,6 +134,10 @@ https://icons8.com/icon/7695/search
 
          $ python -m flake8
 
+## License
+
+For license information look in the legal map
+
 ## Declaration of Authorship
 I, Hugo Bexell, declare that I am the sole author of the content I add to this repository.\
 I, Axel Håkansson, declare that I am the sole author of the content I add to this repository.\
