@@ -6,13 +6,13 @@ from app.utils.modify_db import *
 class Testcreat_recepie(unittest.TestCase):
 
     def test_create_one_recepie(self):
-        result = create_recepie("Köttbullar","goda kötbullar", 1, 2)
+        result = create_recepie("Köttbullar","goda kötbullar", 1, 2, "no")
         self.assertEqual(result.recipe_title,"Köttbullar")
         self.assertEqual(result.description,"goda kötbullar")
         self.assertEqual(result.user_id, 2)
 
     def test_create_two_recepies(self):
-        result = create_recepie("Hamburgare","goda Hamburgare", 1, 3)
+        result = create_recepie("Hamburgare","goda Hamburgare", 1, 3, "yes")
         self.assertEqual(result.recipe_title,"Hamburgare")
         self.assertEqual(result.description,"goda Hamburgare")
         self.assertEqual(result.user_id, 3)

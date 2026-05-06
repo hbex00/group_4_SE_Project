@@ -29,13 +29,15 @@ def create():
 
         tag_list = request.form.getlist('tag[]')
 
+        private = True if 'private' in request.form else False
+
         id = session.get('id')
         recipe_creator = User.query.filter_by(id=id).first()
 
         
         try:
             #function that creats a new recipe
-            new_recipe = create_recepie(recipe_name, recipe_description, recipe_portions, recipe_creator.id)
+            new_recipe = create_recepie(recipe_name, recipe_description, recipe_portions, recipe_creator.id, private)
             db.session.add(new_recipe)
             db.session.commit()
         except:
@@ -67,12 +69,13 @@ def create():
 
 
 
-def create_recepie(name, description, portions, user_id):
+def create_recepie(name, description, portions, user_id, private):
         recipe = Recipe(
             recipe_title=name,
             description=description,
             portions=check_portions(portions),
-            user_id=user_id)
+            user_id=user_id,
+            private=private)
 
         return recipe
 
