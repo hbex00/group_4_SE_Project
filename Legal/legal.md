@@ -60,7 +60,37 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 # SQLAlchemy [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-Copyright 2005-2026 SQLAlchemy authors and contributors <see Authors file>.
+Copyright 2005-2026 SQLAlchemy authors and contributors
+SQLAlchemy was created by Michael Bayer.
+
+Major contributing authors include:
+
+- Mike Bayer
+- Jason Kirtland
+- Michael Trier
+- Diana Clarke
+- Gaetan de Menten
+- Lele Gaifax
+- Jonathan Ellis
+- Gord Thompson
+- Federico Caselli
+- Philip Jenvey
+- Rick Morrison
+- Chris Withers
+- Ants Aasma
+- Sheila Allen
+- Paul Johnston
+- Tony Locke
+- Hajime Nakagami
+- Vraj Mohan
+- Robert Leftwich
+- Taavi Burns
+- Jonathan Vanasco
+- Jeff Widman
+- Scott Dugas
+- Dobes Vandermeer
+- Ville Skytta
+- Rodrigo Menezes
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
