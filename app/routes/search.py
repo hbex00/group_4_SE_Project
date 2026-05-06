@@ -23,7 +23,7 @@ def searchpage():
                 result_recipes = list()
 
                 if has_filter_user:
-                    result_users.extend(exact_text_search_table(pattern,User))
+                    result_users.extend(text_search_table(pattern,User))
                     has_filter = False
 
                 if has_filter_recipe | (not has_any_filter):
