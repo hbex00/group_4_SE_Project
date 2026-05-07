@@ -52,7 +52,7 @@ def create():
         
         try:
             #function that creats a new recipe
-            new_recipe = create_recepie(recipe_name, recipe_description, recipe_portions, recipe_creator.id, private,recipe_image)
+            new_recipe = create_recepie(recipe_name, recipe_description, recipe_portions, recipe_creator.id, recipe_image, private)
             db.session.add(new_recipe)
             db.session.commit()
         except RuntimeError as err:
