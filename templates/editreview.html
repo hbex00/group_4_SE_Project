@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block head %}
+
+    <title>Review</title>
+    <link rel="stylesheet" href="../static/CSS/review.css">
+
+{% endblock %}
+
+{% block main_body %}
+    <div class="whole_input_page">
+        <form action="/edit-review" id="review_form" method="POST">
+            <div class="recipe_id_container">
+                <h2>Review on recipe: {{recipe.recipe_title}}</h2>
+                <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                <input type="hidden" name="review_id" value="{{review.id}}">
+            </div>
+
+            <div class="review">
+                <input type="text" id="review" name="review" placeholder="Review (0 to 5)" autocomplete="off">
+            </div>
+
+            <input type="submit" id="submit" value="Edit review">
+        </form>
+    </div>
+{% endblock %}

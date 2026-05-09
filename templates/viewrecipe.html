@@ -37,13 +37,38 @@
                     <p>Already fisnished :|</p>
                 {%endif%}
 
+                <h3>Tag</h3>
+                {%if recipe.tags|length > 0%}
+                    {%for t in recipe.tags%}
+                        <p>{{t.tag.category}}: {{t.tag.unit}}</p>
+                    {%endfor%}
+                {%else%}
+                    <p>{{recipe.tags|length}}</p>
+                {%endif%}
+
                 <h1>Made by: {{recipe.user.name}}</h1>
                 {% if recipe.user.id == session.get('id') %}
                 <form action="/modify" method="GET">
                     <input type="hidden" name="recipe_id" value="{{recipe.id}}">
                     <input type="submit" value="Modify recipe">
                 </form>
+                {% else%}
+                <div class="btn_row">
+                    <form action="/review" method="GET">
+                        <input type="hidden" name="r_id" value="{{recipe.id}}">
+                        <input type="submit" value="Review recipe">
+                    </form>
+                    <form action="/comment" method="GET">
+                        <input type="hidden" name="c_id" value="{{recipe.id}}">
+                        <input type="submit" value="Comment recipe">
+                    </form>
+                </div>
                 {% endif %}
+            </div>
+            <div class="test">
+                {%if recipe.recipe_image != none%}
+                    <img id="image" src="{{ url_for('static', filename='Bilder/recipe_pics/' + recipe.recipe_image) }}">
+                {%endif%}
             </div>
         </div>
 

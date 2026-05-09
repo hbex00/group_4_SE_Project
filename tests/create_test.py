@@ -2,17 +2,18 @@ import unittest
 from app.routes.create import *
 from app.routes.register import register_user
 from app.utils.modify_db import *
+from app.utils.helper_function import allowed_file
 
 class Testcreat_recepie(unittest.TestCase):
 
     def test_create_one_recepie(self):
-        result = create_recepie("Köttbullar","goda kötbullar", 1, 2)
+        result = create_recepie("Köttbullar","goda kötbullar",1, 2,'',"no")
         self.assertEqual(result.recipe_title,"Köttbullar")
         self.assertEqual(result.description,"goda kötbullar")
         self.assertEqual(result.user_id, 2)
 
     def test_create_two_recepies(self):
-        result = create_recepie("Hamburgare","goda Hamburgare", 1, 3)
+        result = create_recepie("Hamburgare","goda Hamburgare",1, 3,'',"yes")
         self.assertEqual(result.recipe_title,"Hamburgare")
         self.assertEqual(result.description,"goda Hamburgare")
         self.assertEqual(result.user_id, 3)
@@ -28,16 +29,16 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertIsNone(result)
 
     def test_register_user(self):
-        result = register_user('f_name','l_name','email@test.se','pass','pass')
+        result = register_user('f_name','l_name','email@test.se','pass','pass','')
         self.assertIsInstance(result, User) # correct, should pass
         with self.assertRaises(RuntimeError): # missing username argument exception    
-            result = register_user('','','','','')
+            result = register_user('','','','','','')
         with self.assertRaises(RuntimeError): # missing password argument
-            result = register_user('f_name','l_name','email@test.se','','')
+            result = register_user('f_name','l_name','email@test.se','','','')
         with self.assertRaises(RuntimeError): # password miss match error
-            result = register_user('f_name','l_name','email@test.se','pass','ssap')
+            result = register_user('f_name','l_name','email@test.se','pass','ssap','')
         with self.assertRaises(RuntimeError): # incorrect email formatting
-            result = register_user('f_name','l_name','emailtestse','pass','pass')
+            result = register_user('f_name','l_name','emailtestse','pass','pass','')
 
     def test_check_portions(self):
         self.assertEqual(check_portions(5),5)
@@ -90,6 +91,23 @@ class Testcreat_recepie(unittest.TestCase):
         self.assertEqual(review.recipe_id, 1)
         self.assertEqual(review.rating, 5)
         self.assertEqual(review.user_id, 2)
+
+    def test_recipetag_correct(self):
+        recipetag = recipetag_create(1,1)
+        self.assertEqual(recipetag.recipe_id, 1)
+        self.assertEqual(recipetag.tag_id, 1)
+
+    def test_recipetag_incorrect(self):
+        recipetag = recipetag_create(0,1)
+        self.assertIsNone(recipetag)
+
+    def test_allowed_files(self):
+        allowed = allowed_file("correct.jpg")
+        self.assertEqual(allowed,True)
+
+    def test_not_allowed_files(self):
+        not_allowed = allowed_file("wrong.rar")
+        self.assertEqual(not_allowed,False)
 
 if __name__ == '__main__':
     unittest.main()

@@ -133,3 +133,8 @@
     margin-top: 2px;
 }
 
+.btn_row {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}

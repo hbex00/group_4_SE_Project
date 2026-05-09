@@ -57,9 +57,18 @@
     border: solid black 1px;
 }
 
-p {
+.modify_holder p {
     border: solid black 1px;
     margin: 4px;
     padding: 3px;
     border-radius: 20px;
+}
+
+.private {
+    display: flex;
+    flex-direction: row;
+}
+
+.private p {
+    border: none;
 }

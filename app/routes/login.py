@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, Blueprint, session, flash
 from database.db import db
 from app.services.models import *
+from app.utils.helper_function import *
 
 
 #go to login page
@@ -23,8 +24,7 @@ def login():
             user = User.query.filter_by(email=email).first()
             if user:
                 if user.check_hashed_password(password):
-                    session['id'] = user.id
-                    session['first_name'] = user.name
+                    session_handler(user=user)
                     #should also return session
                     return redirect('/')
                 else:

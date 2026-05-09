@@ -10,9 +10,9 @@ def review():
     
     if session.get('id') is None:
         return redirect('/login')
-
+    
     if request.method == 'POST':
-        
+    
         recipe_id = request.form.get('recipe_id', type = int)
         found_recipe = Recipe.query.filter_by(id=recipe_id).first()
         
@@ -30,4 +30,52 @@ def review():
 
         return redirect('/')
     else:
-        return render_template('review.html')
+        
+        id = request.args.get('r_id', type = int)
+        if id is not None:
+            recipe = db.session.get(Recipe, id)
+        else:
+            recipe = None
+
+        return render_template('review.html', recipe = recipe)
+        
+    
+
+@review_bp.route('/delete-review', methods=['POST', 'GET'])
+def delete_review():
+    if request.method == 'POST':
+        if session.get('id') is None:
+            return redirect('/login')
+
+        review_id = request.form.get('review_id', type = int)
+        user_id = session.get('id')
+
+        review_remove(review_id, user_id)
+        return redirect('/user/recipes')
+    else:
+        return redirect('/')
+
+@review_bp.route('/edit-review', methods=['POST', 'GET'])
+def edit_review():
+    if request.method == 'POST':
+        if session.get('id') is None:
+            return redirect('/login')
+
+        review_id = request.form.get('review_id', type = int)
+        user_id = session.get('id')
+        score = request.form.get('review', type = int)
+
+        review_edit(review_id, score, user_id)
+        
+
+        return redirect('/user/recipes')
+    else:
+        review_id = request.args.get('review_id')
+
+        if review_id is not None:
+            review = db.session.get(Review, review_id)
+            recipe = db.session.get(Recipe, review.recipe_id)
+
+            return render_template('editreview.html', review = review, recipe = recipe)
+        else:
+            return redirect('/')

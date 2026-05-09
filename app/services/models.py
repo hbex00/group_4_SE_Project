@@ -9,13 +9,16 @@ class Recipe(db.Model):
     recipe_title = db.Column(db.String(50))
     description = db.Column(db.String(150))
     portions = db.Column(db.Integer)
+    recipe_image = db.Column(db.String(200))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    private = db.Column(db.Boolean)
 
     ingredients = db.relationship('Ingredient', back_populates='recipe')
     steps = db.relationship('Step', back_populates='recipe')
     user = db.relationship('User', back_populates='recipies')
-    comments = db.relationship('Comment', back_populates='recipe')
-    reviews = db.relationship('Review', back_populates='recipe')
+    comments = db.relationship('Comment', back_populates='recipe', cascade="all, delete")
+    reviews = db.relationship('Review', back_populates='recipe', cascade="all, delete")
+    tags = db.relationship('RecipeTag', back_populates='recipe')
 
     def review_rating(self):
         review_count = len(self.reviews)
@@ -37,6 +40,7 @@ class User(db.Model):
     last_name = db.Column(db.String(50))
     email = db.Column(db.String(50), unique=True)
     password = db.Column(db.String(256))
+    profile_image = db.Column(db.String(200), nullable=False, default="default.svg")
 
     recipies = db.relationship('Recipe', back_populates='user')
     comments = db.relationship('Comment', back_populates='user')
@@ -89,3 +93,19 @@ class Review(db.Model):
 
     recipe = db.relationship('Recipe', back_populates='reviews')
     user = db.relationship('User', back_populates='reviews')
+
+class Tag(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    category = db.Column(db.String(50))
+    unit = db.Column(db.String(75))
+    
+
+    recipetags = db.relationship('RecipeTag', back_populates='tag')
+
+class RecipeTag(db.Model):
+   id = db.Column(db.Integer, primary_key=True)
+   recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'))
+   tag_id = db.Column(db.Integer, db.ForeignKey('tag.id'))
+
+   tag = db.relationship('Tag', back_populates='recipetags')
+   recipe = db.relationship('Recipe', back_populates='tags')

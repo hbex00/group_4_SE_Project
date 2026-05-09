@@ -3,6 +3,10 @@ from flask import request, session
 from app import create_app
 from database.db import db
 from app.services.models import *
+from sqlalchemy import select
+from sqlalchemy.orm import DeclarativeMeta
+from app.utils.tag import *
+from app.utils.user import reset_password
 
 @pytest.fixture
 def app():
@@ -86,7 +90,8 @@ def test_reviews_full(client):
     test_user = User(name = 'Adam',
                     last_name = 'Eriksson',
                     email = 'abc@abc.com',
-                    password = 'Adam123')
+                    password = 'Adam123',
+                    profile_image = 'defualt.svg')
     
     db.session.add(test_user)
     db.session.commit()
@@ -129,7 +134,9 @@ def test_comment_route(client):
     test_user = User(name = 'Björk',
                     last_name = 'Lukasson',
                     email = 'cba@321.com',
-                    password = 'Bj123')
+                    password = 'Bj123',
+                    profile_image = 'defualt.svg'
+                    )
     
     db.session.add(test_user)
     db.session.commit()
@@ -279,6 +286,221 @@ def test_edit_user(client):
         assert session['first_name'] == "Erik"
         assert session['last_name'] == "Eriksson"
 
+def post_example_user(client,user_arg=None):
+    if not client:
+        raise TypeError("Expected Client!")
+    # Example User Details
+    user_email      = "Ragnar@example.com"
+    user_password   = "example"
+    user_name       = "Ragnar"
+    user_last_name  = "Vanheden"
+    if user_arg and isinstance(user_arg,User):
+        user_email     = user_arg.email
+        user_password  = user_arg.password
+        user_name      = user_arg.name
+        user_last_name = user_arg.last_name
+    
+    register_response = client.post("/register", data = {"f_name": user_name,
+                                     "l_name":user_last_name,
+                                     "email": user_email,
+                                     "password1": user_password,
+                                     "password2": user_password}, follow_redirects=True)
+    assert register_response.status_code == 200
+    assert register_response.request.path == '/' 
+
+    # Return last (this) User entry
+    example_users = list_users()
+    return example_users[len(example_users)-1]
+
+def post_example_recipe(client,author=None,recipe=None):
+    # Example Author Details
+    if author and not isinstance(author, User) or (not author):
+        author = post_example_user(client)
+
+    # Example Recipe Details
+    recipe_title       = "Hamburger Example"
+    recipe_description = "This would be a tasty hamburger if it was real!"
+    recipe_portions    = 10
+    recipe_ingredients = ["Meat","Bun"]
+    recipe_amounts     = [4,2]
+    recipe_units       = ["Patty","Whole"]
+    recipe_steps       = ["",""]
+
+    if recipe and isinstance(recipe, Recipe):
+        recipe_title       = recipe.recipe_title
+        recipe_description = recipe.description
+        recipe_portions    = recipe.portions
+        recipe_ingredients = recipe.ingredients
+        recipe_amounts     = []
+        recipe_units       = []
+        recipe_steps       = recipe.steps
+        if recipe.ingredients:
+            for ingredient in recipe_ingredients:
+                if isinstance(ingredient,Ingredient):
+                    recipe_amounts.extend(ingredient.amount)
+                    recipe_units.extend(ingredient.unit)
+    
+    with client.session_transaction() as session:
+        session["id"] = author.id
+    register_response = client.post( "/create", data = {
+                                        "title": recipe_title,
+                                        "description":recipe_description,
+                                        "portions": recipe_portions,
+                                        "ingredients[]": recipe_ingredients,
+                                        "amount[]": recipe_amounts,
+                                        "unit[]": recipe_units,
+                                        "step[]": recipe_steps
+                                    },follow_redirects=True)
+
+    assert register_response.status_code == 200
+    assert register_response.request.path == '/'
+
+    # Log out from current user
+    response = client.post("/logout")
+
+    # Return last (this) Recipe entry
+    example_recipes = list_recipes()
+    return example_recipes[len(example_recipes)-1]
+
+def list_users():
+    try:
+        return db.session.execute(select(User)).scalars().all()
+    except: raise
+
+def list_recipes():
+    try:
+        return db.session.execute(select(Recipe)).scalars().all()
+    except: raise
+
+def test_search(client):
+    # Create database entries
+    example_user = post_example_user(client)
+    example_recipe = post_example_recipe(client,example_user)
+
+    # Check search route
+    response = client.get("/search",follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+
+    example_user_name          = bytes(example_user.name, "utf-8")
+    example_user_last_name     = bytes(example_user.last_name, "utf-8")
+    example_recipe_title       = bytes(example_recipe.recipe_title, "utf-8")
+    example_recipe_description = bytes(example_recipe.description, "utf-8")
+    user_error                 = bytes("No users found.","utf-8")
+    recipe_error               = bytes("No recipes found.","utf-8")
+    full_error                 = bytes("No results found.","utf-8")
+
+    # Search the database for known user pattern with user filter
+    response = client.post( "/search", data = {"pattern":example_user.name,"filter_user":"on"},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_user_name in response.data
+    if example_user.last_name and example_user.last_name != "":
+        assert example_user_last_name in response.data
+
+    ## USER PATTERN CASES
+    # Search the database for known user pattern with user filter and with recipe filter
+    response = client.post( "/search", data = {"pattern":example_user.name,"filter_user":"on","filter_recipe":"on"},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_user_name in response.data
+    if example_user.last_name and example_user.last_name != "":
+        assert example_user_last_name in response.data
+
+    # Search the database for known user pattern without user filter
+    response = client.post( "/search", data = {"pattern":example_user.name},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    print(response.get_data(as_text=True))
+    assert example_user_name not in response.data
+    if example_user.last_name and example_user.last_name != "":
+        assert example_user_last_name not in response.data
+    assert recipe_error in response.data # Since we filter for recipes (by default)
+
+    # Search the database for known user pattern without user filter and with recipe filter
+    response = client.post( "/search", data = {"pattern":example_user.name,"filter_recipe":"on"},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_user_name not in response.data
+    if example_user.last_name and example_user.last_name != "":
+        assert example_user_last_name not in response.data
+    assert recipe_error in response.data # Since we filter for recipes
+
+    ## RECIPE PATTERN CASES    
+    # Search the database for known recipe pattern without filter (=defaults as having recipe filter)
+    response = client.post( "/search", data = {"pattern":example_recipe.recipe_title,},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_recipe_title in response.data
+    if example_recipe.description and example_recipe.description != "":
+        assert example_recipe_description in response.data
+
+    # Search the database for known recipe pattern without recipe filter and with user filter
+    response = client.post( "/search", data = {"pattern":example_recipe.recipe_title,"filter_user":"on"},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert user_error in response.data # Since we filter for users
+
+    # Search the database for known recipe pattern with recipe filter
+    response = client.post( "/search", data = {"pattern":example_recipe.recipe_title,},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_recipe_title in response.data
+    if example_recipe.description and example_recipe.description != "":
+        assert example_recipe_description in response.data
+
+    # Search the database for known recipe pattern with recipe filter and with user filter
+    response = client.post( "/search", data = {"pattern":example_recipe.recipe_title,},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_recipe_title in response.data
+    if example_recipe.description and example_recipe.description != "":
+        assert example_recipe_description in response.data
+    
+    ## SMALL PATTERN CASES
+    # Search the database for known recipe pattern with recipe filter and with user filter
+    response = client.post( "/search", data = {"pattern":example_recipe.recipe_title[:1],},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_recipe_title in response.data
+    if example_recipe.description and example_recipe.description != "":
+        assert example_recipe_description in response.data
+    
+    # Search the database for known user pattern with user filter
+    response = client.post( "/search", data = {"pattern":example_user.name[:1],"filter_user":"on"},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_user_name in response.data
+    if example_user.last_name and example_user.last_name != "":
+        assert example_user_last_name in response.data
+
+    # Search the database for nothing
+    response = client.post( "/search", data = {"pattern":"","filter_user":"on","filter_recipe":"on"},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_user_name not in response.data
+    if example_user.last_name and example_user.last_name != "":
+        assert example_user_last_name not in response.data
+    assert example_recipe_title not in response.data
+    if example_recipe.description and example_recipe.description != "":
+        assert example_recipe_description not in response.data
+    assert full_error in response.data # Since we filter for both users and recipes
+
+    # Search the database for nothing (Too much information for any single metadata -> yields no matches)
+    response = client.post( "/search", data = {"pattern":example_recipe.recipe_title+example_recipe.description,"filter_user":"on","filter_recipe":"on"},follow_redirects=True)
+    assert response.status_code == 200
+    assert response.request.path == '/search' 
+    assert example_user_name not in response.data
+    if example_user.last_name and example_user.last_name != "":
+        assert example_user_last_name not in response.data
+    assert example_recipe_title not in response.data
+    if example_recipe.description and example_recipe.description != "":
+        assert example_recipe_description not in response.data
+    assert full_error in response.data # Since we filter for both users and recipes
+
+
+    
+
 def test_logout_user(client):
     email = "lars.larsson@larsson.se"
     password = "123"
@@ -303,19 +525,19 @@ def test_logout_user(client):
     assert result2.status_code == 200
     assert result2.request.path == '/'
     
-
 def test_expected_content(client):
     response = client.get("/")
 
     assert b"<title>Homepage</title>" in response.data
 
-    assert b"Search for recipe index..." in response.data
+    assert b"Search for..." in response.data
 
     assert b"value=\"Share Recipe\"" in response.data
     assert b"value=\"Review Recipe\"" in response.data
     assert b"value=\"Comment Recipe\"" in response.data
 
 
+<<<<<<< HEAD
 def test_visit_add_recipe(client):
     # not logged in yet
     result = client.get("/create")
@@ -360,3 +582,170 @@ def test_visit_add_recipe(client):
     assert result.request.path == '/'
 
 
+=======
+def test_create_tags(client):
+    Create_Tags()
+
+    tags = Tag.query.all()
+    assert len(tags) > 0
+
+def test_tag_recipie(client):
+    Create_Tags()
+
+    test_recipe = Recipe(recipe_title = 'A random recipe',
+                        description = 'This recipe is something random',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit()
+    
+    tag_add(test_recipe.id, 1)
+    tag_add(2, 1)
+
+    tag_correct = RecipeTag.query.filter_by(recipe_id=1, tag_id=1).first()
+    tag_no_recipe_id = RecipeTag.query.filter_by(recipe_id=2, tag_id=1).first()
+
+    assert tag_correct.tag.category == 'Time'
+    assert tag_correct.tag.unit == '15 minutes'
+    assert tag_no_recipe_id is None
+
+def test_password_reset(client):
+    create_user = User(name = "a",
+                       last_name = "a",
+                       email = "a@a.a",
+                       password = "a")
+    client.post("/register", data = {"f_name": create_user.name,
+                                     "l_name": create_user.last_name,
+                                     "email": create_user.email,
+                                     "password1": create_user.password,
+                                     "password2": create_user.password}, follow_redirects=True)
+    client.post("/logout")
+    with client:
+        client.post("/pw-reset", data = {"email": create_user.email,
+                                    "name": create_user.name,
+                                    "password1": "new",
+                                    "password2": "new"}, follow_redirects = True)
+        assert session['first_name'].lower() == create_user.name.lower()
+
+def test_comment_edit_delete(client):
+    with client.session_transaction() as session:
+        session['id'] = 1
+    
+    test_user = User(name = 'Adam',
+                    last_name = 'Karlsson',
+                    email = 'cba@123.com',
+                    password = 'Ad123',
+                    profile_image = 'defualt.svg'
+                    )
+    
+    db.session.add(test_user)
+    db.session.commit()
+    
+    test_recipe = Recipe(recipe_title = 'This recipe is a test',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit
+
+    test_comment = Comment(recipe_id = test_recipe.id,
+                           user_id = test_user.id,
+                           content = 'Hello, Hello!')
+    
+    db.session.add(test_comment)
+    db.session.commit
+
+    comment_response_edit = client.post("/edit-comment", data = {  "comment_id": "1" ,
+                                                                   "content": "Hello" }, follow_redirects=True)
+    
+    assert comment_response_edit.status_code == 200
+    assert comment_response_edit.request.path == '/user/recipes'
+
+    with client:
+        comment = db.session.get(Comment, 1)
+        assert comment.content == "Hello"
+
+    comment_response_delete = client.post("/delete-comment", data = {  "comment_id": "1" }, follow_redirects=True)
+    
+    assert comment_response_delete.status_code == 200
+    assert comment_response_delete.request.path == '/user/recipes'
+
+    with client:
+        comment = db.session.get(Comment, 1)
+        assert comment is None
+
+def test_review_edit_delete(client):
+    with client.session_transaction() as session:
+        session['id'] = 1
+    
+    test_user = User(name = 'Adam',
+                    last_name = 'Karlsson',
+                    email = 'Hello@123.com',
+                    password = 'Ad123',
+                    profile_image = 'defualt.svg'
+                    )
+    
+    db.session.add(test_user)
+    db.session.commit()
+    
+    test_recipe = Recipe(recipe_title = 'This recipe is a test',
+                        portions = 5,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit
+
+    test_review = Review(recipe_id = test_recipe.id,
+                           user_id = test_user.id,
+                           rating = 5)
+    
+    db.session.add(test_review)
+    db.session.commit
+
+    review_response_edit = client.post("/edit-review", data = {  "review_id": "1" ,
+                                                                   "review": "0" }, follow_redirects=True)
+    
+    assert review_response_edit.status_code == 200
+    assert review_response_edit.request.path == '/user/recipes'
+
+    with client:
+        review = db.session.get(Review, 1)
+        assert review.rating == 0
+
+    review_response_delete = client.post("/delete-review", data = {  "review_id": "1" }, follow_redirects=True)
+    
+    assert review_response_delete.status_code == 200
+    assert review_response_delete.request.path == '/user/recipes'
+
+    with client:
+        review = db.session.get(Review, 1)
+        assert review is None
+
+def test_review_page_loads(client):
+    response = client.get("/review", follow_redirects=True)
+    assert response.status_code == 200
+
+def test_review_edit_page_loads(client):
+    response = client.get("/edit-review", follow_redirects=True)
+    assert response.status_code == 200
+    
+    db.session.add(Review(recipe_id = 1))
+    db.session.commit()
+    response = client.get("/edit-review?review_id=1", follow_redirects=True)
+    assert response.status_code == 200
+
+def test_comment_page_loads(client):
+    response_no_id = client.get("/comment", follow_redirects=True)
+    assert response_no_id.status_code == 200
+
+
+def test_comment_edit_page_get(client):
+    response = client.get("/edit-comment", follow_redirects=True)
+    assert response.status_code == 200
+
+    db.session.add(Comment(recipe_id = 1))
+    db.session.commit()
+    response = client.get("/edit-comment?comment_id=1", follow_redirects=True)
+    assert response.status_code == 200
+>>>>>>> main
