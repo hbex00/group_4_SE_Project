@@ -537,7 +537,6 @@ def test_expected_content(client):
     assert b"value=\"Comment Recipe\"" in response.data
 
 
-<<<<<<< HEAD
 def test_visit_add_recipe(client):
     # not logged in yet
     result = client.get("/create")
@@ -582,7 +581,6 @@ def test_visit_add_recipe(client):
     assert result.request.path == '/'
 
 
-=======
 def test_create_tags(client):
     Create_Tags()
 
@@ -748,4 +746,3 @@ def test_comment_edit_page_get(client):
     db.session.commit()
     response = client.get("/edit-comment?comment_id=1", follow_redirects=True)
     assert response.status_code == 200
->>>>>>> main
