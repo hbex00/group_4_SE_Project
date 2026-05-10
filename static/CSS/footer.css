@@ -1,6 +1,15 @@
+*{
+    margin: 0;
+}
+
 footer {
     position: fixed;
     bottom: 0;
     width: 100%;
     text-align: center;
+}
+
+footer p{
+    font-weight: 500;
+    padding: 10px;
 }

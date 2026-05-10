@@ -19,7 +19,7 @@
     z-index: -1;
     opacity: 0.6;
     background-image: url(../Bilder/Website_Greens_Graphic.jpg);
-    background-size: auto;
+    background-size: cover;
     background-position: center;
     mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1) 50%, rgba(0, 0, 0, 0) 100%);
 }
@@ -97,9 +97,10 @@
 }
 
 #searchbar_submit{
-    width: 15%;
+    width: 12%;
     min-width: 110px;
     height: 70%;
+    padding: 0 10px;
     border-radius: 50px;
     border: 1px solid transparent;
     background-color: #1B6D24;
@@ -133,7 +134,7 @@
 #recipe_function_button{
     background-color: #1B6D24;
     color: white;
-    font-size: 1.7rem;
+    font-size: 1.5rem;
     font-weight: 500;
     border: 1px solid transparent;
     border-radius: 50px;
