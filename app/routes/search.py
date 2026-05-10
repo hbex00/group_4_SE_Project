@@ -52,13 +52,11 @@ def searchpage():
             for search_class in request.form.getlist("types"):
                 class_tags = {}
                 for tag_data in request.form.lists():
-                    print(str(tag_data))
                     tag_category, tag_unit = tag_data
                     if "." in tag_category:
                         tag_category = (tag_category.split("."))[0]
                         class_tags.update({tag_category:tag_unit})
 
-                print(str(class_tags))
                 if class_tags:
                     class_search_results = {search_class:text_search_table(pattern,get_model_from_string(search_class),class_tags)}
                 
@@ -66,6 +64,7 @@ def searchpage():
                     class_search_results = {search_class:text_search_table(pattern,get_model_from_string(search_class))}
                 
                 results.update({search_class:class_search_results})
+            print(str(results))
                 
             '''if pattern:
                 result_users = list()

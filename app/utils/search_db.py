@@ -6,7 +6,6 @@ from app.services.models import Tag
 from database.db import db
 
 def text_search_table(pattern,orm_class,class_tags: dict=None):
-    print("CALLING TEXT_SEARCH_TABLE FUNCTION!!!!")
     if not pattern:
         pattern = ""
      
@@ -21,7 +20,6 @@ def text_search_table(pattern,orm_class,class_tags: dict=None):
     else:
         search_pattern = f"%{pattern}%"  
 
-    print("PASSED INITIAL ERROR CHECKS!!!!!!")
     table_text_columns = []
     for column in orm_class.__table__.columns:
         if isinstance(column.type, (String,Text)):
@@ -33,7 +31,6 @@ def text_search_table(pattern,orm_class,class_tags: dict=None):
     matching_table_query = select(orm_class).where(or_(*column_match_conditions))
 
     if class_tags:
-        print("CLASS TAGS ENTERED !!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
         orm_class_tag: DeclarativeMeta = None
         mapper = inspect(orm_class)
 
@@ -44,8 +41,13 @@ def text_search_table(pattern,orm_class,class_tags: dict=None):
                 break
 
         if orm_class_tag is None:
-            raise ValueError("No tags found for " + str(orm_class))
+            verified_tags = False
+            #raise ValueError("No tags found for " + str(orm_class))
             #Are you sure that you are looking for an object with tags in its relationship..?
+        else:
+            verified_tags = True
+
+    if verified_tags:
         
         # The following is essentially a function/query to explore in-depth and return foreign keys in an SQL Orm class
         parent_foreign_key = next(column
