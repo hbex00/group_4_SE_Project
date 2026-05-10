@@ -53,13 +53,25 @@ def create_step(recipe_step, recipe_id):
 
 def comment_add(recipe_id, content, user_id):
     try:
+        #Instansiates a comment if the content is valid
         created = comment_create(recipe_id, content, user_id)
 
+        #If content is valid, check if recipe_id and user_id is valid
         if created is not None:
             recipe_exist = Recipe.query.filter_by(id=recipe_id).first()
             user_exist = User.query.filter_by(id=user_id).first()
 
             if recipe_exist is not None and user_exist is not None:
+
+                #Links the users review to comment if a review exists
+                try:
+                    review_exist = db.session.query(Review).filter(Review.user_id == user_exist.id).first()
+                    created.user_review_id = review_exist.id
+
+                except:
+                    pass
+                    
+                #Add comment to database
                 db.session.add(created)
                 db.session.commit()
 
@@ -68,6 +80,7 @@ def comment_add(recipe_id, content, user_id):
     
 
 def comment_create(recipe_id, content, user_id):
+    #Instansiates a comment if the content is valid, returning None if invalid
     if content.strip() != "" and recipe_id > 0 and user_id > 0:
         comment = Comment(recipe_id = recipe_id,
                           content = content,
@@ -79,26 +92,40 @@ def comment_create(recipe_id, content, user_id):
     
 def review_add(recipe_id, score, user_id):
     try:
+        #Instantiates a review if the score is valid
         review = review_create(recipe_id, score, user_id)
 
+        #If the score is valid, check if recipe_id and user_id is valid
         if review is not None:
             recipe_exist = Recipe.query.filter_by(id=recipe_id).first()
             user_exist = User.query.filter_by(id=user_id).first()
 
             if recipe_exist is not None and user_exist is not None:
+                #Add review
                 db.session.add(review)
+                db.session.commit()
 
-        db.session.commit()
+                #After review is added, get all comments from user and connect the review to the comments
+                try:
+                    user_comments = db.session.query(Comment).filter(Comment.user_id == user_exist.id).all()
+                    for comment in user_comments:
+                        comment.user_review_id = review.id
+                        db.session.commit()
+                except:
+                    pass
     
     except:
         return 'There was an error adding your review'
 
 def review_create(recipe_id, score, user_id):
+    #Check if review is a float
     try:
         rating = round(float(score))
     except:
         return None
     
+    #Checks if rating is inside valid range and returns the review
+
     if rating >= 0 and rating <= 5:
         new_review = Review(recipe_id=recipe_id,
                             rating=rating,

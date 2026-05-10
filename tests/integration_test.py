@@ -104,27 +104,61 @@ def test_reviews_full(client):
     db.session.add(test_recipe)
     db.session.commit
     
+    #Add a review within valid range (0 < rating > 5)
     review_response_1 = client.post("/review", data = {  "recipe_id": "1",
-                                                "review": "5"}, follow_redirects=True)
+                                                "review": "3"}, follow_redirects=True)
     
     assert review_response_1.status_code == 200
     assert review_response_1.request.path == '/'
+
+    with client:
+        review = Review.query.filter_by(id=1).first()
+        assert review.rating == 3
     
+    #User add new review which updates existed reviews rating
     review_response_2 = client.post("/review", data = {  "recipe_id": "1",
-                                                "review": "4"}, follow_redirects=True)
+                                                "review": "2"}, follow_redirects=True)
     
     assert review_response_2.status_code == 200
     assert review_response_2.request.path == '/'
+
+    with client:
+        review = Review.query.filter_by(id=1).first()
+        assert review.rating == 2
+
+    #Add review below valid range (rating < 0)
+    review_response_3 = client.post("/review", data = {  "recipe_id": "1",
+                                                "review": "-555"}, follow_redirects=True)
+    
+    assert review_response_3.status_code == 200
+    assert review_response_3.request.path == '/'
+
+    with client:
+        review = Review.query.filter_by(id=1).first()
+        assert review.rating == 0
+    
+    #Add review above valid range (rating > 5)
+    review_response_4 = client.post("/review", data = {  "recipe_id": "1",
+                                                "review": "100"}, follow_redirects=True)
+    
+    assert review_response_4.status_code == 200
+    assert review_response_4.request.path == '/'
+
+    with client:
+        review = Review.query.filter_by(id=1).first()
+        assert review.rating == 5
+
+    db.session.add(Review(recipe_id="1", rating="4"))
+    db.session.commit()
     
     with client:
-        r1 = Review.query.filter_by(id=1).first()
-        r2 = Review.query.filter_by(id=2).first() 
+        review_1 = Review.query.filter_by(id=1).first()
+        assert review_1.rating == 5
+        review_2 = Review.query.filter_by(id=2).first()
+        assert review_2.rating == 4
 
-        assert r1.rating == 5
-        assert r2.rating == 4
 
         recipe = Recipe.query.filter_by(id=1).first()
-
         assert recipe.review_rating() == 4.5
 
 def test_comment_route(client):
@@ -747,6 +781,66 @@ def test_comment_edit_page_get(client):
     response = client.get("/edit-comment?comment_id=1", follow_redirects=True)
     assert response.status_code == 200
 
+def test_review_comment_connection(client):
+    with client.session_transaction() as session:
+        session['id'] = 1
+    
+    #Makes a test user
+    test_user = User(name = 'Karl',
+                    last_name = 'Adamsson',
+                    email = 'Karl@123.com',
+                    password = 'Kd123',
+                    profile_image = 'defualt.svg'
+                    )
+    
+    db.session.add(test_user)
+    db.session.commit()
+    
+    #Makes a test recipe
+    test_recipe = Recipe(recipe_title = 'A good recipe',
+                        portions = 2,
+                        user_id = 1)
+    
+    db.session.add(test_recipe)
+    db.session.commit
+
+    #Add comment to recipe
+    comment_response_1 = client.post("/comment", data = {  "recipe_id": "1",
+                                                "comment": "Nice recipe!"}, follow_redirects=True)
+    
+    assert comment_response_1.status_code == 200
+    assert comment_response_1.request.path == '/'
+
+    #Add review to recipe
+    review_response = client.post("/review", data = {  "recipe_id": "1",
+                                                "review": "5"}, follow_redirects=True)
+    
+    assert review_response.status_code == 200
+    assert review_response.request.path == '/'
+
+    #Test if the comment and recipe is connected if the comment was made first
+    with client:
+        review = db.session.query(Review).filter_by(user_id=test_user.id).first()
+        comment = db.session.query(Comment).filter_by(id=1).first()
+
+        assert comment.user_review_id == review.id
+
+    #Add a comment after review
+    comment_response_2 = client.post("/comment", data = {  "recipe_id": "1",
+                                                "comment": "More people should try this!"}, follow_redirects=True)
+    
+    assert comment_response_2.status_code == 200
+    assert comment_response_2.request.path == '/'
+
+    #Test if the comment and recipe is connected if the review was made first
+    with client:
+        review = db.session.query(Review).filter_by(user_id=test_user.id).first()
+        comment = db.session.query(Comment).filter_by(id=2).first()
+
+        assert comment.user_review_id == review.id
+        assert len(review.user_comments) == 2
+        
+        
 def test_recipe_with_empty_name(client):
     create_user(client)
     

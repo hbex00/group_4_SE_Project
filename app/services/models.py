@@ -80,9 +80,11 @@ class Comment(db.Model):
     recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     content = db.Column(db.String(250))
+    user_review_id = db.Column(db.Integer, db.ForeignKey('review.id'))
 
     recipe = db.relationship('Recipe', back_populates='comments')
     user = db.relationship('User', back_populates='comments')
+    user_reviews = db.relationship('Review', back_populates='user_comments')
 
 
 class Review(db.Model):
@@ -93,6 +95,7 @@ class Review(db.Model):
 
     recipe = db.relationship('Recipe', back_populates='reviews')
     user = db.relationship('User', back_populates='reviews')
+    user_comments = db.relationship('Comment', back_populates='user_reviews')
 
 class Tag(db.Model):
     id = db.Column(db.Integer, primary_key=True)

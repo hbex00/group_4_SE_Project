@@ -80,6 +80,9 @@
                         <div class="indv_comment_paper">
                             <p>{{ comment.content }}</p>
                             <p>&nbsp&nbsp&nbsp<strong>Comment made by:</strong> <i>{{ comment.user.name }}</i></p>
+                            {% if comment.user_reviews %}
+                                <p>&nbsp&nbsp&nbsp<strong>User review on recipe:</strong> <i> {{ comment.user_reviews.rating }}/5 </i></p>
+                            {% endif %}
                         </div><br>
                     {% endfor %}
                 {% else %}
