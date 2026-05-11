@@ -68,41 +68,39 @@
             <button type="submit" id="searchbar_submit">Search</button>
         </form>
 
-        {% if search_recipes or search_users %}
+        {% if search_result %}
         <div class="search_result">
-            {% if search_recipes and result_recipes %}
-                <div class="recipe_grid">
-                    {% for recipe in result_recipes %}
+
+            {% for search_class, search_content in search_result.items() %}
+            <div class="recipe_grid">
+
+                {% if search_content %}
+                    {% for content in search_content %}
+
+                        {% if search_class == "Recipe" %}
                         <div class="recipe_card">
                             <form action="/viewrecipe" method="GET">
-                                <h4>{{recipe.id}}.  {{recipe.recipe_title}}</h4>
-                                <h5> {{recipe.description}}</h5>
-                                <input type="hidden" name="recipe_id" value="{{recipe.id}}">
+                                <h4>{{content.id}}.  {{content.recipe_title}}</h4>
+                                <h5> {{content.description}}</h5>
+                                <input type="hidden" name="recipe_id" value="{{content.id}}">
                             </form>
                         </div>
-                    {% endfor %}
-                </div>
-            {% elif search_recipes and not search_users %}
-                <p style="text-align: center; margin-top: 40px;">No recipes found.</p>
-            {% endif %}
-            {% if search_users and result_users %}
-                <div class="recipe_grid">
-                    {% for user in result_users %}
+
+                        {% elif search_class == "User" %}
                         <div class="recipe_card">
                             <form action="/userpage" method="GET">
-                                <h4> {{user.name}}{% if user.last_name %} {{user.last_name}}{% endif %}
-                                </h4>
-                                <input type="hidden" name="user_id" value="{{user.id}}">
+                                <h4> {{content.name}}{% if content.last_name %} {{content.last_name}}{% endif %}</h4>
+                                <input type="hidden" name="user_id" value="{{content.id}}">
                             </form>
                         </div>
+                        {% endif %}
+
                     {% endfor %}
-                </div>
-            {% elif search_users and not search_recipes %}
-                <p style="text-align: center; margin-top: 40px;">No users found.</p>
-            {% endif %}
-            {% if search_users and search_recipes and not result_recipes and not result_users %}
-                <p style="text-align: center; margin-top: 40px;">No results found.</p>
-            {% endif %}
+                {% else %}
+                <p style="text-align: center; margin-top: 40px;">No {{search_class}} Found.</p>
+                {% endif %}
+            </div>
+            {% endfor %}
         </div>
         {% endif %}
     </div>

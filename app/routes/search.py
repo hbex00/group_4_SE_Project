@@ -36,20 +36,30 @@ def get_tag_filters():
 def searchpage():
     if request.method == "POST":
         try:
-            pattern = getArgument(arguments=request.form.to_dict(), value="pattern")
-            has_filter_user   = hasArgument(arg=request.form.to_dict(), val="")
-            has_filter_recipe = hasArgument(arg=request.form.to_dict(), val="filter_recipe")
-            has_any_filter    = has_filter_user | has_filter_recipe
-
             '''information_provided = request.form.listvalues()
             print(str(information_provided))
             information_provided = request.form.to_dict()
             print(str(information_provided))
             information_provided = request.form.getlist("types")
             print(str(information_provided))'''
-
+            pattern = getArgument(arguments=request.form.to_dict(), value="pattern")
             results = {}
+            
             for search_class in request.form.getlist("types"):
+                # Try identify the model class of the provided string.
+                try:
+                    search_class = get_model_from_string(search_class)
+                except RuntimeError as error:
+                    print("Error :" + str(error))
+                    continue
+                except TypeError as error:
+                    print("Error :" + str(error))
+                    continue
+                except ValueError as error:
+                    print("Error :" + str(error))
+                    continue
+
+                # Identify tags from the request form and assign them as tags of a certain category.
                 class_tags = {}
                 for tag_data in request.form.lists():
                     tag_category, tag_unit = tag_data
@@ -57,42 +67,36 @@ def searchpage():
                         tag_category = (tag_category.split("."))[0]
                         class_tags.update({tag_category:tag_unit})
 
-                if class_tags:
-                    class_search_results = {search_class:text_search_table(pattern,get_model_from_string(search_class),class_tags)}
-                
+                # Try to fetch search results from search function in search_db.py
+                try:
+                    if class_tags:
+                        class_search_results = text_search_table(pattern,search_class,class_tags)
+                    else:
+                        class_search_results = text_search_table(pattern,search_class)
+                except RuntimeError as error:
+                    print("Error :" + str(error))
+                except TypeError as error:
+                    print("Error :" + str(error))
+                except ValueError as error:
+                    print("Error :" + str(error))
+
+                # If no exception was encountered, add the results of the class and go to the next search_class iteration.
                 else:
-                    class_search_results = {search_class:text_search_table(pattern,get_model_from_string(search_class))}
+                    results.update({search_class.__name__:class_search_results})
                 
-                results.update({search_class:class_search_results})
+            # (Verify the structure and results of the returning query.)
             print(str(results))
+            # {class:[results],class2:[results2],...,classn:[resultsn]}
                 
-            '''if pattern:
-                result_users = list()
-                result_recipes = list()
-
-
-
-                if has_filter_user:
-                    result_users.extend(text_search_table(pattern,User,user_tags))
-                    has_filter = False
-
-                if has_filter_recipe | (not has_any_filter):
-                    result_recipes.extend(text_search_table(pattern,Recipe,recipe_tags))
-                    has_filter = True
-                
-                return render_template(PAGE,
-                                    search_recipes=(not has_any_filter)|has_filter_recipe,
-                                    search_users=has_filter_user,
-                                    result_users=result_users,
-                                    result_recipes=result_recipes)
-            else:'''
-            return render_template(PAGE,
-                                search_recipes=(not has_any_filter)|has_filter_recipe,
-                                search_users=has_filter_user)
+            return render_template(PAGE,filters=get_tag_filters(),search_types=SEARCH_TYPES,search_result=results)
             
-        except Exception as error: return error
-        except AttributeError as error: return error
-        except TypeError as error: return error
+        except TypeError as error:
+            print("Error: " + str(error))
+            return render_template(PAGE,filters=get_tag_filters(),search_types=SEARCH_TYPES)
+        except AttributeError as error:
+            print("Error: " + str(error))
+            return render_template(PAGE,filters=get_tag_filters(),search_types=SEARCH_TYPES)
+        
     else:
         return render_template(PAGE,filters=get_tag_filters(),search_types=SEARCH_TYPES)
     
