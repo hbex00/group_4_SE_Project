@@ -101,6 +101,7 @@
                             <form action="/viewrecipe" method="GET">
                                 <h4>{{content.user.name}}{% if content.user.last_name %} {{content.user.last_name}}{% endif %} commented on {{content.recipe.recipe_title}}:</h4>
                                 <h5>{{content.content}}</h5>
+                                {% if content.user_reviews %}<h5>{{content.user_reviews.rating}}/5</h5>{% endif %}
                                 <input type="hidden" name="recipe_id" value="{{content.recipe_id}}">
                             </form>
                         </div>
