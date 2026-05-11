@@ -18,6 +18,10 @@ def modify():
     if request.method == 'POST' :
         id = request.form.get('recipe_id', type = int)
         recipe = Recipe.query.filter_by(id=id).first()
+
+        if session.get('id') != recipe.user:
+            return redirect('/')
+
         try:
             if request.form['title'].strip() != "":
                 recipe.recipe_title = request.form['title'] 

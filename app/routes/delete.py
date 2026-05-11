@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, Blueprint
+from flask import Flask, render_template, request, redirect, Blueprint, session
 from database.db import db
 from app.services.models import Recipe
 
@@ -8,6 +8,10 @@ delete_bp = Blueprint("delete", __name__)
 def delete():
     id = request.form.get('recipe_id', type = int)
     recipe = Recipe.query.filter_by(id=id).first()
+
+    if session.get('id') != recipe.user:
+        return redirect('/')
+
     if recipe != None:
         if request.method == 'POST':
             db.session.delete(recipe)
