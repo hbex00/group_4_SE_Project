@@ -65,7 +65,7 @@ def comment_add(recipe_id, content, user_id):
 
                 #Links the users review to comment if a review exists
                 try:
-                    review_exist = db.session.query(Review).filter(Review.user_id == user_exist.id).first()
+                    review_exist = db.session.query(Review).filter_by(recipe_id = recipe_exist.id, user_id = user_exist.id).first()
                     created.user_review_id = review_exist.id
 
                 except:
@@ -107,7 +107,7 @@ def review_add(recipe_id, score, user_id):
 
                 #After review is added, get all comments from user and connect the review to the comments
                 try:
-                    user_comments = db.session.query(Comment).filter(Comment.user_id == user_exist.id).all()
+                    user_comments = db.session.query(Comment).filter_by(recipe_id = recipe_exist.id, user_id = user_exist.id).all()
                     for comment in user_comments:
                         comment.user_review_id = review.id
                         db.session.commit()

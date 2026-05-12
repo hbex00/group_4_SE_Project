@@ -26,7 +26,7 @@ def review():
         id = session.get('id')
         user = User.query.filter_by(id=id).first()
 
-        review_exists = db.session.query(Review).filter_by(user_id=user.id).first()
+        review_exists = db.session.query(Review).filter_by(recipe_id = recipe_id, user_id = user.id).first()
 
         if review_exists:
             try:
