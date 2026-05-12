@@ -10,3 +10,4 @@ app/__pycache__/
 project-nevn/
 profile_pics/
 recipe_pics/
+.coverage

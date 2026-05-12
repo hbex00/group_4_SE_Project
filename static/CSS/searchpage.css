@@ -40,7 +40,34 @@
     cursor: pointer;;
 }
 
+.view_holder {
+    height: 100%;
+    width: 100%;
+    margin: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.result_content {
+    height: 100%;
+    margin: 55px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+}
+
+.result_header {
+    margin-top: 50px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    border-bottom: black;
+}
+
 #searchbar_body{
+    position: absolute;
     width: 40vw;
     min-width: 540px;
     min-height: 80px;
@@ -85,8 +112,9 @@
 
 .filter_menu {
     position:absolute;
-    top:auto;
+    top: 100%;
     left: 0;
+    width: max-content;
     background-color: #e6d9bf;
     border: 1px solid #f4e7cb3a;
     border-radius: 4px;
@@ -96,9 +124,49 @@
     z-index: 100;
 }
 
+.filter_header {
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #787366;
+    margin-bottom: 10px;
+}
+
+.filter_row {
+    display: grid;
+    grid-template-columns: 180px 1fr;
+    gap: 20px;
+    align-items: start;
+    padding: 10px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.filter_groups{
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: flex-start;
+    gap: 15px;
+    width: 100%;
+}
+
+.filter_group {
+    min-width: 160px;
+}
+
+.group_title {
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.group_options {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
 .filter_menu label {
-    display: block;
-    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
     font-size: 14px;
 }
 
@@ -128,4 +196,11 @@
 #searchbar_submit:hover{
     border: 1px solid white;
     background-color: #23862e;
+}
+
+.tag_form h6 {
+    display: inline;
+    margin: 3px;
+    color: var(--base-green);
+    padding: 2px;
 }
