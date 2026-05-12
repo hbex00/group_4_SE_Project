@@ -63,7 +63,8 @@ SVG file for magnifying glass
 https://icons8.com/icon/7695/search
 
 Background pattern  
-Base generated via Google Gemini 3 Pro, subsequently manually edited and refined
+Base generated via Google Gemini 3 Pro, subsequently manually edited and refined  
+[background.png](static/Bilder/BackgroundNormal.png)
 
 ### Running instructions
 
