@@ -62,6 +62,9 @@ https://www.iconpacks.net/free-icon/user-3295.html
 SVG file for magnifying glass
 https://icons8.com/icon/7695/search
 
+Background pattern
+Base generated via Google Gemini 3 Pro, subsequently manually edited and refined
+
 ### Running instructions
 
 1. Make a virtual environment inside project folder
