@@ -51,10 +51,19 @@
 
 .result_content {
     height: 100%;
-    margin: 85px;
+    margin: 55px;
     display: flex;
     justify-content:center;
     align-items: center;
+}
+
+.result_header {
+    margin-top: 50px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    border-bottom: black;
 }
 
 #searchbar_body{

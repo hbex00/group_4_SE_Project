@@ -67,12 +67,22 @@
     <div class="result_content">
         {% if search_result %}
         <div class="search_result">
-
+            {% set ns = namespace(last_search_class = None) %}
             {% for search_class, search_content in search_result.items() %}
+                
+            {% if search_content %}
+                {% if search_class != ns.last_search_class %}
+                {% set ns.last_search_class = search_class %}
+                <div class="result_header">
+                    <h2>{{search_class}} results:</h2>
+                </div>
+                {% endif %}
+            {% endif %}
             <div class="recipe_grid">
 
                 {% if search_content %}
                     {% for content in search_content %}
+
 
                         {% if search_class == "Recipe" %}
                         <div class="recipe_card">
