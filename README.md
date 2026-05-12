@@ -59,10 +59,10 @@ ICONPACKS:
 SVG file for user icon  
 https://www.iconpacks.net/free-icon/user-3295.html
 
-SVG file for magnifying glass
+SVG file for magnifying glass  
 https://icons8.com/icon/7695/search
 
-Background pattern
+Background pattern  
 Base generated via Google Gemini 3 Pro, subsequently manually edited and refined
 
 ### Running instructions
