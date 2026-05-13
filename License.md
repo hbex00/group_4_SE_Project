@@ -1,4 +1,4 @@
-## License
+## BSD-3-Clause License
 
 Copyright 2026 Axel Håkansson, Hugo Bexell, Bjarne Svensson, Noah Haraldsson, Samuel Johansson, William Klasson
 
